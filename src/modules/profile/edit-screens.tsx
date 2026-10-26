@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { REQUIRE_SUBSCRIPTION } from "@/modules/onboarding/progress";
 import { SurveyFlow } from "@/modules/onboarding/survey/survey-flow";
 import { BackBar } from "@/modules/shell/back-bar";
 import { Screen } from "@/modules/shell/screen";
@@ -26,7 +27,7 @@ export function EditProfileScreen() {
     <Screen>
       <BackBar href={PROFILE_ROUTE} title="Профиль" />
       <PageTitle kicker="Личное пространство">Ваши данные.</PageTitle>
-      <ProfileForm onSaved={done} submitLabel="Сохранить" withEmail />
+      <ProfileForm onSaved={done} submitLabel="Сохранить" withEmail={REQUIRE_SUBSCRIPTION} />
     </Screen>
   );
 }

@@ -15,6 +15,15 @@ export const STEP_ROUTES: Record<OnboardingStep, string> = {
 
 export const HOME_ROUTE = "/home";
 
+// Тестовая версия: шаги «Почта» и «Подписка» пропускаются, вход без проверки.
+// Вернуть проверку подписки по почте — true.
+export const REQUIRE_SUBSCRIPTION = false;
+
+// Куда ведёт «Начать» на приветствии.
+export const AFTER_WELCOME_ROUTE = REQUIRE_SUBSCRIPTION ? STEP_ROUTES.access : STEP_ROUTES.about;
+
+const hasAccess = (state: AppState) => !REQUIRE_SUBSCRIPTION || state.access.confirmed;
+
 export function isProfileComplete({ profile }: AppState): boolean {
   return profile.name.trim().length >= 2 && isValidBirthDate(profile.birth);
 }
@@ -28,13 +37,14 @@ export function isSurveyComplete(state: AppState): boolean {
 }
 
 export function isOnboarded(state: AppState): boolean {
-  return state.access.confirmed && isProfileComplete(state) && isSurveyComplete(state);
+  return hasAccess(state) && isProfileComplete(state) && isSurveyComplete(state);
 }
 
 // Куда отправить пользователя, открывшего приложение.
 export function entryRoute(state: AppState): string {
-  if (!state.access.confirmed) return STEP_ROUTES.welcome;
-  if (!isProfileComplete(state)) return STEP_ROUTES.about;
+  if (!hasAccess(state)) return STEP_ROUTES.welcome;
+  // Без проверки подписки приветствие — последний экран перед анкетой данных.
+  if (!isProfileComplete(state)) return REQUIRE_SUBSCRIPTION ? STEP_ROUTES.about : STEP_ROUTES.welcome;
   if (!isSurveyComplete(state)) return STEP_ROUTES.survey;
   return HOME_ROUTE;
 }
@@ -44,15 +54,19 @@ export function entryRoute(state: AppState): string {
 // «Подписка действительна» и «Почти готово» проскакивали бы.
 export function stepRedirect(state: AppState, step: OnboardingStep): string | null {
   const onboarded = isOnboarded(state);
+  // Экраны «Почта» и «Подписка» без проверки подписки недоступны.
+  if (!REQUIRE_SUBSCRIPTION && (step === "access" || step === "subscription")) {
+    return onboarded ? HOME_ROUTE : STEP_ROUTES.about;
+  }
   switch (step) {
     case "welcome":
     case "access":
       if (onboarded) return HOME_ROUTE;
-      return state.access.confirmed ? STEP_ROUTES.subscription : null;
+      return REQUIRE_SUBSCRIPTION && state.access.confirmed ? STEP_ROUTES.subscription : null;
     case "subscription":
     case "about":
       if (onboarded) return HOME_ROUTE;
-      return state.access.confirmed ? null : STEP_ROUTES.welcome;
+      return hasAccess(state) ? null : STEP_ROUTES.welcome;
     case "survey":
       if (onboarded) return STEP_ROUTES.ready;
       return isProfileComplete(state) ? null : entryRoute(state);

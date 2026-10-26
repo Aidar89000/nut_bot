@@ -15,7 +15,7 @@ import Link from "next/link";
 import { type ComponentProps, type ReactNode, useState } from "react";
 import { formatDate, isValidBirthDate, parseDateKey } from "@/lib/date";
 import { RhythmInfoSheet } from "@/modules/biorhythm/sheets";
-import { countAnswered } from "@/modules/onboarding/progress";
+import { countAnswered, REQUIRE_SUBSCRIPTION } from "@/modules/onboarding/progress";
 import { SURVEY_QUESTIONS } from "@/modules/onboarding/survey/questions";
 import { useRemindersToggle } from "@/modules/reminders/reminders";
 import { resetState, useAppState } from "@/modules/session/store";
@@ -54,7 +54,7 @@ export function ProfileScreen() {
           <p className="mt-2 text-muted text-sm [overflow-wrap:anywhere]">
             {[user.username && `@${user.username}`, email].filter(Boolean).join(" · ")}
           </p>
-          <Pill className="mt-4">Подписка активна</Pill>
+          {REQUIRE_SUBSCRIPTION && <Pill className="mt-4">Подписка активна</Pill>}
           <dl className="my-6 border-line border-t text-sm">
             <Detail label="Дата рождения">{birth ? formatDate.full.format(birth) : "Не указана"}</Detail>
             <Detail label="Город">{profile.city || "Не указан"}</Detail>
