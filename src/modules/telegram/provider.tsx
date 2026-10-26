@@ -15,7 +15,8 @@ type TelegramState =
 
 const TelegramContext = createContext<TelegramState>({ status: "loading" });
 
-// null — сервер отклонил подпись; сетевая ошибка пробрасывается.
+// null — сервер отклонил подпись. Если проверить не удалось (сеть, на сервере
+// не задан токен бота), ошибка пробрасывается.
 async function verifySession(initData: string): Promise<SessionUser | null> {
   const response = await fetch("/api/telegram/session", {
     method: "POST",
@@ -23,7 +24,9 @@ async function verifySession(initData: string): Promise<SessionUser | null> {
     body: JSON.stringify({ initData }),
   });
   const data = (await response.json()) as SessionResponse;
-  return "user" in data ? data.user : null;
+  if ("user" in data) return data.user;
+  if (data.error === "invalid") return null;
+  throw new Error(data.error);
 }
 
 function fromInitData(user: TelegramUser): SessionUser {
@@ -66,9 +69,10 @@ export function TelegramProvider({ children }: { children: ReactNode }) {
     const unsafeUser = app.initDataUnsafe.user;
     if (unsafeUser) setState({ status: "ready", user: fromInitData(unsafeUser), inTelegram: true });
 
-    const verified = await verifySession(app.initData).catch(() => "offline" as const);
-    // Нет сети — остаёмся на данных Telegram; сервер отклонил подпись — не пускаем.
-    if (verified === "offline") {
+    const verified = await verifySession(app.initData).catch(() => "unverified" as const);
+    // Проверить не удалось (нет сети, сервер не настроен) — остаёмся на данных
+    // Telegram; сервер отклонил подпись — не пускаем.
+    if (verified === "unverified") {
       if (!unsafeUser) setState({ status: "error" });
       return;
     }

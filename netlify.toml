@@ -1,0 +1,9 @@
+# Netlify сам подключает свой рантайм для Next.js (@netlify/plugin-nextjs):
+# страницы уходят на CDN, API-маршруты становятся Netlify Functions.
+# Секреты (TELEGRAM_BOT_TOKEN, GETCOURSE_*) задаются в Site configuration → Environment variables.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
