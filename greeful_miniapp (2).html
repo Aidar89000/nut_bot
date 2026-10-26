@@ -1,0 +1,1047 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#161c17"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="greeful"><meta name="description" content="greeful — персональный календарь, материалы и дневник настроения."><title>greeful · Твой ритм</title>
+<style>
+:root{--bg:#161c17;--panel:#222a22;--panel-2:#2b352b;--lime:#dafa9b;--ink:#f0f2e8;--muted:#a8b3a3;--line:rgba(220,235,210,.10);--pink:#e9bdc2;--purple:#c7c6f0;--radius:28px;--ease:cubic-bezier(.22,.8,.22,1);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}html{background:#101511;scroll-behavior:smooth;-webkit-text-size-adjust:100%}body{margin:0;background:#101511;color:var(--ink);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-wrap:break-word}button,input,textarea,select{font:inherit}button{cursor:pointer;color:inherit;touch-action:manipulation;-webkit-tap-highlight-color:transparent}button:disabled{cursor:default;opacity:.45}button,input,textarea,select{outline:none}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offset:4px}h1,h2,h3,p{margin:0}h1{font-size:38px;font-weight:500;letter-spacing:-.055em;line-height:1.09;outline:none}h2{font-size:25px;line-height:1.18;font-weight:500;letter-spacing:-.04em}h3{font-size:17px;font-weight:550;letter-spacing:-.025em}a{color:inherit}[hidden]{display:none!important}::selection{background:var(--lime);color:var(--bg)}.muted{color:var(--muted)}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}#symbols{position:absolute;width:0;height:0;overflow:hidden}.icon{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}.icon-sm{width:18px;height:18px}.icon-lg{width:28px;height:28px}
+/* A mobile application surface, without a device frame. */
+.app-shell{width:100%;max-width:480px;min-height:100dvh;margin:0 auto;background:var(--bg)}.screen{width:100%;padding:calc(22px + env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) 32px max(20px,env(safe-area-inset-left))}.screen.has-nav{padding-bottom:calc(124px + env(safe-area-inset-bottom))}.sidebar{display:none!important}.brand{display:inline-flex;align-items:center;gap:7px;font-size:25px;font-weight:600;letter-spacing:-1.2px}.brand .icon{color:var(--lime);width:31px;height:31px}.eyebrow{font-size:10px;font-weight:650;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.caption{font-size:12px;color:var(--muted);line-height:1.7}.pill{display:inline-flex;align-items:center;gap:6px;min-height:28px;border:1px solid var(--line);padding:5px 10px;border-radius:99px;font-size:10px;letter-spacing:.02em;white-space:nowrap}.pill i{width:5px;height:5px;border-radius:50%;background:var(--lime)}.icon-btn{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--panel-2);border:1px solid var(--line);flex-shrink:0}.icon-btn .icon{width:19px;height:19px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:50px;padding:13px 20px;border-radius:99px;border:1px solid transparent;background:var(--lime);color:#26371c;font-weight:600;font-size:13px}.btn.secondary{color:var(--ink);background:rgba(244,248,230,.06);border-color:var(--line)}.btn.cream{background:#eff1e5;color:#293125}.btn.danger{background:#efc3c3;color:#442626}.btn.full{width:100%}.text-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;background:transparent;border:0;padding:10px 0;font-size:12px;color:var(--lime)}.surface{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px}.section-head h2,.section-head h3{font-size:18px}.page-title{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:28px 0 23px}.page-title .eyebrow{margin-bottom:10px}.page-title p{font-size:12px;line-height:1.75;color:var(--muted);margin-top:13px;max-width:330px}.title-note{display:none}.footer-note{font-size:10px;color:#97a58e;line-height:1.7;margin:22px 2px 0}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px}.topbar-left,.topbar-right{display:flex;align-items:center;gap:11px}.topbar .greeting{font-size:14px;font-weight:550;letter-spacing:-.02em}.topbar .date{font-size:11px;color:var(--muted);margin-top:3px}.topbar-right>.pill{display:none}.avatar{display:grid;place-items:center;background:#303f2b;color:var(--lime);width:44px;height:44px;border:1px solid #4c5d3e;border-radius:50%;font-size:17px;font-weight:550;flex-shrink:0}.topbar .avatar{cursor:pointer}
+.bottom-nav{display:flex;position:fixed;bottom:calc(12px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(448px,calc(100% - 24px));padding:7px;background:rgba(34,43,34,.96);border:1px solid rgba(235,245,219,.15);box-shadow:0 12px 40px #0006;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-radius:26px;z-index:20}.nav-item{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:57px;padding:7px 2px;background:none;border:0;border-radius:19px;color:#aeb9a7;font-size:9px;font-weight:500}.nav-item .icon{width:22px;height:22px}.nav-item.active{color:var(--lime);background:#dafa9b12}.nav-item.active .icon{stroke-width:2}.nav-item.active:after{content:"";position:absolute;width:3px;height:3px;border-radius:50%;background:var(--lime);bottom:10px}
+/* Reference-inspired cards. Every visual is CSS: gradients, rings and a sphere. */
+.card-visual{--orb-light:#e3f5b0;--orb-mid:#b5ce89;--orb-dark:#89a766;--ring:rgba(67,95,39,.07);display:block;position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1;border-radius:inherit}.orb-rings{position:absolute;width:292px;height:292px;right:-164px;top:-48px;border-radius:50%;border:1px solid #486a3420;background:#dff6ad18;box-shadow:0 0 0 25px var(--ring),0 0 0 52px var(--ring),0 0 0 80px var(--ring);transition:transform .8s var(--ease)}.orb-core{position:absolute;right:-22px;top:43px;width:156px;height:156px;border-radius:50%;background:radial-gradient(circle at 30% 24%,var(--orb-light) 0%,var(--orb-mid) 48%,var(--orb-dark) 100%);box-shadow:inset -8px -12px 18px #3e602317,0 10px 24px #53742e0b;transition:transform .8s var(--ease)}.visual-breath{--orb-light:#e8f2dc;--orb-mid:#b6c9aa;--orb-dark:#839c7c;--ring:rgba(57,81,48,.065)}.visual-botanical{--orb-light:#f9f4dc;--orb-mid:#d5d6ab;--orb-dark:#aab68c;--ring:rgba(75,85,42,.065)}.hero{position:relative;isolation:isolate;min-height:262px;border-radius:30px;overflow:hidden;border:1px solid #cce79545;background:linear-gradient(125deg,#e0f9a4 0%,#c9e88e 48%,#91ad70 100%);color:#253b18}.hero-copy{padding:24px;position:relative;z-index:1}.hero .eyebrow{display:flex;align-items:center;gap:9px;font-size:11px;color:#2e421e;font-weight:700;letter-spacing:.045em}.hero .eyebrow .icon{width:19px;height:19px}.hero-score{font-size:68px;line-height:1;font-weight:600;letter-spacing:-.065em;margin:27px 0 8px;font-variant-numeric:tabular-nums}.hero-copy p{max-width:245px;font-size:13px;line-height:1.5;color:#4b6338;margin:0 0 21px}.hero-copy .btn{min-height:44px;padding:11px 16px;font-size:12px;font-weight:650;background:#eef9d2d9;color:#2a3d1d;gap:12px}.hero-copy .btn .icon{width:19px}.hero .btn:focus-visible{outline-color:#30441e}.home-grid{display:grid;gap:14px}.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:13px 0 16px}.metric{position:relative;overflow:hidden;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:15px 13px;text-align:left;min-width:0;min-height:119px}.metric-label{display:flex;gap:6px;align-items:center;font-size:10px;color:var(--muted);white-space:nowrap}.metric-label .icon{width:15px;height:15px;stroke:currentColor}.metric strong{display:block;font-size:28px;font-weight:500;letter-spacing:-.055em;line-height:1;margin-top:15px;font-variant-numeric:tabular-nums}.metric .mini-wave{width:100%;height:25px;display:block;margin-top:4px;opacity:.65}.mini-wave path{fill:none;stroke:currentColor;stroke-width:1.7}.mini-wave line{stroke:currentColor;opacity:.15}.practice-cover{position:relative;isolation:isolate;overflow:hidden;border-radius:28px;border:1px solid #bcccb13d;min-height:180px;padding:22px;text-align:left;width:100%;background:linear-gradient(120deg,#d6e4c9,#bdcfb0 58%,#92ac85);color:#2c4025;display:flex;flex-direction:column;justify-content:space-between;gap:23px}.practice-cover .eyebrow{color:#435936;letter-spacing:.08em;font-size:10px}.practice-cover .cover-bottom{display:flex;align-items:end;justify-content:space-between;gap:10px}.practice-cover h2{font-size:27px;font-weight:550;line-height:1.08}.practice-cover h2 br{display:none}.practice-cover p{font-size:11px;color:#4d6240;margin-top:9px}.practice-cover .orb-rings{width:260px;height:260px;right:-95px;top:-142px}.practice-cover .orb-core{width:117px;height:117px;right:7px;top:4px}.practice-cover .cover-bottom{position:relative;z-index:1}.round-arrow{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#f0f7e2b3;color:#2d4321;flex-shrink:0;transition:transform .3s var(--ease)}.round-arrow .icon{width:19px;height:19px}.round-arrow .play{fill:currentColor;stroke-width:0;width:17px;height:17px}.practice-cover:focus-visible{outline-color:#c3e38d}.lower-grid{display:grid;gap:17px;margin-top:24px}.task-list{display:grid}.task{border:0;border-bottom:1px solid var(--line);width:100%;display:flex;align-items:center;gap:11px;padding:16px 0;background:none;text-align:left}.task:last-child{border-bottom:0}.checkbox{width:22px;height:22px;border-radius:8px;border:1px solid #63735a;display:grid;place-items:center;flex-shrink:0;transition:background .2s}.checkbox .icon{width:14px;height:14px}.task.done .checkbox{background:var(--lime);border-color:var(--lime);color:#28381e}.task-copy{min-width:0;flex:1}.task strong{font-size:12px;font-weight:450;display:block}.task small{font-size:10px;color:var(--muted);display:block;margin-top:4px;line-height:1.5}.task.done strong{color:var(--muted);text-decoration:line-through}.task-time{font-size:10px;color:#adb5a4;white-space:nowrap}.progress-track{height:5px;background:#394431;border-radius:99px;overflow:hidden}.progress-fill{height:100%;background:var(--lime);border-radius:99px;transition:width .5s var(--ease)}.mood-card{background:#e8eddd;color:#293a22;border:0}.mood-card .caption,.mood-card .eyebrow{color:#66735a}.mood-card .text-btn{color:#344b28}.mood-choices{display:flex;justify-content:space-between;gap:6px;margin:21px 0 16px}.mood-button{border:1px solid transparent;background:#d9e0cc;border-radius:18px;display:flex;align-items:center;flex-direction:column;gap:7px;min-width:0;flex:1;padding:12px 2px;font-size:9px;color:#526248}.mood-face{font-size:24px;line-height:1.2;filter:saturate(.7)}.mood-button[aria-pressed=true]{background:#2d4326;color:var(--lime)}.mood-button:focus-visible{outline-color:#3b502b}.mood-current{font-size:11px;min-height:20px;color:#536347}.bottom-banner{display:flex;align-items:center;justify-content:space-between;gap:13px;margin-top:18px;padding:20px;border:1px solid var(--line);border-radius:25px;background:#1d261d}.banner-icon{display:none}.banner-copy{flex:1;min-width:0}.bottom-banner strong{font-size:13px;font-weight:500}.bottom-banner small{display:block;font-size:10px;line-height:1.6;margin-top:5px;color:var(--muted)}
+/* Arrival and profile forms. */
+.screen.welcome-screen{padding:0}.welcome{min-height:100svh;display:flex;flex-direction:column;padding:calc(24px + env(safe-area-inset-top)) 23px calc(26px + env(safe-area-inset-bottom));position:relative;isolation:isolate;overflow:hidden}.welcome-top{display:flex;justify-content:space-between;align-items:center;gap:10px}.welcome-top .pill{font-size:9px}.welcome-visual{position:relative;isolation:isolate;min-height:225px;flex:1;margin:30px 0 28px;border-radius:32px;overflow:hidden;background:linear-gradient(130deg,#e1faa6,#c0de8b 58%,#8dab70);color:#30451f;padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:55px}.welcome-visual .card-visual .orb-rings{width:300px;height:300px;top:-91px;right:-121px}.welcome-visual .orb-core{width:179px;height:179px;right:8px;top:35px}.welcome-visual .eyebrow{color:#40572b;position:relative;z-index:1;font-size:10px;letter-spacing:.06em;display:flex;align-items:center;gap:8px}.welcome-visual .welcome-card-text{position:relative;z-index:1;font-size:26px;font-weight:550;letter-spacing:-.04em;line-height:1.1}.welcome-visual .welcome-card-text small{display:block;font-size:11px;font-weight:450;margin-top:10px;letter-spacing:0;color:#516b3b}.welcome-copy h1{font-size:46px;font-weight:500;letter-spacing:-.065em;line-height:1.02;margin:0 0 20px}.welcome-copy h1 em{font-family:Georgia,serif;font-weight:400;color:var(--lime)}.welcome-copy>p{max-width:310px;color:#aebba4;font-size:13px;line-height:1.75}.welcome-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:25px}.welcome-actions .btn{min-width:0;padding:14px 11px;font-size:12px}.welcome-bottom{margin-top:25px;padding-top:17px;border-top:1px solid var(--line)}.welcome-bottom .caption{font-size:10px;line-height:1.65}.welcome-bottom .wordmark{display:none}.form-layout{width:100%;max-width:440px;margin:0 auto}.form-card{padding:4px 0}.form-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:35px}.steps{display:flex;gap:5px;width:80px}.steps span{height:4px;flex:1;background:#394632;border-radius:99px}.steps .on{background:var(--lime)}.form-card h1{font-size:40px;margin:13px 0}.form-card .intro{color:var(--muted);font-size:13px;line-height:1.75;margin-bottom:27px}.form-art{display:none}.field{margin-bottom:19px}.field label{font-size:12px;color:#c9d1c0;display:block;margin-bottom:8px}.field input,.field textarea,.search-input{width:100%;min-width:0;border:1px solid #424e3a;background:#21291f;border-radius:16px;padding:14px 16px;min-height:52px;color:var(--ink);font-size:16px;transition:border-color .2s,background .2s}.field input::placeholder,.field textarea::placeholder,.search-input::placeholder{color:#819074}.field input:focus,.field textarea:focus,.search-input:focus{border-color:var(--lime);background:#283123}.field input[aria-invalid=true]{border-color:#e6aeae}.field input[type=date]{appearance:none;-webkit-appearance:none;min-height:52px}.field textarea{resize:vertical;min-height:140px}.field-error{font-size:12px;color:#f0b8b8;margin-top:7px;display:block}.form-note{font-size:11px;color:#9eab94;line-height:1.7;text-align:center;margin-top:18px}.form-note.left{text-align:left;margin:0 0 24px}.form-actions{display:grid;gap:10px;margin-top:27px}.scan{text-align:center;padding:32px 0 12px}.scan h1{font-size:35px;margin:20px 0 13px}.scan .caption{max-width:310px;margin:auto}.scan-circle{position:relative;width:215px;height:215px;margin:43px auto;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 32% 27%,#4b6239,#273b20);box-shadow:0 0 0 18px #d6f59805,0 0 0 37px #d6f59803}.scan-circle>svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);pointer-events:none}.scan-circle circle{stroke-width:2;fill:none}.scan-circle .track{stroke:#536342}.scan-circle .fill{stroke:var(--lime);stroke-dasharray:660;stroke-dashoffset:660;stroke-linecap:round}.scan-button{width:160px;height:160px;background:transparent;border:0;border-radius:50%;color:var(--lime);display:grid;place-items:center;user-select:none;touch-action:none}.scan-button .icon{width:74px;height:74px}.scan-status{margin:12px 0 28px;color:var(--muted);font-size:12px;min-height:36px}.scan-controls{max-width:340px;margin:auto}.scan-hint{font-size:10px;color:#91a082;margin-top:22px;line-height:1.6}
+/* Calendar and daily plan. */
+.chart-surface{padding:21px 16px}.chart-top{display:flex;flex-direction:column;gap:19px}.chart-top h3{font-size:17px}.chart-caption{margin-top:5px;font-size:11px;color:var(--muted)}.month-bar{display:flex;gap:12px;align-items:center;justify-content:space-between;width:100%}.month-bar strong{font-size:13px;font-weight:500;text-align:center}.month-bar .icon-btn{width:44px;height:44px;background:#2e3928}.chart-wrap{margin:17px 0 12px;width:100%;overflow:hidden}#biorhythmChart{display:block;width:100%;height:224px;touch-action:pan-y;cursor:crosshair}.legend{display:flex;flex-wrap:wrap;gap:15px;font-size:11px;color:var(--muted)}.legend span{display:inline-flex;align-items:center;gap:6px}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;flex-shrink:0}.chart-date-control{display:flex;align-items:center;gap:10px;margin-top:18px;padding-top:12px;border-top:1px solid var(--line);min-height:49px}.chart-date-control label{font-size:11px;white-space:nowrap}.chart-date-control input{flex:1;min-width:30px;min-height:44px;accent-color:var(--lime);margin:0}.chart-date-control output{color:var(--lime);font-size:11px;min-width:48px;text-align:right;white-space:nowrap}.rhythm-details{margin-top:23px}.rhythm-details .text-btn{font-size:10px;gap:4px}.rhythm-rows{display:grid;gap:9px}.rhythm-item{display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center;background:var(--panel);border:1px solid var(--line);padding:19px;border-radius:22px}.rhythm-item .row-top{display:flex;align-items:center;gap:9px;font-size:12px}.rhythm-item .icon{width:19px;height:19px}.rhythm-item strong{grid-column:2;grid-row:1/3;font-size:30px;letter-spacing:-.06em;font-weight:500}.rhythm-item small{font-size:10px;color:var(--muted)}.info-row{display:flex;align-items:start;gap:10px;font-size:11px;line-height:1.7;color:var(--muted);padding:22px 0}.info-row>.icon{width:17px;height:17px;margin-top:2px;color:#c4cfb9}.segmented{display:flex;gap:7px;flex-wrap:wrap}.segmented button{min-height:44px;padding:10px 17px;background:var(--panel-2);border:1px solid transparent;border-radius:99px;font-size:12px;color:#bcc7b2}.segmented button.active{background:var(--lime);color:#29351f}.progress-summary{display:flex;align-items:center;gap:21px;padding:24px 21px}.progress-number{font-size:48px;letter-spacing:-.07em;font-weight:400;white-space:nowrap;line-height:1;color:var(--lime)}.progress-number span{font-size:20px;color:#849478;letter-spacing:-.04em}.progress-copy{flex:1;min-width:0}.progress-copy strong{font-size:12px;font-weight:500}.progress-copy .progress-track{margin-top:14px}.progress-copy .caption{margin-top:9px;font-size:10px}.plan-layout{display:grid;gap:24px;margin-top:20px}.plan-layout .task{padding:19px 0}.plan-layout .segmented{margin-bottom:7px}.practice-row{position:relative;isolation:isolate;display:flex;align-items:center;gap:13px;background:var(--panel);border:1px solid var(--line);border-radius:23px;padding:12px;text-align:left;width:100%;margin:10px 0;overflow:hidden}.practice-thumb{position:relative!important;inset:auto!important;display:block;width:64px;height:73px;flex-shrink:0;border-radius:15px;background:linear-gradient(135deg,#dfeccf,#92ad81);z-index:0!important}.practice-thumb.visual-hero{background:linear-gradient(135deg,#deefac,#9dbb76)}.practice-thumb .orb-rings{width:74px;height:74px;right:-30px;top:-17px;box-shadow:0 0 0 9px var(--ring),0 0 0 18px var(--ring),0 0 0 29px var(--ring)}.practice-thumb .orb-core{width:43px;height:43px;right:5px;top:20px}.practice-row strong{display:block;font-weight:500;font-size:13px}.practice-row small{display:block;color:var(--muted);font-size:10px;margin-top:5px;line-height:1.6}.practice-row .round-arrow{width:36px;height:36px;margin-left:auto;background:#dafa9b;color:#2e3f20}.practice-row .round-arrow .icon{width:14px;height:14px}.practice-copy{min-width:0}.calm-note{position:relative;isolation:isolate;overflow:hidden;padding:24px;background:linear-gradient(120deg,#e4ebd4,#c7d4b0);color:#3a4c2c;border-radius:26px;margin-top:17px}.calm-note:after{content:"";position:absolute;width:160px;height:160px;top:-100px;right:-60px;border:1px solid #536b2f16;border-radius:50%;box-shadow:0 0 0 16px #536b2f07,0 0 0 34px #536b2f05;z-index:-1}.calm-note .icon{width:26px;height:26px;margin-bottom:17px}.calm-note p{font-family:Georgia,serif;font-size:23px;line-height:1.35;font-style:italic}.calm-note small{display:block;color:#65784f;margin-top:17px;font-size:10px}
+/* Materials collection. */
+.library-hero{position:relative;isolation:isolate;display:flex;align-items:center;width:100%;min-height:226px;border-radius:30px;padding:25px;overflow:hidden;text-align:left;border:1px solid #dddab53d;color:#354629;background:linear-gradient(125deg,#f0efd7,#dddfba 55%,#bec99e)}.library-hero .eyebrow{color:#65754f;font-size:10px;letter-spacing:.08em}.library-hero h2{font-size:33px;font-weight:550;line-height:1.08;margin:15px 0 10px}.library-hero p{font-size:11px;line-height:1.65;color:#5c6e49;max-width:185px}.library-hero .orb-core{right:-5px;top:42px;width:144px;height:144px}.library-hero .round-arrow{position:absolute;right:21px;bottom:21px;width:40px;height:40px;background:#f5f5dfb8}.library-hero .card-copy{position:relative;z-index:1}.library-hero:focus-visible{outline-color:#bfd88e}.library-tools{display:flex;flex-direction:column;align-items:stretch;gap:16px;margin:26px 0 17px}.search-wrap{position:relative;width:100%}.search-wrap .icon{position:absolute;left:16px;top:15px;width:18px;height:18px;color:#aab69f}.search-input{font-size:16px;min-height:49px;padding:12px 16px 12px 44px;border-radius:99px}.library-grid{display:grid;grid-template-columns:1fr;gap:9px}.library-row{display:flex;align-items:center;gap:13px;background:var(--panel);border:1px solid var(--line);border-radius:23px;padding:16px;text-align:left;width:100%;min-width:0;min-height:87px}.library-icon{width:45px;height:45px;border-radius:15px;background:#33432b;color:var(--lime);display:grid;place-items:center;flex-shrink:0}.library-copy{min-width:0;flex:1}.library-row strong{display:block;font-size:13px;font-weight:500}.library-row small{display:block;color:var(--muted);font-size:10px;line-height:1.6;margin-top:5px}.library-row>.icon{width:16px;height:16px;color:#a3b294}.library-grid .practice-row{margin:0}.empty-state{padding:30px 20px;text-align:center;background:var(--panel);border-radius:24px}.empty-state strong{font-size:15px;font-weight:500}.empty-state p{font-size:12px;color:var(--muted);line-height:1.7;margin:9px 0}.resource-status{display:inline-flex;padding:9px 13px;border-radius:12px;background:#dafa9b12;color:var(--lime);margin:16px 0;font-size:11px}
+/* Diary and settings. */
+.diary-layout,.profile-layout{display:grid;gap:18px}.week-moods{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin:21px 0 5px}.week-day{display:flex;flex-direction:column;align-items:center;gap:8px;border-radius:12px;padding:12px 2px;background:#2c3725;min-width:0}.week-day.today{box-shadow:inset 0 0 0 1px #bfd99961}.week-day .emoji{font-size:21px;min-height:30px;line-height:30px}.week-day .day{font-size:10px;color:#b2c0a6}.week-day .weekday{font-size:9px;color:#96a78b}.diary-stats{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:17px}.diary-stat{padding:20px;background:#263220;border-radius:23px;border:1px solid var(--line)}.diary-stat strong{display:block;font-size:33px;font-weight:450;letter-spacing:-.04em;color:var(--lime)}.diary-stat small{display:block;color:var(--muted);font-size:11px;margin-top:5px}.diary-note textarea{font-size:16px;line-height:1.7}.mood-card.large{margin-bottom:18px}.note-saved{color:#c1d6aa;font-size:11px;margin-top:12px;min-height:16px}.diary-note .btn{font-size:11px;padding:13px 11px;gap:7px}.profile-card{position:relative;isolation:isolate;overflow:hidden;padding:27px}.profile-card:after{content:"";position:absolute;width:230px;height:230px;right:-130px;top:-130px;border:1px solid #dafa9b0d;border-radius:50%;box-shadow:0 0 0 25px #dafa9b04,0 0 0 55px #dafa9b03;z-index:-1}.profile-card .avatar{width:65px;height:65px;font-size:24px;margin-bottom:20px}.profile-card h2,.profile-card .email{overflow-wrap:anywhere}.profile-card .email{font-size:12px;color:var(--muted);margin-top:8px}.profile-details{margin:24px 0;border-top:1px solid var(--line)}.profile-detail{padding:15px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;font-size:12px}.profile-detail span{color:var(--muted)}.profile-detail strong{font-weight:450;text-align:right;overflow-wrap:anywhere;max-width:65%}.settings{padding:0 20px}.setting{display:flex;align-items:center;width:100%;gap:13px;padding:19px 0;background:none;border:0;border-bottom:1px solid var(--line);text-align:left}.setting:last-child{border-bottom:0}.setting>.icon{color:#b6c9a1;width:20px;height:20px}.setting-copy{flex:1;min-width:0}.setting strong{font-size:12px;font-weight:450;display:block}.setting small{font-size:10px;color:var(--muted);display:block;margin-top:4px;line-height:1.7}.setting .arrow{width:15px;height:15px;color:var(--muted)}.toggle{height:25px;width:43px;background:#46553c;border-radius:99px;padding:3px;flex-shrink:0}.toggle:before{content:"";display:block;width:19px;height:19px;background:#a0b38e;border-radius:50%;transition:transform .2s}.toggle.on{background:var(--lime)}.toggle.on:before{background:#34442a;transform:translateX(18px)}.reminder{display:flex;align-items:center;gap:10px;background:#2c3b22;border:1px solid #405431;padding:12px 14px;border-radius:19px;font-size:11px;margin:18px 0 0;color:#d2e1c1}.reminder>.icon{width:17px;height:17px}.reminder button{margin-left:auto;background:none;border:0;display:grid;place-items:center;min-width:36px;min-height:44px}.reminder button .icon{width:16px;height:16px}
+/* Practice player: a quiet, monochromatic card. */
+.player-layout{position:relative;isolation:isolate;overflow:hidden;border-radius:32px;border:1px solid #dafa9b19;background:linear-gradient(150deg,#304729,#24371f 50%,#1e2c1c);margin-top:23px}.player-art{position:absolute;inset:0;z-index:-2;pointer-events:none}.player-art .orb-rings{top:-150px;right:-140px;width:380px;height:380px;--ring:#b4ce8b07;background:#b9cf8d03;border-color:#d7edb20b}.player-art .orb-core{display:none}.player-art-copy{display:none}.player-side{padding:30px 24px;text-align:center}.player-side .eyebrow{color:#b9cea6;font-size:9px}.player-side h1{font-size:35px;margin:15px 0}.player-side>.caption{margin:0 auto 23px;max-width:280px;font-size:12px;color:#b7c9a9}.player-options{display:flex;justify-content:center;margin:23px 0 0}.player-side .segmented button{background:#d0e9b50b;color:#c7d6bc;font-size:11px;padding:10px 18px}.player-side .segmented button.active{background:var(--lime);color:#2b3624}.breath-display{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;width:188px;height:188px;margin:43px auto;border-radius:50%;background:radial-gradient(circle at 29% 22%,#e7f7b7,#c0d992 48%,#8fae6f);color:#2e4520;isolation:isolate;box-shadow:0 16px 45px #0a150f20}.breath-display:before{content:"";position:absolute;inset:-10px;border-radius:50%;border:1px solid #c9e39c25;transform:scale(var(--breath-scale,1));transition:transform 1s linear;z-index:-1;box-shadow:0 0 0 13px #d5efab06,0 0 0 27px #d5efab04}.breath-display strong{font-size:27px;font-weight:500;letter-spacing:-.04em}.breath-display span{font-size:10px;color:#4f673b;margin-top:8px}.player-time{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#a5b699;font-variant-numeric:tabular-nums;margin:14px 0}.player-time strong{font-size:16px;font-weight:450;color:var(--ink)}.player-controls{display:flex;justify-content:center;align-items:center;gap:17px;margin:24px 0}.player-controls .btn{min-width:177px}.player-foot{font-size:10px;color:#a3b696;line-height:1.8}.player-foot strong{font-weight:450;color:#d3e0c5}
+/* Bottom sheets and feedback. */
+.modal-backdrop{position:fixed;inset:0;background:#080c08b8;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);display:flex;align-items:end;justify-content:center;padding:12px 12px max(12px,env(safe-area-inset-bottom));z-index:100;animation:fade-in .18s ease}.modal-panel{position:relative;background:#242e21;border:1px solid #4d5d40;border-radius:30px;width:min(456px,100%);max-height:calc(100dvh - 36px - env(safe-area-inset-top));overflow-y:auto;overscroll-behavior:contain;padding:22px;box-shadow:0 30px 90px #0007;animation:dialog-in .28s var(--ease);outline:none}.modal-panel:before{content:"";display:block;width:32px;height:4px;border-radius:99px;background:#66785a;margin:-9px auto 16px}.modal-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:17px}.modal-top .eyebrow{font-size:9px}.modal-top .icon-btn{width:44px;height:44px}.modal-icon{width:54px;height:54px;border-radius:18px;background:#35492a;color:var(--lime);display:grid;place-items:center;margin-bottom:19px}.modal-panel h2{font-size:26px;margin-bottom:15px;max-width:370px}.modal-copy{font-size:12px;line-height:1.85;color:#bcc8b2}.modal-copy p+p{margin-top:14px}.modal-copy strong{font-weight:500;color:#e0e9d8}.modal-actions{display:flex;gap:9px;margin-top:24px}.modal-actions .btn{flex:1;min-width:0;font-size:12px;padding:13px 14px}.modal-photo{position:relative!important;inset:auto!important;isolation:isolate;z-index:0!important;width:100%;height:145px;border-radius:22px;background:linear-gradient(125deg,#eff0d7,#c5d0a2);margin:0 0 22px}.modal-photo .orb-rings{right:-40px;top:-160px}.modal-photo .orb-core{width:125px;height:125px;right:22px;top:15px}.mini-table{width:100%;border-collapse:collapse;font-size:12px;margin:16px 0}.mini-table td{border-bottom:1px solid var(--line);padding:11px 5px}.mini-table td:last-child{text-align:right;color:var(--lime)}.mini-table th{text-align:left;color:#a1b394;font-weight:450;padding:8px 5px}.mini-table th:last-child{text-align:right}.toast{position:fixed;z-index:200;left:50%;transform:translateX(-50%);bottom:calc(101px + env(safe-area-inset-bottom));padding:12px 17px;border:1px solid #627a4b;background:#e3edcd;color:#293b1d;max-width:min(425px,calc(100% - 32px));width:max-content;border-radius:18px;font-size:11px;line-height:1.6;box-shadow:0 8px 30px #0006;animation:fade-in .2s ease;pointer-events:none}
+/* Light feedback on touch, richer feedback for a mouse, and reduced motion. */
+.page-enter{animation:page-in .32s var(--ease)}.btn,.icon-btn,.avatar,.nav-item,.metric,.library-row,.library-hero,.practice-row,.practice-cover,.mood-button,.segmented button,.text-btn,.setting,.task,.surface,.hero{transition:transform .22s var(--ease),background .22s,border-color .22s,color .22s,box-shadow .22s}.btn:active,.icon-btn:active,.mood-button:active,.metric:active,.practice-cover:active,.library-hero:active,.library-row:active,.practice-row:active,.nav-item:active{transform:scale(.975)}.btn:disabled:hover{transform:none}@media(hover:hover){.btn:hover{background:#eaffbf;transform:translateY(-2px);box-shadow:0 7px 20px #0002}.btn.secondary:hover{background:#34432a}.btn.danger:hover{background:#ffdadb}.hero .btn:hover{background:#f4ffdc}.icon-btn:hover,.avatar:hover{background:#3b4d2e;transform:translateY(-2px)}.nav-item:hover{background:#d8efb80e;color:#e2f0d1}.metric:hover,.library-row:hover,.practice-row:hover{background:#2c3926;border-color:#6d84534d;transform:translateY(-3px)}.hero:hover .orb-core,.practice-cover:hover .orb-core,.library-hero:hover .orb-core{transform:translate(-3px,-3px) scale(1.025)}.hero:hover .orb-rings,.practice-cover:hover .orb-rings,.library-hero:hover .orb-rings{transform:translateX(-5px)}.practice-cover:hover,.library-hero:hover{transform:translateY(-2px)}.practice-cover:hover .round-arrow{transform:rotate(-8deg)}.mood-button:hover{transform:translateY(-3px);border-color:#82976a}.text-btn:hover{color:#edffbd}.mood-card .text-btn:hover{color:#182c0e}.setting:hover{color:var(--lime)}.task:hover{background:#cbe4a806}.segmented button:not(.active):hover{background:#405034}.surface:hover{border-color:#d4e9bd26}}@keyframes fade-in{from{opacity:0}to{opacity:1}}@keyframes page-in{from{opacity:.3;transform:translateY(8px)}to{opacity:1;transform:none}}@keyframes dialog-in{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@media(min-width:481px){.app-shell{box-shadow:0 0 90px #0002}.modal-backdrop{padding-bottom:20px}.welcome-visual{min-height:250px;flex:none}.welcome-copy h1{font-size:51px}}@media(max-width:360px){.screen{padding-left:16px;padding-right:16px}.page-title h1{font-size:34px}.hero-copy{padding:22px}.hero-score{font-size:63px}.hero-copy p{font-size:12px;max-width:220px}.hero .eyebrow{font-size:10px}.hero .orb-core{right:-33px;opacity:.85}.metric{padding:14px 10px}.metric strong{font-size:25px}.metric-label{font-size:9px;gap:4px}.metric-label .icon{width:14px;height:14px}.metrics{gap:7px}.practice-cover{padding:21px;min-height:177px}.practice-cover h2{font-size:24px}.practice-cover p{font-size:10px;max-width:190px}.surface{padding:19px}.chart-surface{padding:19px 14px}.chart-date-control{gap:7px}.chart-date-control label{font-size:10px}.mood-button{font-size:8px}.mood-face{font-size:21px}.section-head h2,.section-head h3{font-size:16px}.task{gap:9px}.task strong{font-size:11px}.task small{font-size:9px}.welcome{padding-left:20px;padding-right:20px}.welcome-copy h1{font-size:42px}.welcome-visual{min-height:205px;margin:25px 0}.welcome-visual .orb-core{right:-8px;width:162px;height:162px}.week-moods{gap:3px}.week-day .emoji{font-size:18px}.player-side{padding:27px 20px}.settings{padding:0 18px}.setting{gap:10px}.setting strong{font-size:11px}.setting small{font-size:9px}.nav-item{font-size:8px}.topbar .greeting{font-size:12px}.topbar .date{font-size:10px}.practice-row{gap:10px;padding:10px}.practice-row strong{font-size:12px}.practice-row small{font-size:9px}.practice-thumb{width:57px;height:68px}.practice-row .round-arrow{width:32px;height:32px}.modal-panel{padding:20px}.modal-top .eyebrow{font-size:8px}.profile-card{padding:24px}.library-hero h2{font-size:30px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.orb-rings,.orb-core,.breath-display:before{transform:none!important}button:hover,button:active{transform:none!important}}
+
+
+/* First visit: email, subscription, profile and 17 short questions. */
+.welcome-actions{display:block}.welcome-actions .btn{width:100%;font-size:14px}.welcome-bottom{display:none}.welcome-copy{padding-bottom:12px}.journey-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:29px}.journey-top .brand{font-size:21px}.journey-top .brand .icon{width:27px;height:27px}.journey-status{display:flex;gap:7px;margin-bottom:28px}.journey-step{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px;font-size:10px;color:#7e8d75}.journey-step:before{content:"";height:3px;width:100%;border-radius:99px;background:#323e2b}.journey-step.current{color:var(--lime)}.journey-step.done{color:#afc19d}.journey-step.current:before,.journey-step.done:before{background:var(--lime)}.journey-step.done:before{opacity:.45}.onboarding-page{padding:5px 0}.onboarding-page h1{font-size:38px}.onboarding-page .intro{font-size:13px;color:var(--muted);line-height:1.75;margin:16px 0 27px}.onboarding-page .intro strong{font-weight:500;color:#d9e5cb}.auth-art{position:relative;isolation:isolate;overflow:hidden;display:grid;place-items:center;min-height:172px;border-radius:30px;background:linear-gradient(130deg,#e3f8ad,#b6d485 65%,#8ca86c);margin-bottom:30px}.auth-art .card-visual .orb-rings{top:-153px;right:-60px}.auth-art .orb-core{top:14px;right:13px;width:132px;height:132px}.auth-envelope{display:grid;place-items:center;width:86px;height:72px;border-radius:23px;background:#f3fbdcdd;border:1px solid #faffec8c;box-shadow:0 12px 22px #4c68281a;transform:rotate(-8deg);color:#49612f;position:relative;margin-right:95px}.auth-envelope .icon{width:40px;height:40px;stroke-width:1.2}.auth-envelope:after{content:"";position:absolute;width:21px;height:21px;border-radius:50%;right:-5px;top:-7px;background:#2f4d22;box-shadow:inset 0 0 0 6px #d9eea3;border:1px solid #c6df99}.auth-panel .field-error{min-height:18px;margin-top:9px}.auth-panel .btn{margin-top:5px}.auth-caption{display:flex;align-items:flex-start;justify-content:center;gap:7px;color:#96a88b;font-size:10px;line-height:1.6;margin:18px 0 0}.auth-caption .icon{width:14px;height:14px;margin-top:1px}.email-identity{display:flex;align-items:center;gap:9px;margin-bottom:24px;padding:12px 14px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.email-identity strong{flex:1;min-width:0;overflow-wrap:anywhere;font-size:12px;font-weight:500}.email-identity>.icon{color:var(--lime);width:18px;height:18px}.email-identity button{background:none;border:0;color:var(--lime);font-size:11px;min-height:44px;padding:5px}.otp-field{text-align:center;letter-spacing:.35em;font-size:28px!important;font-variant-numeric:tabular-nums;height:68px;padding-left:25px!important;border-radius:20px!important}.otp-field::placeholder{font-size:20px;letter-spacing:.45em;opacity:.6}.auth-resend{display:block;margin:8px auto 0;min-height:44px;font-size:12px;color:var(--lime);background:none;border:0}.auth-resend:disabled{color:#839476;opacity:1}.auth-progress{display:inline-flex;align-items:center;gap:9px}.mini-spinner{display:inline-block;width:16px;height:16px;border:1.5px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .85s linear infinite}.auth-error{color:#efb9b7;font-size:12px;line-height:1.65;margin:14px 0;min-height:20px}.auth-readonly{opacity:.75}.onboarding-page .field input[readonly]{background:#1b2419;color:#acbda0;cursor:default}.profile-birth-note{font-size:10px;color:#899d7b;margin-top:7px}.profile-check{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--lime);margin-top:8px}.profile-check .icon{width:13px;height:13px}
+.subscription-page{display:flex;flex-direction:column;min-height:calc(100svh - 60px - env(safe-area-inset-top) - env(safe-area-inset-bottom));padding:5px 0}.subscription-center{margin:auto 0;text-align:center;padding:36px 0 30px}.subscription-orbit{position:relative;width:180px;height:180px;margin:10px auto 45px;display:grid;place-items:center;isolation:isolate}.subscription-orbit:before,.subscription-orbit:after{content:"";position:absolute;inset:-13px;border:1px solid #dafa9b20;border-radius:50%;animation:orbit-expand 1.5s var(--ease) both}.subscription-orbit:after{inset:-30px;border-color:#dafa9b0c;animation-delay:.12s}.subscription-check{width:154px;height:154px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 30% 20%,#e9fbb7,#bfd991 55%,#8eaf6e);color:#3c5927;box-shadow:inset -5px -10px 25px #5677341a,0 15px 35px #07110433;animation:success-pop .65s var(--ease) both}.subscription-check svg{width:65px;height:65px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}.subscription-check path{stroke-dasharray:65;stroke-dashoffset:65;animation:draw-check .6s .25s ease forwards}.subscription-center .eyebrow{color:var(--lime);margin-bottom:13px}.subscription-center h1{font-size:36px;line-height:1.13}.subscription-center .caption{margin:17px auto 0;max-width:290px}.subscription-details{display:flex;align-items:center;gap:11px;border:1px solid #b9d29124;border-radius:20px;padding:17px 19px;background:#24321e;margin-top:29px;text-align:left}.subscription-details>.icon{width:23px;height:23px;color:var(--lime)}.subscription-details strong{display:block;font-size:13px;font-weight:500}.subscription-details small{display:block;font-size:11px;color:#9eaf92;margin-top:4px}.subscription-actions{margin-top:22px}.subscription-actions .btn{width:100%}.checking-copy{text-align:center;padding:25vh 0}.checking-copy .mini-spinner{width:30px;height:30px;margin-bottom:25px;color:var(--lime)}
+.survey-page .journey-top{margin-bottom:23px}.survey-topline{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px}.survey-topline .eyebrow{color:#b2c2a2;letter-spacing:.07em;font-size:10px}.survey-topline span:last-child{color:var(--lime);font-variant-numeric:tabular-nums;font-size:11px}.survey-progress{height:4px;background:#313f29;border-radius:99px;overflow:hidden;margin-bottom:27px}.survey-progress>span{display:block;height:100%;background:var(--lime);border-radius:inherit;transition:width .4s var(--ease)}.survey-section{display:flex;align-items:center;gap:12px;min-height:50px;margin:0 0 21px}.survey-section-icon{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:#dafa9b13;color:var(--lime);flex-shrink:0}.survey-section h1{font-size:24px;letter-spacing:-.04em;line-height:1.12}.survey-section p{font-size:10px;color:#98aa8c;margin-top:5px}.survey-intro{font-size:12px;color:#a8b89a;line-height:1.7;margin:0 0 23px;min-height:42px}.question-card{position:relative;isolation:isolate;overflow:hidden;border-radius:30px;padding:25px;min-height:248px;display:flex;flex-direction:column;justify-content:space-between;gap:27px;background:linear-gradient(135deg,#e2f8ae,#d0e59d 58%,#afca85);color:#2e4321;border:1px solid #e3f4b337}.question-card.season{background:linear-gradient(130deg,#e8ead2,#d0dcb8 60%,#b0c099)}.question-card.childhood{background:linear-gradient(130deg,#e4e4ee,#d0d3df 60%,#adb8c6)}.question-card .card-visual{opacity:.55}.question-card .orb-rings{top:-160px;right:-175px}.question-card .orb-core{width:90px;height:90px;right:10px;top:10px;opacity:.55}.question-top{display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative}.question-number{font-size:11px;letter-spacing:.1em;font-weight:650}.question-top .icon{width:20px;height:20px}.question-card h2{position:relative;font-size:27px;line-height:1.23;letter-spacing:-.035em;max-width:345px;font-weight:550}.question-card p{font-size:11px;line-height:1.65;color:#536b40;position:relative;max-width:260px;margin-top:14px}.question-card.childhood p{color:#586374}.survey-answers{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:19px 0 24px}.survey-answer{display:flex;align-items:center;justify-content:space-between;padding:19px 20px;min-height:70px;border-radius:23px;border:1px solid #485a3a;background:#232e20;color:#d6e0cb;font-size:16px;transition:background .2s,border-color .2s,transform .2s}.survey-answer .answer-dot{width:21px;height:21px;border:1px solid #6e835d;border-radius:50%;display:grid;place-items:center;transition:background .2s}.answer-dot .icon{width:14px;height:14px;opacity:0}.survey-answer[aria-pressed=true]{background:#dafa9b;color:#2c411e;border-color:#dafa9b}.survey-answer[aria-pressed=true] .answer-dot{background:#334c23;border-color:#334c23;color:#e5f6c1}.survey-answer[aria-pressed=true] .answer-dot .icon{opacity:1}.survey-answer:active{transform:scale(.98)}.survey-answer:focus-visible{outline-offset:4px}.survey-actions{display:flex;align-items:center;gap:12px}.survey-actions>.btn{flex:1}.survey-back{width:50px;height:50px;flex-shrink:0}.survey-saved{margin:17px 0 0;text-align:center;font-size:10px;color:#95a789;min-height:18px}.survey-footer{margin-top:24px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:10px;color:#7f9373}.survey-footer .icon{width:13px;height:13px}.question-swap{animation:question-in .28s var(--ease)}.survey-summary{display:inline-flex;gap:7px;align-items:center;padding:9px 12px;margin-top:16px;border-radius:13px;background:#dafa9b0c;color:#aec29c;font-size:11px}.setup-page{text-align:center;min-height:calc(100svh - 65px);display:flex;flex-direction:column;justify-content:center}.setup-page .brand{align-self:center;margin-bottom:65px}.setup-page h1{font-size:34px;line-height:1.15}.setup-page>.caption{margin:18px auto 26px;max-width:280px}.setup-orb{position:relative;width:160px;height:160px;margin:0 auto 44px;border-radius:50%;background:radial-gradient(circle at 30% 20%,#e9fbb7,#bfd991 55%,#8eaf6e);box-shadow:0 0 0 14px #dafa9b05,0 0 0 32px #dafa9b03;display:grid;place-items:center;color:#3b5528;animation:setup-breathe 1.6s ease-in-out infinite alternate}.setup-orb .icon{width:56px;height:56px}.setup-steps{display:grid;gap:14px;max-width:255px;width:100%;margin:5px auto 35px;text-align:left}.setup-step{display:flex;align-items:center;gap:11px;font-size:12px;color:#718466;transition:color .25s}.setup-step .icon{width:18px;height:18px;opacity:.3;transition:opacity .25s,transform .25s;transform:scale(.8)}.setup-step.done{color:#d7e6c9}.setup-step.done .icon{opacity:1;color:var(--lime);transform:scale(1)}.quiet-link{display:block;text-align:center;color:#a4b798;background:none;border:0;margin:18px auto 0;min-height:44px;font-size:11px}.inline-status{font-size:11px;color:#aec29b;margin-top:10px}.task .checkbox,.mood-button{will-change:background}.nav-item{position:relative}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes orbit-expand{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}@keyframes success-pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}@keyframes draw-check{to{stroke-dashoffset:0}}@keyframes question-in{from{opacity:.3;transform:translateY(7px)}to{opacity:1;transform:none}}@keyframes setup-breathe{from{transform:scale(.96)}to{transform:scale(1.04)}}
+@media(max-width:360px){.onboarding-page h1{font-size:34px}.journey-step{font-size:9px}.question-card{padding:22px;min-height:250px}.question-card h2{font-size:24px}.survey-section h1{font-size:22px}.survey-answer{padding:17px 18px}.subscription-center h1{font-size:33px}.auth-art{min-height:160px}.survey-intro{font-size:11px}.subscription-orbit{margin-top:5px;margin-bottom:35px}}@media(prefers-reduced-motion:reduce){.subscription-check path{stroke-dashoffset:0}.setup-orb{animation:none}.question-swap{animation:none}.mini-spinner{animation:none;border-right-color:currentColor}}
+
+/* A single moving card: answers update in place, without rebuilding the page. */
+.screen.view-survey{overflow-x:clip}
+.swipe-survey .journey-top,.swipe-guide .journey-top{margin-bottom:18px}
+.swipe-survey .journey-status,.swipe-guide .journey-status{margin-bottom:22px}
+.swipe-survey .survey-progress{margin-bottom:21px}
+.swipe-survey .survey-section{margin-bottom:14px}
+.swipe-survey .survey-intro{margin-bottom:20px;min-height:0}
+.swipe-deck{position:relative;isolation:isolate;margin:0 2px 0;padding-bottom:17px}
+.deck-sheet{position:absolute;inset:0 0 17px;border-radius:30px;background:#4b5e39;border:1px solid #dafa9b13;pointer-events:none;transition:transform .3s var(--ease)}
+.deck-sheet-back{transform:translateY(15px) scale(.92);background:#34452b}
+.deck-sheet-front{transform:translateY(8px) scale(.96)}
+.swipe-deck .question-card{z-index:1;min-height:clamp(265px,38svh,330px);padding:26px 25px 29px;gap:35px;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transform-origin:50% 82%;transition:transform .32s cubic-bezier(.22,.8,.25,1),opacity .22s ease;will-change:transform;box-shadow:0 16px 30px #0a130b21}
+.swipe-deck .question-card:focus-visible{outline-color:var(--lime);outline-offset:3px}
+.swipe-deck .question-card h2{font-size:27px;line-height:1.24}
+.swipe-deck .question-card p{max-width:290px}
+.swipe-deck .question-card.is-dragging{transition:none;cursor:grabbing}
+.swipe-deck .question-card.swipe-leaving{transition:transform .28s cubic-bezier(.26,.62,.4,1),opacity .25s ease;pointer-events:none}
+.swipe-arrive{animation:swipe-card-in .3s var(--ease) both}
+.question-copy{position:relative;z-index:1}
+.card-grip{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:4px;opacity:.3}
+.card-grip span{width:3px;height:3px;border-radius:50%;background:currentColor}
+.swipe-wash{position:absolute;inset:0;pointer-events:none;z-index:0}
+.swipe-wash-yes{background:linear-gradient(125deg,#80bc431c,#a4db5166);opacity:var(--swipe-yes,0)}
+.swipe-wash-no{background:linear-gradient(235deg,#d69a9426,#e6b3a875);opacity:var(--swipe-no,0)}
+.swipe-stamp{position:absolute;top:47px;font-size:29px;line-height:1;font-weight:750;letter-spacing:.06em;border:3px solid currentColor;border-radius:9px;padding:8px 13px;z-index:3;pointer-events:none;background:#ecf5dcdb}
+.stamp-yes{left:24px;color:#456628;transform:rotate(-13deg);opacity:var(--swipe-yes,0)}
+.stamp-no{right:24px;color:#8d4c47;transform:rotate(13deg);opacity:var(--swipe-no,0);background:#f5e7dded}
+.swipe-choices{display:flex;justify-content:center;gap:46px;margin:22px 0 14px}
+.swipe-choice{display:flex;align-items:center;gap:11px;padding:0;background:none;border:0;border-radius:99px;text-align:left;transition:opacity .2s,transform .2s;min-height:64px}
+.choice-circle{display:grid;place-items:center;width:60px;height:60px;border-radius:50%;border:1px solid currentColor;transition:background .2s,box-shadow .2s,transform .2s}
+.choice-circle .icon{width:26px;height:26px;stroke-width:1.8}
+.choice-no{color:#e5b3a8}.choice-no .choice-circle{background:#d4998a0a;border-color:#aa776a66}
+.choice-yes{color:var(--lime)}.choice-yes .choice-circle{background:#dafa9b0a;border-color:#dafa9b55}
+.choice-label{font-size:16px;font-weight:550}.choice-label small{display:block;font-size:9px;letter-spacing:.03em;color:#99aa8c;margin-top:2px;font-weight:400}
+.swipe-choice[aria-pressed=true] .choice-circle{box-shadow:0 0 0 4px #eff4dd07;background:#e7f8d218}
+.swipe-choice:active .choice-circle{transform:scale(.9)}
+.swipe-choice:disabled{opacity:.45}
+.swipe-tools{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid var(--line);margin-top:19px;padding-top:8px}
+.swipe-previous,.swipe-help{display:inline-flex;align-items:center;gap:7px;background:none;border:0;padding:8px 0;min-height:44px;font-size:11px;color:#b8c6a9}
+.swipe-previous .icon,.swipe-help .icon{width:16px;height:16px}
+.swipe-help{color:#8d9f7e}.swipe-previous:disabled{opacity:.3}
+.swipe-survey .survey-saved{margin-top:6px;font-size:10px}
+.swipe-survey .survey-footer{margin-top:14px;font-size:9px}
+.swipe-guide{max-width:420px;margin:0 auto}
+.swipe-guide>.eyebrow{margin-top:25px;color:#a5b794;font-size:9px;letter-spacing:.1em}
+.swipe-guide h1{font-size:43px;line-height:1.06;margin:13px 0 14px;letter-spacing:-.055em}
+.guide-intro{font-size:13px;line-height:1.65;color:#a4b598}
+.swipe-demo{position:relative;display:grid;place-items:center;height:246px;margin:14px -5px 7px;overflow:hidden;isolation:isolate}
+.demo-shadow{position:absolute;width:177px;height:194px;border-radius:24px;background:#384a2c;border:1px solid #b9d39122;transform:rotate(-6deg) translateY(4px)}
+.demo-shadow:before{content:"";position:absolute;inset:0;border-radius:inherit;background:#2a3923;transform:rotate(11deg);z-index:-1}
+.demo-card{position:relative;width:177px;height:194px;padding:18px;border:1px solid #e3f4b337;border-radius:24px;background:linear-gradient(135deg,#e4f7b6,#bfd790 65%,#9ab975);color:#344d24;box-shadow:0 20px 40px #0e170b35;transform-origin:50% 90%;animation:swipe-tutorial 6.8s ease-in-out infinite}
+.demo-card:before{content:"";position:absolute;width:115px;height:115px;border-radius:50%;right:-10px;top:24px;border:1px solid #557f2910;box-shadow:0 0 0 12px #557f2908,0 0 0 25px #557f2907}
+.demo-card-brand{position:relative;font-size:12px;font-weight:650;letter-spacing:-.04em}
+.demo-symbol{position:absolute;top:49px;right:24px;width:49px;height:49px;border-radius:50%;display:grid;place-items:center;background:#e5f3bd77;color:#4b6a32}
+.demo-symbol .icon{width:23px;height:23px}
+.demo-card-copy{position:absolute;bottom:21px;left:18px;font-size:26px;line-height:1.06;font-weight:550;letter-spacing:-.04em}
+.demo-stamp{position:absolute;top:49px;padding:6px 9px;border:2px solid currentColor;border-radius:6px;font-size:24px;line-height:1;letter-spacing:.06em;font-weight:750;background:#eef4de;opacity:0}
+.demo-yes{left:15px;color:#486b2c;transform:rotate(-12deg);animation:tutorial-yes 6.8s ease-in-out infinite}
+.demo-no{right:15px;color:#9c6052;background:#f3e4d8;transform:rotate(12deg);animation:tutorial-no 6.8s ease-in-out infinite}
+.demo-touch{position:absolute;width:36px;height:44px;left:calc(50% - 10px);top:151px;color:#f6f4e7;filter:drop-shadow(0 2px 5px #293b1a77);animation:tutorial-hand 6.8s ease-in-out infinite;pointer-events:none}
+.demo-touch svg{width:100%;height:100%}
+.guide-directions{display:grid;grid-template-columns:1fr 1px 1fr;align-items:center;margin:0 0 20px}
+.guide-direction{display:grid;grid-template-columns:23px auto;column-gap:10px;justify-content:center;align-items:center;position:relative;padding:12px 6px;border-radius:18px}
+.guide-direction strong{font-size:18px;font-weight:550;line-height:1.2}.guide-direction small{grid-column:2;font-size:10px;color:#99ad89;margin-top:3px}
+.guide-direction-arrow{grid-row:span 2;display:grid;place-items:center}
+.guide-direction-arrow .icon{width:22px;height:22px}
+.guide-no{color:#e5b3a8;animation:tutorial-highlight-no 6.8s ease-in-out infinite}.guide-no .icon{transform:rotate(180deg)}
+.guide-yes{color:var(--lime);animation:tutorial-highlight-yes 6.8s ease-in-out infinite}
+.guide-divider{height:32px;background:var(--line)}
+.guide-note{text-align:center;font-size:11px;line-height:1.7;color:#a3b496;max-width:290px;margin:0 auto 24px}
+.guide-accessible{font-size:10px;text-align:center;color:#859978;line-height:1.6;margin:15px 0 0}
+@keyframes swipe-card-in{from{opacity:.45;transform:translate3d(0,9px,0) scale(.965)}to{opacity:1;transform:none}}
+@keyframes swipe-tutorial{0%,9%{transform:translateX(0) rotate(0)}23%,32%{transform:translateX(76px) rotate(15deg)}42%,55%{transform:translateX(0) rotate(0)}69%,78%{transform:translateX(-76px) rotate(-15deg)}90%,100%{transform:translateX(0) rotate(0)}}
+@keyframes tutorial-yes{0%,11%,41%,100%{opacity:0}22%,33%{opacity:1}}
+@keyframes tutorial-no{0%,57%,89%,100%{opacity:0}68%,79%{opacity:1}}
+@keyframes tutorial-hand{0%,7%{opacity:0;transform:translate(0,12px) scale(.9)}11%{opacity:1;transform:translate(0,0)}23%,32%{opacity:1;transform:translate(76px,-3px) rotate(10deg)}40%,49%{opacity:0;transform:translate(0,12px)}55%{opacity:1;transform:translate(0,0)}69%,78%{opacity:1;transform:translate(-76px,-3px) rotate(-10deg)}88%,100%{opacity:0;transform:translate(0,12px)}}
+@keyframes tutorial-highlight-yes{0%,10%,42%,100%{background:transparent}23%,33%{background:#dafa9b0c}}
+@keyframes tutorial-highlight-no{0%,56%,90%,100%{background:transparent}69%,79%{background:#e5b3a80c}}
+@media(max-width:360px){.swipe-deck .question-card{padding:23px 21px 28px;min-height:275px;gap:31px}.swipe-deck .question-card h2{font-size:24px}.swipe-choices{gap:32px}.choice-circle{width:54px;height:54px}.swipe-tools button{font-size:10px}.swipe-guide h1{font-size:38px}.swipe-demo{height:234px;margin-top:6px}.swipe-survey .survey-section h1{font-size:22px}}
+@media(max-height:740px){.swipe-guide .journey-status{margin-bottom:16px}.swipe-guide>.eyebrow{margin-top:16px}.swipe-guide h1{font-size:36px;margin-top:11px}.swipe-demo{height:209px;margin-top:4px;margin-bottom:0}.demo-card,.demo-shadow{width:158px;height:174px}.demo-card-copy{font-size:24px}.demo-touch{top:132px}.guide-directions{margin-bottom:10px}.guide-note{margin-bottom:18px}}
+@media(prefers-reduced-motion:reduce){.demo-card,.demo-stamp,.demo-touch,.guide-direction,.swipe-arrive{animation:none!important}.demo-touch{display:none}.swipe-deck .question-card,.swipe-deck .question-card.swipe-leaving{transition:opacity .08s linear}.swipe-deck .question-card.is-dragging{transition:none}.demo-card{transform:none}.swipe-stamp{transform:none}}
+
+.topbar{width:100%;display:flex;justify-content:space-between;gap:12px}
+.topbar-left{flex:1;min-width:0}.topbar-copy{min-width:0}
+.topbar .greeting{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.topbar .date{line-height:1.45}
+.topbar-right{flex:0 0 auto;margin-left:auto;align-self:center}
+.topbar-right .notification-button{width:46px;height:46px;margin:0}
+.home-mood{margin-top:24px}.nav-item{font-size:10px}
+.field input,.field textarea,.search-input{transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;scroll-margin-block:90px}
+.field input:focus,.field textarea:focus,.search-input:focus{outline:none;border-color:var(--lime);box-shadow:0 0 0 3px #dafa9b12;background:#273222}
+@media(hover:hover){.field input:not(:focus):hover,.field textarea:not(:focus):hover,.search-input:not(:focus):hover{border-color:#799464}}
+.responsive-field{margin-bottom:17px}.input-shell{position:relative}
+.input-shell input{padding-right:46px}
+.input-status{position:absolute;right:15px;top:50%;transform:translateY(-50%);width:19px;height:19px;pointer-events:none}
+.input-status .icon{position:absolute;inset:0;width:19px;height:19px;opacity:0;transform:scale(.7);transition:opacity .18s,transform .18s}
+.input-status .input-success{color:var(--lime)}.input-status .input-error{color:#efb4aa}
+.field-feedback{margin:7px 2px 0;min-height:32px;color:#96aa87;font-size:11px;line-height:1.45;transition:color .18s}
+.responsive-field[data-state=valid] input,.birth-field[data-state=valid] .birth-inputs input{border-color:#819e5e}
+.responsive-field[data-state=valid] .input-success,.responsive-field[data-state=invalid] .input-error{opacity:1;transform:scale(1)}
+.responsive-field[data-state=valid] .field-feedback,.birth-field[data-state=valid] .field-feedback{color:#bed7a1}
+.responsive-field[data-state=invalid] input,.birth-field input[aria-invalid=true]{border-color:#d59385;background:#342724}
+.responsive-field[data-state=invalid] input:focus,.birth-field input[aria-invalid=true]:focus{box-shadow:0 0 0 3px #dc9d8912}
+.responsive-field[data-state=invalid] .field-feedback,.birth-field[data-state=invalid] .field-feedback{color:#edb6a9}
+.birth-field{border:0;padding:0;min-width:0;margin:0 0 17px}
+.birth-field legend{padding:0;display:block;width:100%;font-size:12px;color:#c9d1c0;margin-bottom:7px}
+.birth-ready{float:right;display:inline-flex;gap:4px;align-items:center;font-size:10px;color:#bdd89e;opacity:0;transition:opacity .18s}
+.birth-ready .icon{width:13px;height:13px}.birth-field[data-state=valid] .birth-ready{opacity:1}
+.birth-hint{font-size:10px;line-height:1.6;color:#8fa17f;margin:0 0 12px}
+.birth-inputs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.45fr);gap:10px}
+.birth-part{min-width:0}.birth-part label{font-size:10px;color:#a0b28e;margin-bottom:6px}
+.birth-part input{font-variant-numeric:tabular-nums;font-size:20px;text-align:center;letter-spacing:.04em;padding:14px 7px;min-height:59px;border-radius:17px}
+.birth-part input::placeholder{font-size:15px;letter-spacing:.06em;color:#718465}
+.field input:-webkit-autofill{caret-color:var(--ink);-webkit-text-fill-color:var(--ink);-webkit-box-shadow:0 0 0 1000px #273222 inset;border-color:#819e5e}
+.field input[readonly]{opacity:.75}
+.note-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:8px 2px 0;font-size:10px;color:#8fa17f}
+.note-counter{font-variant-numeric:tabular-nums;white-space:nowrap}.note-counter.near-limit{color:#e5c495}
+.field textarea:focus{border-color:var(--lime)}
+@media(max-width:360px){.topbar .greeting{font-size:12px}.topbar-right .notification-button{width:44px;height:44px}.topbar-left{gap:9px}.topbar{gap:9px}.birth-inputs{gap:8px}.birth-part input{font-size:19px}.nav-item{font-size:9px}.field-feedback{font-size:10px}}
+
+/* Soft, dimensional faces and a centered, touch-friendly mood carousel. */
+.emotion-card{position:relative;isolation:isolate;overflow:hidden;min-width:0;padding:22px 22px 0;border:1px solid #dee9d82b;border-radius:31px;background:radial-gradient(ellipse at 100% 100%,#c3d0bfad,transparent 75%),linear-gradient(115deg,#254f3e42,#b4c2ae00);background-color:#779780;color:#f4f6ed;box-shadow:inset 0 1px 0 #f5fae712;transition:background-color .6s ease,border-color .3s ease}
+.emotion-card[data-tone="1"]{background-color:#687f7b}.emotion-card[data-tone="2"]{background-color:#7c856e}.emotion-card[data-tone="3"]{background-color:#7a8c7a}.emotion-card[data-tone="4"]{background-color:#6b8c7a}.emotion-card[data-tone="5"]{background-color:#74947c}
+.emotion-card:before{content:"";position:absolute;inset:35px -15px 45px;z-index:-1;background:radial-gradient(ellipse at 50% 48%,#e6efcf25,transparent 66%);pointer-events:none}
+.emotion-card.large{margin-bottom:18px}
+.emotion-top{display:flex;align-items:center;justify-content:space-between;gap:10px;opacity:.78}
+.emotion-eyebrow{font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:500}
+.emotion-top>.icon{width:18px;height:18px;stroke-width:1.5}
+.emotion-prompt{font-size:12px;line-height:1.5;letter-spacing:0;font-weight:400;text-align:center;color:#eef5e5b5;margin-top:8px}
+.emotion-title{text-align:center;font-size:26px;font-weight:500;letter-spacing:-.04em;line-height:1.25;min-height:33px;margin:9px 0 0;color:#f7faef;text-shadow:0 2px 8px #32583b0e}
+.emotion-carousel{--mood-drag:0px;--face-size:clamp(108px,28vw,124px);position:relative;height:158px;margin:0 -22px;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;cursor:grab;isolation:isolate}
+.emotion-carousel:before,.emotion-carousel:after{content:"";position:absolute;top:35px;bottom:30px;width:20px;z-index:9;pointer-events:none}
+.emotion-option{position:absolute;left:50%;top:50%;width:var(--face-size);height:var(--face-size);display:grid;place-items:center;flex:none;border:0;border-radius:50%;padding:0;background:transparent;color:#234b35;transform:translate(-50%,-50%) translateX(var(--mood-drag)) scale(var(--face-scale,1));opacity:var(--face-opacity,1);filter:blur(var(--face-blur,0px));transition:left .44s cubic-bezier(.2,.75,.22,1),transform .44s cubic-bezier(.2,.75,.22,1),opacity .35s ease,filter .4s ease;will-change:transform;z-index:var(--face-layer,2);-webkit-tap-highlight-color:transparent;cursor:pointer}
+.emotion-option[data-slot="0"]{left:50%;--face-scale:1;--face-opacity:1;--face-blur:0px;--face-layer:4}
+.emotion-option[data-slot="-1"]{left:23.5%;--face-scale:.75;--face-opacity:.6;--face-blur:1px;--face-layer:3}
+.emotion-option[data-slot="1"]{left:76.5%;--face-scale:.75;--face-opacity:.6;--face-blur:1px;--face-layer:3}
+.emotion-option[data-slot="-2"]{left:5%;--face-scale:.51;--face-opacity:.3;--face-blur:3px;--face-layer:2}
+.emotion-option[data-slot="2"]{left:95%;--face-scale:.51;--face-opacity:.3;--face-blur:3px;--face-layer:2}
+.emotion-sphere{position:relative;display:block;width:100%;height:100%;border-radius:50%;background:radial-gradient(circle at 35% 26%,#eef7dd 0%,#d7e7c6 35%,#b4cbaa 69%,#8aa782 100%);box-shadow:inset -5px -9px 18px #456d3223,inset 3px 4px 12px #f4fae53d,0 10px 20px #31553b12;transition:box-shadow .4s,filter .3s}
+.emotion-sphere:before{content:"";position:absolute;inset:8% 22% 50% 13%;border-radius:50%;background:radial-gradient(ellipse,#f5fbe559,transparent 75%);filter:blur(5px);pointer-events:none}
+.emotion-face{display:block;width:100%;height:100%;position:relative;color:inherit}
+.emotion-option[data-slot="0"] .emotion-sphere{animation:emotion-float 3.8s ease-in-out infinite;box-shadow:inset -5px -10px 20px #456d3220,inset 3px 4px 12px #f4fae53d,0 14px 25px #31553b1a}
+.emotion-option[data-slot="-1"] .emotion-face,.emotion-option[data-slot="1"] .emotion-face{opacity:.72}
+.emotion-option[data-slot="-2"] .emotion-face,.emotion-option[data-slot="2"] .emotion-face{opacity:.45}
+.emotion-option:focus-visible{outline:2px solid #f6fbe9;outline-offset:5px;filter:none}
+.emotion-option:active .emotion-sphere{filter:brightness(1.06)}
+.emotion-option.is-wrapping{opacity:0!important;transition:none!important;pointer-events:none}
+.emotion-carousel.is-dragging{cursor:grabbing}
+.emotion-carousel.is-dragging .emotion-option{transition:none;cursor:grabbing}
+.emotion-carousel.is-dragging .emotion-sphere{animation-play-state:paused}
+.emotion-dots{display:flex;align-items:center;justify-content:center;gap:6px;height:10px;margin:0 0 14px}
+.emotion-dots span{width:4px;height:4px;border-radius:99px;background:#eff6e64a;transition:width .3s,background .3s}
+.emotion-dots .active{width:16px;background:#f0f7decc}
+.emotion-status{text-align:center;font-size:10px;line-height:1.55;color:#f0f5e7b8;min-height:31px;margin:0 auto 14px;max-width:285px}
+.emotion-footer{border-top:1px solid #eff6e62b}
+.emotion-entry{display:flex;align-items:center;justify-content:space-between;gap:12px;background:none;border:0;padding:17px 0 19px;width:100%;min-height:54px;font-size:12px;font-weight:450;color:#f4f7eb;text-align:left}
+.emotion-entry>.icon{width:18px;height:18px;transition:transform .2s}
+.emotion-entry:focus-visible{outline-color:#f5fae8;outline-offset:-1px;border-radius:10px}
+.emotion-day{display:flex;align-items:center;justify-content:center;gap:8px;padding:17px 0 19px;font-size:11px;color:#eef5e3d9}
+.emotion-day .icon{width:15px;height:15px}
+.week-emotion{display:block;width:29px;height:29px;border-radius:50%;background:radial-gradient(circle at 33% 25%,#e1eed0,#a8c295 75%,#82a16d);color:#2a4b27;box-shadow:inset -1px -2px 4px #385d2226}
+.week-emotion.is-empty{display:grid;place-items:center;color:#9eb18e;background:#a8c29512;box-shadow:none;font-size:20px}
+@keyframes emotion-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@media(hover:hover){.emotion-option:hover .emotion-sphere{filter:brightness(1.055)}.emotion-entry:hover>.icon{transform:translateX(3px)}.emotion-entry:hover{color:#fff}.emotion-card:hover{border-color:#f2f8e444}}
+@media(max-width:360px){.emotion-card{padding:20px 18px 0}.emotion-carousel{margin:0 -18px;height:148px;--face-size:104px}.emotion-title{font-size:24px}.emotion-status{font-size:9px}.emotion-option[data-slot="-1"]{left:19%}.emotion-option[data-slot="1"]{left:81%}.emotion-option[data-slot="-2"]{left:1%;--face-scale:.45}.emotion-option[data-slot="2"]{left:99%;--face-scale:.45}.week-emotion{width:26px;height:26px}}
+@media(prefers-reduced-motion:reduce){.emotion-option,.emotion-sphere,.emotion-dots span{transition:none!important}.emotion-option[data-slot="0"] .emotion-sphere{animation:none!important}}
+
+/* Larger reading sizes and native horizontal scrolling on touch screens. */
+body{font-size:16px;line-height:1.55}
+.caption,.page-title p,.form-note,.footer-note{font-size:13px;line-height:1.65}
+.btn{font-size:15px;min-height:54px}.text-btn{font-size:14px}
+.topbar .greeting{font-size:16px}.topbar .date{font-size:13px}
+.nav-item{font-size:12px;gap:6px;min-height:61px}
+.section-head h2,.section-head h3{font-size:20px}
+.hero-copy p{font-size:15px;max-width:260px}.hero .eyebrow{font-size:13px}.hero-copy .btn{font-size:14px}
+.metric-label{font-size:12px}.metric strong{font-size:31px}.metric{min-height:128px}
+.bottom-banner strong{font-size:15px}.bottom-banner small{font-size:13px}
+.onboarding-page .intro{font-size:16px;line-height:1.7;margin-bottom:28px}
+.field label,.birth-field legend{font-size:14px}.field input,.field textarea,.search-input{font-size:18px;min-height:56px}
+.field-feedback{font-size:13px;line-height:1.5;min-height:39px;margin-top:8px}
+.field .input-shell{transition:transform .2s,filter .2s}.field:focus-within>label{color:var(--lime)}
+.field>label{transition:color .2s,transform .2s}.field:focus-within>label{transform:translateX(2px)}
+.responsive-field{margin-bottom:19px}.form-actions{margin-top:21px}
+.auth-caption,.profile-birth-note,.profile-check{font-size:12px}
+.continuous-birth{border:0;margin-bottom:19px;padding:0}
+.continuous-birth .input-shell{position:relative}
+.continuous-birth input[type=text]{min-height:64px;padding:15px 44px 15px 47px;font-size:23px;letter-spacing:.045em;font-variant-numeric:tabular-nums}
+.continuous-birth input::placeholder{font-size:18px;letter-spacing:.07em;color:#8b9c7d}
+.birth-calendar{position:absolute;left:16px;top:50%;transform:translateY(-50%);pointer-events:none;color:#a1b58b}
+.birth-calendar .icon{width:20px;height:20px}
+.continuous-birth .birth-hint{font-size:12px;line-height:1.5;margin:9px 2px 0;color:#a6b795}
+.continuous-birth .field-feedback{min-height:39px;margin-top:5px}
+.continuous-birth .birth-ready{font-size:12px}.birth-ready{transform:scale(.9);transform-origin:right center;transition:opacity .25s,transform .25s}
+.birth-field[data-state=valid] .birth-ready{transform:scale(1)}
+.survey-intro{font-size:14px}.survey-section p{font-size:12px}.question-number{font-size:13px}
+.swipe-deck .question-card p{font-size:13px}.swipe-deck .question-card h2{font-size:29px;line-height:1.25}
+.swipe-previous,.swipe-help{font-size:12px}.swipe-survey .survey-saved,.swipe-survey .survey-footer{font-size:12px}
+.choice-label{font-size:18px}.choice-label small{font-size:11px}
+.guide-intro{font-size:15px}.guide-note,.guide-accessible{font-size:13px}.guide-direction small{font-size:12px}
+.setting strong{font-size:14px}.setting small{font-size:12px}.profile-detail{font-size:14px}.profile-card .email{font-size:14px}
+.library-row strong{font-size:15px}.library-row small{font-size:12px}.library-tools h3{font-size:18px}
+.diary-stat small{font-size:13px}.note-saved,.note-meta{font-size:12px}.diary-note .btn{font-size:14px}
+.week-day .weekday,.week-day .day{font-size:12px}
+.emotion-title{font-size:32px;min-height:40px;margin-top:10px}.emotion-prompt{font-size:16px}.emotion-eyebrow{font-size:11px}
+.emotion-status{font-size:13px;line-height:1.6;min-height:42px;margin-bottom:14px;color:#f4f8ed}
+.emotion-entry{font-size:15px;min-height:60px}.emotion-day{font-size:14px}
+.emotion-carousel.native{--emotion-step:clamp(92px,27vw,116px);height:178px;display:flex;align-items:center;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:auto;overscroll-behavior-x:contain;touch-action:pan-x pan-y pinch-zoom;scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:auto;visibility:hidden;contain:layout style;isolation:isolate}
+.emotion-carousel.native[data-ready=true]{visibility:visible}.emotion-carousel.native::-webkit-scrollbar{display:none}
+.emotion-carousel.native:before,.emotion-carousel.native:after{display:none}
+.emotion-spacer{display:block;flex:0 0 calc((100% - var(--emotion-step))/2);height:1px;pointer-events:none}
+.emotion-carousel.native .emotion-option{position:relative;left:auto;top:auto;flex:0 0 var(--emotion-step);width:var(--emotion-step);height:156px;max-width:none;min-width:0;transform:none;opacity:1;filter:none;transition:none;will-change:auto;scroll-snap-align:center;scroll-snap-stop:normal;z-index:auto;overflow:visible;outline-offset:-5px}
+.emotion-carousel.native .emotion-sphere{width:116px;height:116px;flex:none;transform:scale(var(--emotion-scale,.5));opacity:var(--emotion-opacity,.2);animation:none!important;transition:transform .18s ease,opacity .18s ease;will-change:auto;box-shadow:inset -5px -8px 16px #456d3220,inset 2px 3px 9px #f4fae52b,0 9px 16px #31553b0d}
+.emotion-carousel.native .emotion-option:focus-visible{outline:2px solid #f7fbe9;filter:none}
+.emotion-carousel.native.is-scrolling .emotion-sphere{transition:none;will-change:transform,opacity;filter:none!important}
+.emotion-carousel.native:not(.is-scrolling) .emotion-option.is-far .emotion-sphere{filter:blur(1px)}
+.emotion-carousel.native .emotion-option:hover .emotion-sphere{filter:none}
+.emotion-carousel.native.is-mouse-dragging{scroll-snap-type:none;cursor:grabbing}
+.emotion-carousel.native.is-mouse-dragging .emotion-option{cursor:grabbing}
+.emotion-carousel.native .emotion-option:active .emotion-sphere{filter:none}
+.screen{view-transition-name:greeful-page}
+html{--flow-shift:25px}html[data-flow-direction=back]{--flow-shift:-25px}
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+::view-transition-group(greeful-page){animation-duration:.36s;animation-timing-function:cubic-bezier(.2,.8,.2,1)}
+::view-transition-old(greeful-page){animation:flow-out .22s ease both;mix-blend-mode:normal}
+::view-transition-new(greeful-page){animation:flow-in .36s cubic-bezier(.2,.8,.2,1) both;mix-blend-mode:normal}
+.view-access .page-enter,.view-questionnaire .page-enter,.view-subscription .page-enter,.view-survey .page-enter,.view-preparing .page-enter{animation:flow-in .38s cubic-bezier(.2,.8,.2,1) both}
+.view-questionnaire #profileForm>.field{animation:field-arrive .42s cubic-bezier(.2,.8,.2,1) both}
+.view-questionnaire #profileForm>.field:nth-child(2){animation-delay:.045s}
+.view-questionnaire #profileForm>.field:nth-child(3){animation-delay:.085s}
+.view-questionnaire #profileForm>.field:nth-child(4){animation-delay:.12s}
+.view-questionnaire .form-actions{animation:field-arrive .42s .14s cubic-bezier(.2,.8,.2,1) both}
+@keyframes flow-out{to{opacity:0;transform:translateX(calc(var(--flow-shift)*-1)) scale(.988)}}
+@keyframes flow-in{from{opacity:0;transform:translateX(var(--flow-shift)) scale(.988)}to{opacity:1;transform:none}}
+@keyframes field-arrive{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(max-width:360px){.caption,.page-title p,.form-note,.footer-note{font-size:12px}.topbar .greeting{font-size:14px}.topbar .date{font-size:12px}.nav-item{font-size:11px}.metric-label{font-size:11px;gap:5px}.metric strong{font-size:28px}.hero-copy p{font-size:14px}.swipe-deck .question-card h2{font-size:26px}.field-feedback{font-size:12px}.emotion-title{font-size:29px}.emotion-prompt{font-size:15px}.emotion-status{font-size:12px}.emotion-carousel.native{--emotion-step:94px;height:166px}.emotion-carousel.native .emotion-sphere{width:108px;height:108px}.setting strong{font-size:13px}.setting small{font-size:11px}}
+@media(prefers-reduced-motion:reduce){::view-transition-old(greeful-page),::view-transition-new(greeful-page){animation:none}.emotion-carousel.native{scroll-behavior:auto}.emotion-carousel.native .emotion-sphere,.field-feedback,.birth-ready{transition:none!important}.view-questionnaire #profileForm>.field,.view-questionnaire .form-actions{animation:none!important}}
+
+</style></head><body><svg id="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+ <symbol id="i-logo" viewBox="0 0 50 50"><path fill="currentColor" d="M25 41C9 38 5 27 10 16c8 4 12 11 15 25Zm0 0c16-3 20-14 15-25-8 4-12 11-15 25Zm0-3C13 23 17 13 25 7c8 6 12 16 0 31Z" opacity=".82"/><path fill="currentColor" d="M6 31c7 0 14 5 19 10-10 2-19-2-19-10Zm38 0c-7 0-14 5-19 10 10 2 19-2 19-10Z" opacity=".58"/></symbol>
+ <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+ <symbol id="i-back" viewBox="0 0 24 24"><path d="m14 5-7 7 7 7"/></symbol>
+ <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+ <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M9 21v-7h6v7"/></symbol>
+ <symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 12h3l3-7 4 14 4-11 2 4h4"/></symbol>
+ <symbol id="i-checklist" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="m8 9 1.5 1.5L12 8m1 2h3M8 16h8"/></symbol>
+ <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></symbol>
+ <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.5 3-7 8-7s8 2.5 8 7"/></symbol>
+ <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></symbol>
+ <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+ <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 7 3 7 3 9H3c0-2 3-2 3-9m4 12h4"/></symbol>
+ <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></symbol>
+ <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.5 8c0 5-8.5 11-8.5 11S3.5 13 3.5 8A4.6 4.6 0 0 1 12 6a4.6 4.6 0 0 1 8.5 2Z"/></symbol>
+ <symbol id="i-brain" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 0-7 3 4 4 0 0 0-1 7 4 4 0 0 0 4 6c2 0 4-1 4-4V4Zm0 0a4 4 0 0 1 7 3 4 4 0 0 1 1 7 4 4 0 0 1-4 6c-2 0-4-1-4-4"/><path d="M7 10c2 0 3 2 3 3m7-3c-2 0-3 2-3 3"/></symbol>
+ <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 12 7-12 7z"/></symbol>
+ <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></symbol>
+ <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 10h18"/></symbol>
+ <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20 4C8 3 3 10 4 17c8 6 18-2 16-13ZM4 21c3-7 7-10 13-13"/></symbol>
+ <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2c-4 6-8 10-8 14a8 8 0 1 0 16 0c0-4-4-8-8-14Z"/></symbol>
+ <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"/></symbol>
+ <symbol id="i-flower" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M12 10c-4-8-9-5-6 0-6 1-6 7 1 6-1 6 5 8 6 2 3 6 9 3 6-2 6-1 6-7-1-6 1-6-5-8-6 0Z"/></symbol>
+ <symbol id="i-bottle" viewBox="0 0 24 24"><path d="M9 3h6m-5 0v5l-3 3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-9l-3-3V3M7 14h10"/></symbol>
+ <symbol id="i-food" viewBox="0 0 24 24"><path d="M4 2v8a3 3 0 0 0 6 0V2m-3 0v20m11 0V2c-4 4-4 10 0 12h2v8"/></symbol>
+ <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></symbol>
+ <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 11v6m0-10h.01"/></symbol>
+ <symbol id="i-finger" viewBox="0 0 100 100"><path d="M27 41c0-31 46-31 46 0v17M34 41c0-23 32-23 32 0v30M41 41c0-14 18-14 18 0v22M48 48V38c0-4 4-4 4 0v31M27 53c0 18 5 29 15 37M34 54c0 15 5 25 12 31M41 60c1 12 5 18 10 24M59 74c-2 7-4 12-7 17M73 66c-1 12-5 20-11 26M20 47c-2 19 2 33 13 45M80 44c0-42-60-45-60 0"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol><symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" stroke-width="3"/></symbol><symbol id="i-restart" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6"/></symbol><symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5c-3-2-7-2-10-1v15c4-1 7-1 10 1 3-2 6-2 10-1V4c-3-1-7-1-10 1v15"/></symbol></svg>
+<div id="appShell" class="app-shell"><aside id="sidebar" class="sidebar" hidden></aside><main id="screen" class="screen"></main><nav id="bottomNav" class="bottom-nav" aria-label="Основная навигация" hidden></nav></div><div id="modalRoot"></div><div id="toastRoot" aria-live="polite" aria-atomic="true"></div><noscript><p style="padding:30px">Для работы greeful включи JavaScript в браузере.</p></noscript>
+<script>(()=>{'use strict';
+const STORAGE_KEY='greeful-miniapp-v1',LEGACY_STORAGE_KEY='bioform-miniapp-v1';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const icon=(name,cls='')=>`<svg class="icon ${cls}" aria-hidden="true"><use href="#${name}"></use></svg>`;
+const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+const dateKey=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
+function parseDate(value){if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(value))return null;const [y,m,d]=value.split('-').map(Number),date=new Date(y,m-1,d,12);return date.getFullYear()===y&&date.getMonth()===m-1&&date.getDate()===d?date:null}
+function validDob(value){const d=parseDate(value);return !!d&&d.getFullYear()>=1901&&value<=dateKey()}
+const months=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+const categories=[{id:'year',name:'Мой год в ритме',sub:'12 месяцев · персональный обзор',ico:'i-wave'},{id:'month',name:'Календарь биоритмов',sub:'Три цикла · интерактивный график',ico:'i-calendar'},{id:'herbs',name:'Фитотерапия',sub:'Материалы по месяцам · скоро',ico:'i-leaf'},{id:'food',name:'Питание',sub:'Материалы по месяцам · скоро',ico:'i-food'},{id:'vitamins',name:'Витамины',sub:'Материалы по месяцам · скоро',ico:'i-sun'},{id:'minerals',name:'Минералы',sub:'Материалы по месяцам · скоро',ico:'i-spark'},{id:'oils',name:'Эфирные масла',sub:'Материалы по месяцам · скоро',ico:'i-drop'},{id:'supplements',name:'БАДы',sub:'Материалы по месяцам · скоро',ico:'i-bottle'}];
+const moods=[{id:1,label:'Грусть'},{id:2,label:'Усталость'},{id:3,label:'Нейтрально'},{id:4,label:'Спокойствие'},{id:5,label:'Радость'}];
+const tabs=[['home','i-home','Главная'],['rhythm','i-wave','Биоритмы'],['library','i-grid','Материалы'],['profile','i-user','Профиль']];
+const SURVEY_SECTIONS = [
+ {id:'family',title:'Наследственность',subtitle:'Раздел 1 из 3',icon:'i-heart',intro:'Идём дальше! Изучим вашу наследственность. Отметьте болезни, перенесённые вашими родителями.'},
+ {id:'season',title:'Ваше самочувствие',subtitle:'Раздел 2 из 3',icon:'i-sun',intro:'Замечаете ли вы ухудшение самочувствия по сезонам?'},
+ {id:'childhood',title:'Вспомним детство',subtitle:'Раздел 3 из 3',icon:'i-spark',intro:'Финальный раздел. Отметьте инфекции, перенесённые вами в детстве.'}
+];
+const SURVEY_QUESTIONS = [
+ {section:0,field:'Родители болезни пищеварения',question:'Переносили ли ваши родители болезни пищеварения?'},
+ {section:0,field:'Родители болезни половых органов',question:'Переносили ли ваши родители болезни половых органов?'},
+ {section:0,field:'Родители болезни почек и мочевого пузыря',question:'Переносили ли ваши родители болезни почек и мочевого пузыря?'},
+ {section:0,field:'Родители болезни кожи',question:'Переносили ли ваши родители болезни кожи?'},
+ {section:0,field:'Родители болезни легких и горла',question:'Переносили ли ваши родители болезни лёгких и горла?'},
+ {section:0,field:'Родители болезни глаз',question:'Переносили ли ваши родители болезни глаз?'},
+ {section:0,field:'Родители заболевания центральной нервной системы',question:'Переносили ли ваши родители заболевания центральной нервной системы?'},
+ {section:0,field:'Родители болезни позвоночника и суставов',question:'Переносили ли ваши родители болезни позвоночника и суставов?'},
+ {section:1,field:'Ухудшение осень',question:'Замечаете ухудшение самочувствия осенью?',season:'Осень'},
+ {section:1,field:'Ухудшение зима',question:'Замечаете ухудшение самочувствия зимой?',season:'Зима'},
+ {section:1,field:'Ухудшение весна',question:'Замечаете ухудшение самочувствия весной?',season:'Весна'},
+ {section:1,field:'Ухудшение лето',question:'Замечаете ухудшение самочувствия летом?',season:'Лето'},
+ {section:2,field:'Инфекции корь',question:'Болели ли вы корью в детстве?'},
+ {section:2,field:'Инфекции краснуха',question:'Болели ли вы краснухой в детстве?'},
+ {section:2,field:'Инфекции ветрянка',question:'Болели ли вы ветрянкой в детстве?'},
+ {section:2,field:'Инфекции свинка',question:'Болели ли вы свинкой в детстве?'},
+ {section:2,field:'Инфекции скарлатина',question:'Болели ли вы скарлатиной в детстве?'}
+];
+const freshOnboarding=()=>({version:1,completed:false,index:0,answers:{},completedAt:'',swipeIntroSeen:false});
+const surveyAnswerValid=value=>value==='Да'||value==='Нет';
+const surveyAnswered=()=>SURVEY_QUESTIONS.filter(q=>surveyAnswerValid(S.onboarding.answers[q.field])).length;
+const surveyComplete=()=>surveyAnswered()===SURVEY_QUESTIONS.length;
+const profileComplete=()=>S.profile.name.trim().length>=2&&validDob(S.profile.birth);
+let entryTimer=0,setupTimers=[],accessBusy=false,editingSurvey=false,lastRenderedPage='';
+// Requested prototype behavior: any syntactically valid email is accepted.
+// No email is sent, no API request is made, and no paid subscription is checked.
+function cancelEntryAnimation(){clearTimeout(entryTimer);entryTimer=0;accessBusy=false}
+function cancelSetupAnimation(){setupTimers.forEach(clearTimeout);setupTimers=[]}
+function journeyTop(step,back='welcome'){return `<div class="journey-top"><button class="icon-btn" data-action="${editingSurvey?'cancel-survey':editingProfile?'cancel-edit':'goto'}" data-to="${back}" aria-label="Назад">${icon('i-back')}</button>${brand()}</div><div class="journey-status" aria-label="Шаг ${step} из 3">${['Почта','Ваши данные','Анкета'].map((text,i)=>`<div class="journey-step ${i+1===step?'current':i+1<step?'done':''}" ${i+1===step?'aria-current="step"':''}>${String(i+1).padStart(2,'0')} · ${text}</div>`).join('')}</div>`}
+
+
+function subscription(){return wrap(`<section class="subscription-page"><div class="journey-top">${brand()}<span class="pill"><i></i> Всё готово к знакомству</span></div><div class="subscription-center"><div class="subscription-orbit" aria-hidden="true"><div class="subscription-check"><svg viewBox="0 0 64 64"><path d="m15 33 11 11 24-26"/></svg></div></div><div class="eyebrow">Добро пожаловать</div><h1 tabindex="-1">Подписка<br>действительна.</h1><p class="caption">Доступ к greeful открыт.<br>Теперь давайте познакомимся поближе.</p><div class="subscription-details">${icon('i-mail')}<div style="min-width:0"><strong style="overflow-wrap:anywhere">${esc(S.profile.email)}</strong><small>Ваше личное пространство</small></div></div></div><div class="subscription-actions"><button class="btn" data-action="subscription-next">Продолжить</button></div></section>`)}
+
+let swipeGuideOpen=false, surveySwipeBusy=false, swipeGesture=null, swipeTimer=0;
+
+function questionMarkup(){
+ const q=SURVEY_QUESTIONS[S.onboarding.index],section=SURVEY_SECTIONS[q.section];
+ return `${pic(q.section===2?'botanical':'hero')}<div class="swipe-wash swipe-wash-no" aria-hidden="true"></div><div class="swipe-wash swipe-wash-yes" aria-hidden="true"></div><span class="swipe-stamp stamp-no" aria-hidden="true">НЕТ</span><span class="swipe-stamp stamp-yes" aria-hidden="true">ДА</span><div class="question-top"><span class="question-number">${String(S.onboarding.index+1).padStart(2,'0')} / 17${q.season?' · '+q.season:''}</span>${icon(section.icon)}</div><div class="question-copy"><h2 id="surveyQuestion" tabindex="-1">${q.question}</h2><p>${q.section===0?'Ответьте «Да», если заболевание было хотя бы у одного из родителей.':q.section===1?'Ориентируйтесь на ваши собственные наблюдения.':'Вспомните, переносили ли вы эту инфекцию в детстве.'}</p></div><div class="card-grip" aria-hidden="true"><span></span><span></span><span></span></div>`;
+}
+
+function swipeGuide(){
+ return `<section id="swipeGuide" class="swipe-guide" ${S.onboarding.swipeIntroSeen?'hidden':''} aria-labelledby="swipeGuideTitle">${journeyTop(3,'questionnaire')}<div class="eyebrow">Маленькое знакомство с анкетой</div><h1 id="swipeGuideTitle" tabindex="-1">Один жест.<br>Один ответ.</h1><p class="guide-intro">Потяните карточку в сторону<br>вашего ответа.</p><div class="swipe-demo" aria-hidden="true"><div class="demo-shadow"></div><div class="demo-card"><span class="demo-card-brand">greeful</span><span class="demo-symbol">${icon('i-leaf')}</span><span class="demo-card-copy">Чуть ближе<br>к себе.</span><span class="demo-stamp demo-no">НЕТ</span><span class="demo-stamp demo-yes">ДА</span></div><div class="demo-touch"><svg viewBox="0 0 40 46" fill="none"><path d="M12 25V9a3 3 0 0 1 6 0v13-5a3 3 0 0 1 6 0v6-3a3 3 0 0 1 6 0v5-2a3 3 0 0 1 6 0v8c0 8-5 12-12 12h-3c-5 0-8-3-11-7L4 28a3 3 0 0 1 5-4l3 3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor" fill-opacity=".1"/></svg></div></div><div class="guide-directions"><div class="guide-direction guide-no"><span class="guide-direction-arrow" aria-hidden="true">${icon('i-arrow')}</span><strong>Нет</strong><small>Влево</small></div><span class="guide-divider" aria-hidden="true"></span><div class="guide-direction guide-yes"><span class="guide-direction-arrow" aria-hidden="true">${icon('i-arrow')}</span><strong>Да</strong><small>Вправо</small></div></div><p class="guide-note">Каждый свайп сохраняет ответ.<br>Вернуться к предыдущему вопросу можно в любой момент.</p><button class="btn full" data-action="swipe-guide-close">${surveyAnswered()?'Продолжить анкету':'Начать анкету'}</button><p class="guide-accessible">Если удобнее, нажимайте на кнопки «Нет» и «Да».</p></section>`;
+}
+
+function survey(){
+ const index=S.onboarding.index,q=SURVEY_QUESTIONS[index],section=SURVEY_SECTIONS[q.section],answer=S.onboarding.answers[q.field],answered=surveyAnswered();
+ return wrap(`${swipeGuide()}<section id="surveyContent" class="survey-page swipe-survey" ${S.onboarding.swipeIntroSeen?'':'hidden'}>${journeyTop(3,'questionnaire')}<div class="survey-topline"><span class="eyebrow">${editingSurvey?'Ваша анкета':'Знакомимся ближе'}</span><span id="surveyCount">${answered} из 17 ответов</span></div><div class="survey-progress" id="surveyProgress" role="progressbar" aria-label="Прогресс анкеты" aria-valuemin="0" aria-valuemax="17" aria-valuenow="${answered}"><span style="width:${answered/17*100}%"></span></div><div class="survey-section"><span class="survey-section-icon" id="surveySectionIcon">${icon(section.icon)}</span><div><h1 id="surveySectionTitle" tabindex="-1">${section.title}</h1><p id="surveySectionSubtitle">${section.subtitle}</p></div></div><p class="survey-intro" id="surveyIntro">${section.intro}</p><p id="swipeInstructions" class="sr-only">Свайп вправо — ответ «Да», влево — «Нет». Также можно нажать на кнопку ответа или использовать стрелки на клавиатуре. Следующий вопрос появится автоматически.</p><div id="swipeDeck" class="swipe-deck"><div class="deck-sheet deck-sheet-back" aria-hidden="true"></div><div class="deck-sheet deck-sheet-front" aria-hidden="true"></div><div id="questionCard" class="question-card ${section.id}" role="group" tabindex="0" aria-labelledby="surveyQuestion" aria-describedby="swipeInstructions">${questionMarkup()}</div></div><div class="swipe-choices" role="group" aria-labelledby="surveyQuestion">${[['Нет','i-close','no','Влево'],['Да','i-check','yes','Вправо']].map(([value,ico,kind,direction])=>`<button class="swipe-choice choice-${kind}" data-action="survey-answer" data-value="${value}" aria-label="Ответить «${value}»" aria-pressed="${answer===value}"><span class="choice-circle">${icon(ico)}</span><span class="choice-label">${value}<small>${direction}</small></span></button>`).join('')}</div><div class="swipe-tools"><button class="swipe-previous" data-action="survey-prev" ${index===0?'disabled':''}>${icon('i-restart')}<span>Предыдущий вопрос</span></button><button class="swipe-help" data-action="swipe-guide-open">${icon('i-info')}<span>Как отвечать</span></button></div><p class="survey-saved" id="surveySaved" role="status" aria-live="polite">${surveyAnswerValid(answer)?`Ваш ответ: «${answer}». Можно изменить.`:'Свайпните карточку или нажмите на ответ.'}</p><div class="survey-footer">${icon('i-lock')}<span>${storageOK?'Ответы сохраняются автоматически.':'Ответы доступны до закрытия страницы.'}</span></div></section>`);
+}
+
+function resetSwipeCard(){
+ const card=$('#questionCard');if(!card)return;
+ card.classList.remove('is-dragging','swipe-leaving','swipe-arrive');
+ for(const prop of ['transform','opacity','--swipe-yes','--swipe-no'])card.style.removeProperty(prop);
+ card.removeAttribute('aria-busy');
+}
+
+function releaseSwipePointer(gesture){
+ if(!gesture)return;
+ try{if(gesture.card.hasPointerCapture?.(gesture.id))gesture.card.releasePointerCapture(gesture.id)}catch(_){}
+}
+
+function cancelSurveyInteraction(){
+ clearTimeout(swipeTimer);swipeTimer=0;surveySwipeBusy=false;
+ const gesture=swipeGesture;swipeGesture=null;releaseSwipePointer(gesture);resetSwipeCard();
+}
+
+function setSwipeGuide(open){
+ if(S.page!=='survey')return;
+ cancelSurveyInteraction();swipeGuideOpen=open;
+ if(!open&&!S.onboarding.swipeIntroSeen){S.onboarding.swipeIntroSeen=true;save()}
+ $('#swipeGuide').hidden=!open;$('#surveyContent').hidden=open;
+ if(open){const button=$('[data-action="swipe-guide-close"]');if(button)button.textContent=surveyAnswered()?'Продолжить анкету':'Начать анкету'}
+ updateSurvey();window.scrollTo(0,0);
+ $(open?'#swipeGuideTitle':'#surveyQuestion')?.focus({preventScroll:true});
+}
+
+function startSurveyExperience(){
+ swipeGuideOpen=!S.onboarding.swipeIntroSeen;
+ $('#swipeGuide').hidden=!swipeGuideOpen;$('#surveyContent').hidden=swipeGuideOpen;
+ updateSurvey();$(swipeGuideOpen?'#swipeGuideTitle':'#surveyQuestion')?.focus({preventScroll:true});
+}
+
+function updateSurvey({questionChanged=false}={}){
+ if(S.page!=='survey'||!$('#questionCard'))return;
+ const q=SURVEY_QUESTIONS[S.onboarding.index],section=SURVEY_SECTIONS[q.section],answer=S.onboarding.answers[q.field];
+ if(questionChanged){
+  const card=$('#questionCard');resetSwipeCard();card.className=`question-card ${section.id}`;card.innerHTML=questionMarkup();
+  void card.offsetWidth;card.classList.add('swipe-arrive');
+  $('#surveySectionIcon').innerHTML=icon(section.icon);$('#surveySectionTitle').textContent=section.title;$('#surveySectionSubtitle').textContent=section.subtitle;$('#surveyIntro').textContent=section.intro;
+  if(!swipeGuideOpen)$('#surveyQuestion')?.focus({preventScroll:true});
+ }
+ const answered=surveyAnswered();$('#surveyCount').textContent=`${answered} из 17 ответов`;$('#surveyProgress').setAttribute('aria-valuenow',answered);$('#surveyProgress>span').style.width=`${answered/17*100}%`;
+ $$('[data-action="survey-answer"]').forEach(button=>{button.setAttribute('aria-pressed',button.dataset.value===answer);button.disabled=surveySwipeBusy||swipeGuideOpen});
+ $('[data-action="survey-prev"]').disabled=S.onboarding.index===0||surveySwipeBusy||swipeGuideOpen;
+ $('#surveySaved').textContent=surveyAnswerValid(answer)?`Ваш ответ: «${answer}». ${storageOK?'Сохранено.':'Доступен до закрытия страницы.'} Можно изменить.`:'Свайпните карточку или нажмите на ответ.';
+}
+
+function answerSurvey(value){
+ if(S.page!=='survey'||swipeGuideOpen||surveySwipeBusy||swipeGesture||!surveyAnswerValid(value))return;
+ const index=S.onboarding.index,q=SURVEY_QUESTIONS[index],card=$('#questionCard');if(!card)return;
+ surveySwipeBusy=true;S.onboarding.answers[q.field]=value;save();updateSurvey();
+ card.classList.remove('is-dragging','swipe-arrive');card.classList.add('swipe-leaving');card.setAttribute('aria-busy','true');
+ card.style.setProperty('--swipe-yes',value==='Да'?'1':'0');card.style.setProperty('--swipe-no',value==='Нет'?'1':'0');
+ const direction=value==='Да'?1:-1,distance=card.getBoundingClientRect().width+90;
+ card.style.transform=reduced()?'none':`translate3d(${direction*distance}px,-12px,0) rotate(${direction*18}deg)`;card.style.opacity='0';
+ swipeTimer=setTimeout(()=>{
+  swipeTimer=0;surveySwipeBusy=false;
+  if(S.page!=='survey'||swipeGuideOpen||S.onboarding.index!==index)return;
+  surveyNext();
+ },reduced()?90:280);
+}
+
+function surveyNext(){
+ if(S.page!=='survey'||swipeGuideOpen||surveySwipeBusy)return;
+ const q=SURVEY_QUESTIONS[S.onboarding.index];if(!surveyAnswerValid(S.onboarding.answers[q.field]))return;
+ if(S.onboarding.index<16){S.onboarding.index++;save();updateSurvey({questionChanged:true});return}
+ if(!surveyComplete()){S.onboarding.index=SURVEY_QUESTIONS.findIndex(item=>!surveyAnswerValid(S.onboarding.answers[item.field]));save();updateSurvey({questionChanged:true});return}
+ S.onboarding.completed=true;S.onboarding.completedAt=new Date().toISOString();save();
+ if(editingSurvey){editingSurvey=false;tabTo('profile');toast('Анкета обновлена')}else pageTo('preparing');
+}
+
+function surveyPrevious(){
+ if(S.page!=='survey'||swipeGuideOpen||surveySwipeBusy||S.onboarding.index===0)return;
+ cancelSurveyInteraction();S.onboarding.index--;save();updateSurvey({questionChanged:true});
+}
+
+function swipeThreshold(width){return Math.max(68,Math.min(112,width*.27))}
+
+function paintSwipe(card,x,y){
+ const width=card.getBoundingClientRect().width||320,progress=Math.min(1,Math.abs(x)/swipeThreshold(width));
+ card.style.transform=`translate3d(${x}px,${Math.max(-28,Math.min(28,y*.12))}px,0) rotate(${Math.max(-17,Math.min(17,x/width*18))}deg)`;
+ card.style.setProperty('--swipe-yes',x>0?progress:'0');card.style.setProperty('--swipe-no',x<0?progress:'0');
+}
+
+function swipePointerDown(event){
+ if(S.page!=='survey'||swipeGuideOpen||surveySwipeBusy||swipeGesture||event.isPrimary===false||(event.pointerType==='mouse'&&event.button!==0))return;
+ const card=event.target?.closest?.('#questionCard');if(!card)return;
+ card.classList.remove('swipe-arrive');
+ swipeGesture={id:event.pointerId,card,index:S.onboarding.index,startX:event.clientX,startY:event.clientY,x:0,y:0,locked:false,samples:[{x:event.clientX,t:event.timeStamp}]};
+}
+
+function swipePointerMove(event){
+ const gesture=swipeGesture;if(!gesture||gesture.id!==event.pointerId)return;
+ const x=event.clientX-gesture.startX,y=event.clientY-gesture.startY;
+ if(!gesture.locked){
+  if(Math.max(Math.abs(x),Math.abs(y))<9)return;
+  if(Math.abs(y)>Math.abs(x)*1.12){swipeGesture=null;return}
+  if(Math.abs(x)<Math.abs(y)*1.05)return;
+  gesture.locked=true;gesture.card.classList.add('is-dragging');
+  try{gesture.card.setPointerCapture(event.pointerId)}catch(_){}
+ }
+ if(event.cancelable)event.preventDefault();gesture.x=x;gesture.y=y;
+ gesture.samples.push({x:event.clientX,t:event.timeStamp});gesture.samples=gesture.samples.filter(sample=>event.timeStamp-sample.t<=100);
+ paintSwipe(gesture.card,x,y);
+}
+
+function swipePointerUp(event){
+ const gesture=swipeGesture;if(!gesture||gesture.id!==event.pointerId)return;
+ swipeGesture=null;releaseSwipePointer(gesture);
+ if(!gesture.locked){resetSwipeCard();return}
+ const x=event.clientX-gesture.startX,y=event.clientY-gesture.startY,first=gesture.samples[0],elapsed=event.timeStamp-first.t;
+ const velocity=elapsed>0&&elapsed<=120?(event.clientX-first.x)/elapsed:0;
+ const farEnough=Math.abs(x)>=swipeThreshold(gesture.card.getBoundingClientRect().width),fastEnough=Math.abs(x)>=42&&Math.abs(velocity)>.65&&Math.sign(velocity)===Math.sign(x);
+ if(gesture.index===S.onboarding.index&&Math.abs(x)>Math.abs(y)*1.05&&(farEnough||fastEnough))answerSurvey(x>0?'Да':'Нет');else resetSwipeCard();
+}
+
+function swipePointerCancel(event){
+ if(!swipeGesture||swipeGesture.id!==event.pointerId)return;
+ const gesture=swipeGesture;swipeGesture=null;releaseSwipePointer(gesture);resetSwipeCard();
+}
+
+function swipeKeydown(event){
+ if(S.page!=='survey'||S.modal||swipeGuideOpen||event.repeat||event.altKey||event.ctrlKey||event.metaKey)return;
+ if(event.target?.closest?.('input,textarea,select,[contenteditable="true"]'))return;
+ if(event.key==='ArrowRight'||event.key==='ArrowLeft'){event.preventDefault();answerSurvey(event.key==='ArrowRight'?'Да':'Нет')}
+}
+
+document.addEventListener('pointerdown',swipePointerDown);
+document.addEventListener('pointermove',swipePointerMove,{passive:false});
+document.addEventListener('pointerup',swipePointerUp);
+document.addEventListener('pointercancel',swipePointerCancel);
+document.addEventListener('lostpointercapture',swipePointerCancel);
+document.addEventListener('keydown',swipeKeydown);
+
+function preparing(){return wrap(`<section class="setup-page">${brand()}<div class="setup-orb" aria-hidden="true">${icon('i-logo')}</div><h1 tabindex="-1">Ваше пространство<br>почти готово.</h1><p class="caption">Немного внимания к себе.<br>Каждый день, в своём темпе.</p><div class="setup-steps" aria-live="polite">${['Данные сохранены','Анкета заполнена','Добро пожаловать в greeful'].map((label,i)=>`<div class="setup-step" id="setupStep${i}">${icon('i-check')}<span>${label}</span></div>`).join('')}</div></section>`)}
+function startSetupAnimation(){cancelSetupAnimation();const duration=reduced()?120:650;for(let i=0;i<3;i++)setupTimers.push(setTimeout(()=>{if(S.page==='preparing')$('#setupStep'+i)?.classList.add('done')},duration*(i+.3)));setupTimers.push(setTimeout(()=>{if(S.page!=='preparing')return;S.month=new Date().getMonth();S.year=new Date().getFullYear();S.selectedDay=new Date().getDate();tabTo('home')},duration*3.2))}
+function nextEntryPage(){if(!S.accessConfirmed)return 'access';if(!profileComplete())return 'questionnaire';if(!S.onboarding.completed||!surveyComplete())return 'survey';return 'app'}
+function bootstrap(){if(S.profile.email==='demo@example.com'){S.profile={name:'',email:'',birth:'',city:''};S.accessConfirmed=false;S.onboarding=freshOnboarding()}if(S.accessConfirmed){const next=nextEntryPage();if(!['app','overview'].includes(S.page)||next!=='app')S.page=next}else if(!['welcome','access'].includes(S.page))S.page='welcome';render();if(!storageOK)toast('Данные доступны только до закрытия страницы.')}
+
+/* Patch only the affected controls; the screen, focus and scroll stay in place. */
+
+
+
+function updateReminderUI(){const el=$('[data-action="reminders"]');if(el){el.setAttribute('aria-checked',S.reminders);el.querySelector('.toggle')?.classList.toggle('on',S.reminders)}const existing=$('.reminder');if(S.page==='app'&&S.tab==='home'&&S.reminders&&S.dismissedReminder!==dateKey()){if(!existing)$('.topbar')?.insertAdjacentHTML('afterend',reminder())}else existing?.remove()}
+function updateCalendarUI(){if(!$('#biorhythmChart'))return;chartDate();const label=$('.month-bar strong');if(label)label.textContent=`${months[S.month]} ${S.year}`;const slider=$('#chartDay');slider.max=new Date(S.year,S.month+1,0).getDate();$('[data-action="month-prev"]').disabled=S.year===1901&&S.month===0;$('[data-action="month-next"]').disabled=S.year===2200&&S.month===11;chooseDay(S.selectedDay)}
+function refreshDailyUI(){const date=$('.topbar .date');if(date)date.textContent=new Date().toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});updateMoodUI();updateReminderUI();if(S.page==='app'&&S.tab==='home'){const val=overall();$('.hero-score').textContent=signed(val);$('.hero-copy p').textContent=`${phase(val)} по развлекательной модели биоритмов.`;$$('.metric').forEach((el,i)=>{const m=metrics()[i];el.querySelector('strong').textContent=signed(m.value);el.setAttribute('aria-label',`${m.name} цикл: ${signed(m.value)}. Открыть график`);const old=el.querySelector('.mini-wave');if(old)old.outerHTML=miniWave(m)})}if(S.page==='overview'){const note=$('#dailyNote');if(note)note.value=S.notes[dateKey()]||'';updateNoteFeedback();const status=$('#noteStatus');if(status)status.textContent=S.notes[dateKey()]?'Заметка сохранена в этом браузере.':'Начался новый день. Можно записать новые мысли.'}}
+
+const fresh=()=>({accessConfirmed:false,onboarding:freshOnboarding(),page:'welcome',tab:'home',profile:{name:'',email:'',birth:'',city:''},month:new Date().getMonth(),year:new Date().getFullYear(),selectedDay:new Date().getDate(),done:{},moods:{},notes:{},sessions:{},reminders:false,dismissedReminder:'',modal:null});
+let S=fresh(),storageOK=true;
+try{const stored=JSON.parse(localStorage.getItem(STORAGE_KEY)||localStorage.getItem(LEGACY_STORAGE_KEY)||'null');if(object(stored)){
+ if(['welcome','access','questionnaire','scanner','app','overview','survey','subscription','preparing'].includes(stored.page))S.page=stored.page;
+ if(tabs.some(t=>t[0]===stored.tab))S.tab=stored.tab;
+ if(stored.page==='player'||stored.tab==='plan'){S.page='app';S.tab='home'}
+ if(object(stored.profile))for(const k of Object.keys(S.profile))if(typeof stored.profile[k]==='string')S.profile[k]=stored.profile[k].slice(0,k==='email'?254:70);
+ if(Number.isInteger(stored.month)&&stored.month>=0&&stored.month<12)S.month=stored.month;
+ if(Number.isInteger(stored.year)&&stored.year>=1901&&stored.year<=2200)S.year=stored.year;
+ if(Number.isInteger(stored.selectedDay))S.selectedDay=Math.max(1,Math.min(stored.selectedDay,31));
+ for(const k of ['done','moods','notes','sessions'])if(object(stored[k]))for(const [day,val] of Object.entries(stored[k])){
+  if(!parseDate(day))continue;
+  if(k==='done'&&Array.isArray(val))S.done[day]=[...new Set(val.filter(id=>['focus','pause','practice','notes'].includes(id)))];
+  if(k==='moods'&&Number.isInteger(val)&&val>=1&&val<=5)S.moods[day]=val;
+  if(k==='notes'&&typeof val==='string')S.notes[day]=val.slice(0,2000);
+  if(k==='sessions'&&Number.isInteger(val)&&val>=0)S.sessions[day]=Math.min(val,10000);
+ }
+ if(object(stored.onboarding)){
+  S.onboarding.swipeIntroSeen=stored.onboarding.swipeIntroSeen===true;
+  for(const q of SURVEY_QUESTIONS)if(surveyAnswerValid(stored.onboarding.answers?.[q.field]))S.onboarding.answers[q.field]=stored.onboarding.answers[q.field];
+  if(Number.isInteger(stored.onboarding.index))S.onboarding.index=Math.max(0,Math.min(16,stored.onboarding.index));
+  S.onboarding.completed=stored.onboarding.completed===true&&SURVEY_QUESTIONS.every(q=>surveyAnswerValid(S.onboarding.answers[q.field]));
+  if(typeof stored.onboarding.completedAt==='string')S.onboarding.completedAt=stored.onboarding.completedAt.slice(0,40);
+ }
+ S.accessConfirmed=stored.accessConfirmed===true&&typeof S.profile.email==='string'&&S.profile.email.includes('@');
+ S.reminders=stored.reminders===true;
+ if(typeof stored.dismissedReminder==='string')S.dismissedReminder=stored.dismissedReminder;
+}}catch(_){/* Invalid or unavailable storage never prevents the interface from opening. */}
+S.modal=null;
+const screen=$('#screen'),shell=$('#appShell'),nav=$('#bottomNav'),side=$('#sidebar'),modalRoot=$('#modalRoot'),toastRoot=$('#toastRoot');
+let chartFrame=0,chartResize=null,scanTimer=null,scanStarted=0,toastTimer=0,previousFocus=null,editingProfile=false,libraryQuery='',lastDate=dateKey();
+const brand=()=>`<span class="brand">${icon('i-logo')}greeful</span>`;
+const pic=(asset,cls='asset')=>`<span class="card-visual visual-${asset} ${cls}" aria-hidden="true"><span class="orb-rings"></span><span class="orb-core"></span></span>`;
+const wrap=(content,cls='')=>`<div class="page-enter ${cls}">${content}</div>`;
+function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify({...S,modal:null}));storageOK=true;localStorage.removeItem(LEGACY_STORAGE_KEY)}catch(_){storageOK=false}}
+function toast(message){clearTimeout(toastTimer);toastRoot.innerHTML=`<div class="toast" role="status">${esc(message)}</div>`;toastTimer=setTimeout(()=>toastRoot.replaceChildren(),3200)}
+function stopScan(){clearInterval(scanTimer);scanTimer=null;scanStarted=0}
+let activePageTransition=null;
+function pageTo(page,{force=false}={}){
+ if((S.page===page&&!force)||activePageTransition)return;
+ closeModal(false);cancelEntryAnimation();cancelSetupAnimation();stopScan();
+ const flow=['welcome','access','subscription','questionnaire','survey','preparing','app'],from=flow.indexOf(S.page),to=flow.indexOf(page),direction=to>=from?'forward':'back';
+ if(document.documentElement)document.documentElement.dataset.flowDirection=direction;
+ const commit=()=>{S.page=page;save();render({focus:true})};
+ const inJourney=from>=0&&to>=0&&(S.page!=='app'||page!=='app');
+ if(inJourney&&!reduced()&&typeof document.startViewTransition==='function'){
+  document.activeElement?.blur?.();
+  try{const transition=document.startViewTransition(commit);activePageTransition=transition;transition.finished.catch(()=>{}).finally(()=>{if(activePageTransition===transition)activePageTransition=null})}catch(_){activePageTransition=null;commit()}
+ }else commit();
+}
+
+function tabTo(tab){if(!tabs.some(t=>t[0]===tab)||(S.page==='app'&&S.tab===tab))return;S.tab=tab;pageTo('app',{force:true})}
+function chartDate(){S.selectedDay=Math.max(1,Math.min(S.selectedDay,new Date(S.year,S.month+1,0).getDate()));return new Date(S.year,S.month,S.selectedDay,12)}
+function signed(n){const v=Math.round(n);return `${v>0?'+':''}${Object.is(v,-0)?0:v}%`}
+function daysSinceBirth(date){const b=parseDate(S.profile.birth);return b?(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate())-Date.UTC(b.getFullYear(),b.getMonth(),b.getDate()))/86400000:0}
+function rhythmValue(date,period){return validDob(S.profile.birth)?Math.sin(2*Math.PI*daysSinceBirth(date)/period)*100:0}
+function metrics(date=new Date()){return [{name:'Физический',short:'Тело',period:23,color:'#dcf9a2',ico:'i-sun'},{name:'Эмоциональный',short:'Эмоции',period:28,color:'#e9bdc2',ico:'i-heart'},{name:'Интеллектуальный',short:'Разум',period:33,color:'#c7c6f0',ico:'i-brain'}].map(m=>({...m,value:rhythmValue(date,m.period)}))}
+const overall=()=>Math.round(metrics().reduce((n,m)=>n+m.value,0)/3);
+const phase=v=>v>=30?'Высокая фаза':v<=-30?'Низкая фаза':'Переходная фаза';
+function header({back=false}={}){const name=(S.profile.name.trim()||'Друг').split(/\s+/)[0];return `<header class="topbar"><div class="topbar-left">${back?`<button class="icon-btn" data-action="back-app" aria-label="Назад">${icon('i-back')}</button>`:`<button class="avatar" data-action="tab" data-tab="profile" aria-label="Открыть профиль">${esc(name[0].toUpperCase())}</button>`}<div class="topbar-copy"><div class="greeting">${back?'Время для себя':`Привет, ${esc(name)}`}</div><div class="date">${esc(new Date().toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'}))}</div></div></div><div class="topbar-right"><button class="icon-btn notification-button" data-action="notifications" aria-label="Уведомления">${icon('i-bell')}</button></div></header>`}
+function title(kicker,heading,desc='',note=''){return `<div class="page-title"><div><div class="eyebrow">${kicker}</div><h1 tabindex="-1">${heading}</h1>${desc?`<p>${desc}</p>`:''}</div>${note?`<div class="caption title-note">${note}</div>`:''}</div>`}
+function navHTML(){return tabs.map(([id,ico,label])=>`<button class="nav-item ${S.tab===id&&S.page==='app'?'active':''}" data-action="tab" data-tab="${id}" ${S.tab===id&&S.page==='app'?'aria-current="page"':''}>${icon(ico)}<span>${label}</span></button>`).join('')}
+function sidebar(){return `${brand()}<div class="eyebrow">Твоё пространство</div><nav class="side-links" aria-label="Основная навигация">${navHTML()}</nav><div class="sidebar-footer"><span class="pill"><i></i> В своём темпе</span><p class="caption">Маленькие ритуалы.<br>Больше внимания к себе.</p><button class="text-btn" data-action="info">О greeful ${icon('i-arrow','icon-sm')}</button></div>`}
+function reminder(){return S.reminders&&S.dismissedReminder!==dateKey()?`<div class="reminder">${icon('i-leaf')}<span>Найди минуту для себя. Как ты сегодня?</span><button data-action="dismiss-reminder" aria-label="Скрыть напоминание">${icon('i-close')}</button></div>`:''}
+
+
+
+function miniWave(m){let points=[];for(let x=0;x<=68;x+=2){const v=Math.sin((x/68)*Math.PI*1.6+daysSinceBirth(new Date())*2*Math.PI/m.period);points.push(`${x===0?'M':'L'}${x},${18-v*12}`)}return `<svg class="mini-wave" viewBox="0 0 68 36" aria-hidden="true"><line x1="0" x2="68" y1="18" y2="18"/><path d="${points.join(' ')}"/></svg>`}
+function home(){const val=overall();return wrap(`${header()}${reminder()}${title('В своём ритме','В гармонии<br>с собой.')}<section class="hero">${pic('hero')}<div class="hero-copy"><div class="eyebrow">${icon('i-spark')} Твой ритм дня</div><div class="hero-score">${signed(val)}</div><p>${phase(val)} по развлекательной модели биоритмов.</p><button class="btn" data-action="tab" data-tab="rhythm">Посмотреть график ${icon('i-arrow')}</button></div></section><div class="metrics">${metrics().map(m=>`<button class="metric" style="color:${m.color}" data-action="tab" data-tab="rhythm" aria-label="${m.name} цикл: ${signed(m.value)}. Открыть график"><span class="metric-label">${icon(m.ico)} ${m.short}</span><strong>${signed(m.value)}</strong>${miniWave(m)}</button>`).join('')}</div><div class="home-mood">${moodCard()}</div>`)}
+function welcome(){return `<section class="welcome page-enter"><header class="welcome-top">${brand()}<span class="pill"><i></i> В своём темпе</span></header><div class="welcome-visual">${pic('hero')}<span class="eyebrow">${icon('i-spark','icon-sm')} Пространство для себя</span><div class="welcome-card-text">Маленькая пауза.<br>Большой смысл.<small>Тело · мысли · настроение</small></div></div><div class="welcome-copy"><h1 tabindex="-1">Твой день.<br>Твой ритм.<br><em>Твой баланс.</em></h1><p>Личный дневник, материалы и календарь — в одном спокойном пространстве.</p><div class="welcome-actions"><button class="btn" data-action="goto" data-to="access">Начать</button></div></div></section>`}
+function formTop(step,back){return `<div class="form-top"><button class="icon-btn" data-action="${editingProfile?'cancel-edit':'goto'}" data-to="${back}" aria-label="Назад">${icon('i-back')}</button>${editingProfile?'<span class="eyebrow">Мои данные</span>':`<div class="steps" aria-label="Шаг ${step} из 3">${[1,2,3].map(i=>`<span class="${i<=step?'on':''}"></span>`).join('')}</div>`}</div>`}
+function formArt(){return `<aside class="form-art">${pic('breath')}<h2>Найди свой<br>внутренний баланс.</h2></aside>`}
+
+
+function scanner(){return wrap(`<header class="topbar"><button class="icon-btn" data-action="scan-back" aria-label="Назад">${icon('i-back')}</button>${brand()}</header><section class="scan"><div class="eyebrow">Шаг 03 · Персональный календарь</div><h1 tabindex="-1">Остановись.<br>Почувствуй момент.</h1><p class="caption">Твой ритм уже внутри.<br>Осталось познакомиться с ним.</p><div class="scan-circle"><svg viewBox="0 0 220 220" aria-hidden="true"><circle class="track" cx="110" cy="110" r="105"/><circle class="fill" id="scanProgress" cx="110" cy="110" r="105"/></svg><button class="scan-button" id="scanButton" aria-label="Удерживай 2 секунды для расчёта">${icon('i-finger')}</button></div><p class="scan-status" id="scanStatus" role="status">Удерживай круг около 2 секунд<br>или нажми кнопку ниже.</p><div class="scan-controls"><button class="btn full" data-action="auto-scan">Рассчитать мой ритм ${icon('i-arrow','icon-sm')}</button><p class="scan-hint">Это только анимация. Отпечаток не считывается.<br>Расчёт использует дату рождения.</p></div></section>`)}
+function rhythmRows(date){return metrics(date).map(m=>`<div class="rhythm-item"><div class="row-top">${icon(m.ico)} ${m.name}</div><strong style="color:${m.color}">${signed(m.value)}</strong><small>${phase(m.value)} · цикл ${m.period} дней</small></div>`).join('')}
+function rhythm(){const d=chartDate();return wrap(`${header()}${title('Персональный календарь','Твои биоритмы.','Три условных цикла, рассчитанных по дате рождения.')}<section class="surface chart-surface"><div class="chart-top"><div><h3>Динамика циклов</h3><p class="chart-caption">Выбери день на графике или ползунке</p></div><div class="month-bar"><button class="icon-btn" data-action="month-prev" aria-label="Предыдущий месяц" ${S.year===1901&&S.month===0?'disabled':''}>${icon('i-back')}</button><strong>${months[S.month]} ${S.year}</strong><button class="icon-btn" data-action="month-next" aria-label="Следующий месяц" ${S.year===2200&&S.month===11?'disabled':''}>${icon('i-chevron')}</button></div></div><div class="chart-wrap"><canvas id="biorhythmChart" role="img" aria-label="График трёх условных циклов от минус 100 до плюс 100 процентов. Значения выбранного дня приведены ниже."></canvas></div><div class="legend">${metrics().map(m=>`<span><i class="dot" style="background:${m.color}"></i>${m.short}</span>`).join('')}</div><div class="chart-date-control"><label for="chartDay">День месяца</label><input id="chartDay" type="range" min="1" max="${new Date(S.year,S.month+1,0).getDate()}" value="${S.selectedDay}" aria-valuetext="${esc(d.toLocaleDateString('ru-RU'))}"><output id="chartDayOutput" for="chartDay">${d.toLocaleDateString('ru-RU',{day:'numeric',month:'short'})}</output></div></section><section class="rhythm-details"><div class="section-head"><h2 id="selectedDateTitle">${d.toLocaleDateString('ru-RU',{day:'numeric',month:'long'})}</h2><button class="text-btn" data-action="month-today">К сегодняшнему дню ${icon('i-arrow','icon-sm')}</button></div><div class="rhythm-rows" id="rhythmRows" aria-live="polite">${rhythmRows(d)}</div></section><div class="info-row">${icon('i-info')}<span>Проценты обозначают фазу математических циклов. Они не предсказывают самочувствие, работоспособность или события.</span></div><button class="btn secondary" data-action="info">Как устроен расчёт ${icon('i-arrow','icon-sm')}</button>`)}
+
+
+function libraryRows(){const q=libraryQuery.trim().toLocaleLowerCase('ru-RU');const results=categories.filter(c=>(c.name+' '+c.sub).toLocaleLowerCase('ru-RU').includes(q));return results.length?results.map(c=>`<button class="library-row" data-action="material" data-id="${c.id}"><span class="library-icon">${icon(c.ico)}</span><span class="library-copy"><strong>${c.name}</strong><small>${c.sub}</small></span>${icon('i-chevron')}</button>`).join(''):`<div class="empty-state"><strong>Пока ничего не нашлось</strong><p>Попробуй другое название или очисти поиск.</p><button class="text-btn" data-action="clear-search">Очистить поиск ${icon('i-close','icon-sm')}</button></div>`}
+function library(){return wrap(`${header()}${title('Пространство знаний','Ближе к себе.','Всё, к чему хочется вернуться. В одном месте.')}<button class="library-hero" data-action="material" data-id="year" aria-label="Открыть мой год в балансе">${pic('botanical')}<span class="card-copy"><span class="eyebrow">Твоя коллекция</span><h2>Мой год<br>в балансе.</h2><p>Персональный календарь<br>и материалы по месяцам.</p></span><span class="round-arrow">${icon('i-arrow')}</span></button><div class="library-tools"><h3>Твои материалы <span class="muted" style="font-size:12px">/ 8</span></h3><div class="search-wrap">${icon('i-search')}<label class="sr-only" for="librarySearch">Поиск материалов</label><input class="search-input" id="librarySearch" type="search" placeholder="Найти материал" maxlength="80" value="${esc(libraryQuery)}" autocomplete="off"></div></div><div class="library-grid" id="libraryResults" aria-live="polite">${libraryRows()}</div><p class="footer-note">Разделы с отметкой «скоро» появятся после публикации материалов.</p>`)}
+function lastWeek(){return Array.from({length:7},(_,i)=>{const d=new Date();d.setDate(d.getDate()-6+i);return d})}
+
+function overview(){return wrap(`${header({back:true})}${title('Дневник настроения','Мой внутренний<br>прогноз.','Здесь только твои записи. Они важнее любых расчётов.')}<div class="diary-layout"><div>${moodCard(true)}<section class="surface"><div class="section-head"><h2>Настроение за неделю</h2>${icon('i-calendar')}</div><p class="caption">Последние 7 дней · без оценок и ожиданий</p><div class="week-moods" id="weekMoods">${weekMoods()}</div></section><div class="diary-stats"><div class="diary-stat"><strong data-diary-stat="moods">${lastWeek().filter(d=>S.moods[dateKey(d)]).length}<span style="font-size:18px;color:var(--muted)"> / 7</span></strong><small>дней с записью настроения</small></div><div class="diary-stat"><strong data-diary-stat="notes">${lastWeek().filter(d=>(S.notes[dateKey(d)]||'').trim()).length}</strong><small>дней с заметками за неделю</small></div></div></div><section class="surface diary-note"><div class="section-head"><h2>Мысли на сегодня</h2>${icon('i-book')}</div><p class="caption" style="margin-bottom:22px">Что порадовало? Что было непросто? Что хочется оставить в этом дне?</p><form id="notesForm"><div class="field"><label class="sr-only" for="dailyNote">Заметка за сегодня</label><textarea id="dailyNote" name="note" rows="8" maxlength="2000" aria-describedby="noteCounter noteStatus" placeholder="Можно начать с пары слов…">${esc(S.notes[dateKey()]||'')}</textarea><div class="note-meta"><span>Черновик сохраняется автоматически</span><span class="note-counter" id="noteCounter">${(S.notes[dateKey()]||'').length} / 2000</span></div></div><button class="btn full" type="submit">Сохранить заметку ${icon('i-check','icon-sm')}</button><p class="note-saved" id="noteStatus" role="status">${S.notes[dateKey()]?'Заметка сохранена в этом браузере.':'Только для тебя. Черновик сохраняется автоматически.'}</p></form><div class="calm-note"><p>Немного внимания<br>к своим мыслям.</p><small>Твой маленький ритуал</small></div></section></div>`)}
+function profile(){const p=S.profile;return wrap(`${header()}${title('Личное пространство','Мой профиль.')}<div class="profile-layout"><section class="surface profile-card"><div class="avatar">${esc((p.name||'Б')[0].toUpperCase())}</div><h2>${esc(p.name||'Гость')}</h2><p class="email">${esc(p.email||'Почта не указана')}</p><span class="pill" style="margin-top:16px"><i></i> Подписка действительна</span><div class="profile-details"><div class="profile-detail"><span>Дата рождения</span><strong>${validDob(p.birth)?parseDate(p.birth).toLocaleDateString('ru-RU'):'Не указана'}</strong></div><div class="profile-detail"><span>Город</span><strong>${esc(p.city||'Не указан')}</strong></div></div><button class="btn secondary full" data-action="edit-profile">Изменить данные ${icon('i-arrow','icon-sm')}</button></section><div><section class="surface settings"><button class="setting" data-action="reminders" role="switch" aria-checked="${S.reminders}" aria-label="Напоминание внутри приложения">${icon('i-bell')}<span class="setting-copy"><strong>Мягкое напоминание</strong><small>На главной, пока приложение открыто</small></span><span class="toggle ${S.reminders?'on':''}" aria-hidden="true"></span></button><button class="setting" data-action="diary">${icon('i-book')}<span class="setting-copy"><strong>Мой дневник</strong><small>Настроение и личные заметки</small></span>${icon('i-chevron','arrow')}</button><button class="setting" data-action="info">${icon('i-info')}<span class="setting-copy"><strong>Как считается биоритм?</strong><small>О модели и её ограничениях</small></span>${icon('i-chevron','arrow')}</button><button class="setting" data-action="edit-survey">${icon('i-checklist')}<span class="setting-copy"><strong>Моя анкета</strong><small>${surveyAnswered()} из 17 ответов · посмотреть и изменить</small></span>${icon('i-chevron','arrow')}</button><button class="setting" data-action="repeat-scan">${icon('i-finger')}<span class="setting-copy"><strong>Почувствовать момент</strong><small>Повторить анимацию расчёта</small></span>${icon('i-chevron','arrow')}</button></section><section class="surface settings" style="margin-top:17px"><button class="setting" data-action="reset">${icon('i-restart')}<span class="setting-copy"><strong>Сбросить мои данные</strong><small>Анкета, записи и выполненные задачи</small></span>${icon('i-chevron','arrow')}</button></section><p class="footer-note">greeful · версия 15.0 · Mobile<br>Данные хранятся в этом браузере. При открытии файла на другом устройстве они не переносятся автоматически.</p></div></div>`)}
+
+
+function modalContent(id){let title='',body='',ico='i-info',actions='',photo='';
+ if(id==='info'){title='Что такое твой ритм';ico='i-wave';body=`<p>Календарь показывает три условных цикла: <strong>физический — 23 дня, эмоциональный — 28, интеллектуальный — 33.</strong></p><p>Считается число календарных дней от даты рождения до выбранного дня, затем для каждого цикла вычисляется:</p><p><strong>sin(2π × число дней / период) × 100%</strong></p><p>Ритм дня на главной — среднее этих трёх значений. Модель развлекательная: она не предсказывает здоровье, настроение или способности.</p><p>Анимация с отпечатком не считывает биометрию. Настроение в дневнике — только то, что ты отмечаешь сам.</p>`}
+ else if(id==='notifications'){title='Маленькое напоминание';ico='i-bell';body=`<p>На главной можно показывать короткое напоминание — остановиться на минуту и отметить настроение.</p><p>Оно работает <strong>только внутри открытого приложения</strong>. Сообщения и системные уведомления не отправляются.</p><p>Сейчас напоминание ${S.reminders?'включено':'выключено'}.</p>`;actions=`<button class="btn full" data-action="toggle-reminder-modal">${S.reminders?'Выключить':'Включить'} напоминание</button>`}
+ else if(id==='reset'){title='Начать с чистого листа?';ico='i-restart';body='<p>Анкета, дневник настроения, заметки и прогресс будут удалены из этого браузера.</p>';actions=`<button class="btn secondary" data-action="close-modal">Оставить</button><button class="btn danger" data-action="confirm-reset">Удалить данные</button>`}
+ else if(id==='year'){title=`Мой ритм · ${S.year}`;ico='i-calendar';body=`<p>Среднее трёх циклов <strong>на 15-е число каждого месяца</strong>. Это математические значения, а не прогноз самочувствия.</p><table class="mini-table"><thead><tr><th scope="col">Месяц</th><th scope="col">Среднее циклов</th></tr></thead><tbody>${months.map((m,i)=>`<tr><td>${m}</td><td>${signed(metrics(new Date(S.year,i,15,12)).reduce((a,m)=>a+m.value,0)/3)}</td></tr>`).join('')}</tbody></table>`;actions=`<button class="btn" data-action="open-chart">Открыть календарь ${icon('i-arrow','icon-sm')}</button>`}
+ else{const c=categories.find(c=>c.id===id);if(!c)return null;title=c.name;ico=c.ico;photo='botanical';body=`<p>Здесь появятся материалы по теме «${c.name.toLocaleLowerCase('ru-RU')}», собранные по месяцам.</p><div class="resource-status">Материал пока не опубликован</div><p>В greeful доступны календарь циклов и дневник настроения.</p>`;actions=`<button class="btn" data-action="open-chart">Открыть календарь ${icon('i-arrow','icon-sm')}</button>`}
+ return `<div class="modal-backdrop" id="modalBackdrop"><section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1"><div class="modal-top"><span class="eyebrow">Твоё пространство · greeful</span><button class="icon-btn" data-action="close-modal" aria-label="Закрыть окно">${icon('i-close')}</button></div>${photo?pic(photo,'modal-photo'):`<div class="modal-icon">${icon(ico)}</div>`}<h2 id="modalTitle">${title}</h2><div class="modal-copy">${body}</div><div class="modal-actions">${actions||`<button class="btn full" data-action="close-modal">Понятно ${icon('i-check','icon-sm')}</button>`}</div></section></div>`}
+function openModal(id){const markup=modalContent(id);if(!markup)return;if(!S.modal)previousFocus=document.activeElement;S.modal=id;modalRoot.innerHTML=markup;screen.inert=true;nav.inert=true;side.inert=true;document.body.style.overflow='hidden';$('.modal-panel').focus({preventScroll:true})}
+function closeModal(restore=true){if(!S.modal)return;S.modal=null;modalRoot.replaceChildren();screen.inert=false;nav.inert=false;side.inert=false;document.body.style.overflow='';if(restore&&previousFocus?.isConnected)previousFocus.focus({preventScroll:true});previousFocus=null}
+function cleanup(){cancelMoodInteraction();cancelSurveyInteraction();cancelAnimationFrame(chartFrame);chartFrame=0;if(chartResize){chartResize.disconnect();chartResize=null}stopScan()}
+function render({focus=false}={}){cleanup();const protectedPages=['questionnaire','survey','preparing','app','overview','scanner'];if(protectedPages.includes(S.page)&&!S.accessConfirmed)S.page='access';if(['survey','preparing','app','overview','scanner'].includes(S.page)&&!profileComplete())S.page='questionnaire';if(['app','overview','scanner','preparing'].includes(S.page)&&(!S.onboarding.completed||!surveyComplete()))S.page='survey';const inApp=['app','overview'].includes(S.page);shell.className=`app-shell ${inApp?'in-app':''}`;screen.className=`screen ${inApp?'has-nav':''} ${S.page==='welcome'?'welcome-screen':''} view-${S.page} tab-${S.tab}`;nav.hidden=!inApp;side.hidden=true;nav.innerHTML=inApp?navHTML():'';side.innerHTML='';const pages={welcome,access,subscription,questionnaire,survey,preparing,scanner,overview};screen.innerHTML=S.page==='app'?({home,rhythm,library,profile}[S.tab]||home)():(pages[S.page]||welcome)();document.title=`${S.page==='app'?(tabs.find(t=>t[0]===S.tab)?.[2]||'Главная'):({welcome:'Твой ритм',access:'Проверка доступа',subscription:'Подписка действительна',questionnaire:'Ваши данные',survey:'Знакомимся ближе',preparing:'Ваше пространство',scanner:'Персональный ритм',overview:'Мой дневник'}[S.page]||'greeful')} · greeful`;save();window.scrollTo(0,0);if(focus)$('h1')?.focus({preventScroll:true});if(S.page==='scanner')attachScan();if(S.page==='app'&&S.tab==='rhythm')startChart();if(S.page==='preparing')startSetupAnimation();if(S.page==='survey')startSurveyExperience();initializeFormFeedback();initializeMoodCarousels();lastRenderedPage=S.page+'/'+S.tab}
+
+
+
+
+
+
+function startScan(){if(scanTimer||S.page!=='scanner')return;scanStarted=performance.now();const status=$('#scanStatus');status.textContent='Вычисляем фазы твоих циклов…';scanTimer=setInterval(()=>{if(S.page!=='scanner'){stopScan();return}const progress=Math.min(1,(performance.now()-scanStarted)/1900);$('#scanProgress')?.style.setProperty('stroke-dashoffset',String(660*(1-progress)));if(progress===1){stopScan();S.month=new Date().getMonth();S.year=new Date().getFullYear();S.selectedDay=new Date().getDate();tabTo('home');toast('Твой календарь готов')}},30)}
+function cancelScan(){if(!scanTimer)return;stopScan();$('#scanProgress')?.style.setProperty('stroke-dashoffset','660');const el=$('#scanStatus');if(el)el.textContent='Удерживай круг около 2 секунд или нажми кнопку ниже.'}
+function attachScan(){const btn=$('#scanButton');btn.addEventListener('pointerdown',e=>{if(e.button!==0)return;e.preventDefault();btn.setPointerCapture?.(e.pointerId);startScan()});btn.addEventListener('pointerup',cancelScan);btn.addEventListener('pointercancel',cancelScan);btn.addEventListener('lostpointercapture',cancelScan);btn.addEventListener('keydown',e=>{if(['Enter',' '].includes(e.key)){e.preventDefault();if(!e.repeat)startScan()}});btn.addEventListener('keyup',e=>{if(['Enter',' '].includes(e.key)){e.preventDefault();cancelScan()}});btn.addEventListener('blur',cancelScan)}
+function startChart(){const start=performance.now();function frame(time){const p=reduced()?1:Math.min(1,(time-start)/750);drawChart(1-Math.pow(1-p,3));if(p<1)chartFrame=requestAnimationFrame(frame)}chartFrame=requestAnimationFrame(frame);const c=$('#biorhythmChart');if('ResizeObserver' in window){chartResize=new ResizeObserver(()=>drawChart());chartResize.observe(c)}c.addEventListener('click',e=>{const box=c.getBoundingClientRect(),days=new Date(S.year,S.month+1,0).getDate();chooseDay(Math.round((e.clientX-box.left-35)/(box.width-53)*(days-1))+1)})}
+function drawChart(reveal=1){const canvas=$('#biorhythmChart');if(!canvas)return;const rect=canvas.getBoundingClientRect(),w=rect.width,h=rect.height,dpr=Math.min(devicePixelRatio||1,2);if(w<1||h<1)return;if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr)}const ctx=canvas.getContext('2d');if(!ctx)return;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);const L=35,R=18,T=18,B=30,pw=w-L-R,ph=h-T-B,days=new Date(S.year,S.month+1,0).getDate(),x=day=>L+(day-1)/(days-1)*pw,y=value=>T+(100-value)/200*ph;ctx.font='10px system-ui, sans-serif';ctx.lineWidth=1;ctx.textBaseline='middle';[-100,-50,0,50,100].forEach(v=>{ctx.beginPath();ctx.strokeStyle=v===0?'#798a6338':'#b3c49612';ctx.moveTo(L,y(v));ctx.lineTo(w-R,y(v));ctx.stroke();ctx.textAlign='right';ctx.fillStyle='#9ba88f';ctx.fillText(v>0?'+'+v:String(v),L-9,y(v))});ctx.textAlign='center';ctx.textBaseline='alphabetic';[1,Math.round(days/4),Math.round(days/2),Math.round(days*3/4),days].forEach(day=>{ctx.fillText(day,x(day),h-7)});const base=daysSinceBirth(new Date(S.year,S.month,1,12));metrics().forEach(m=>{ctx.save();ctx.beginPath();ctx.rect(L-2,T-4,pw*reveal+4,ph+8);ctx.clip();ctx.beginPath();ctx.lineWidth=2.4;ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle=m.color;for(let i=0;i<=days*12;i++){const d=1+(i/(days*12))*(days-1),v=Math.sin(2*Math.PI*(base+d-1)/m.period)*100;if(i===0)ctx.moveTo(x(d),y(v));else ctx.lineTo(x(d),y(v))}ctx.stroke();ctx.restore()});const chosen=chartDate(),cx=x(S.selectedDay);ctx.save();ctx.setLineDash([3,5]);ctx.beginPath();ctx.strokeStyle='#dfedc86e';ctx.moveTo(cx,T);ctx.lineTo(cx,T+ph);ctx.stroke();ctx.restore();metrics(chosen).forEach(m=>{ctx.beginPath();ctx.fillStyle=m.color;ctx.strokeStyle='#202720';ctx.lineWidth=2;ctx.arc(cx,y(m.value),4.4,0,Math.PI*2);ctx.fill();ctx.stroke()})}
+function chooseDay(day){S.selectedDay=Math.max(1,Math.min(day,new Date(S.year,S.month+1,0).getDate()));save();cancelAnimationFrame(chartFrame);const d=chartDate();$('#chartDay').value=S.selectedDay;$('#chartDay').setAttribute('aria-valuetext',d.toLocaleDateString('ru-RU'));$('#chartDayOutput').textContent=d.toLocaleDateString('ru-RU',{day:'numeric',month:'short'});$('#selectedDateTitle').textContent=d.toLocaleDateString('ru-RU',{day:'numeric',month:'long'});$('#rhythmRows').innerHTML=rhythmRows(d);drawChart()}
+function moveMonth(diff){const next=new Date(S.year,S.month+diff,1,12);if(next.getFullYear()<1901||next.getFullYear()>2200)return;S.month=next.getMonth();S.year=next.getFullYear();chartDate();save();updateCalendarUI()}
+
+let scanReturn='questionnaire';
+function handleAction(el){const action=el.dataset.action;if(el.disabled)return;
+ switch(action){
+ case'goto':if(['welcome','access','subscription','questionnaire'].includes(el.dataset.to)){editingProfile=false;pageTo(el.dataset.to)}break;
+ case'subscription-next':editingProfile=false;pageTo('questionnaire');break;
+ case'survey-answer':answerSurvey(el.dataset.value);break;
+ case'survey-prev':surveyPrevious();break;
+ case'swipe-guide-open':setSwipeGuide(true);break;
+ case'swipe-guide-close':setSwipeGuide(false);break;
+ case'edit-survey':editingSurvey=true;S.onboarding.index=0;pageTo('survey');break;
+ case'cancel-survey':editingSurvey=false;tabTo('profile');break;
+ case'tab':tabTo(el.dataset.tab);break;
+ case'back-app':pageTo('app');break;
+ case'diary':pageTo('overview');break;
+ case'mood':activateMood(el);break;
+ case'material':if(el.dataset.id==='month')tabTo('rhythm');else openModal(el.dataset.id);break;
+ case'open-chart':closeModal(false);tabTo('rhythm');break;
+ case'clear-search':libraryQuery='';$('#librarySearch').value='';$('#libraryResults').innerHTML=libraryRows();$('#librarySearch').focus();break;
+ case'info':openModal('info');break;
+ case'notifications':openModal('notifications');break;
+ case'close-modal':closeModal();break;
+ case'month-prev':moveMonth(-1);break;
+ case'month-next':moveMonth(1);break;
+ case'month-today':S.month=new Date().getMonth();S.year=new Date().getFullYear();S.selectedDay=new Date().getDate();save();updateCalendarUI();break;
+ case'edit-profile':editingProfile=true;pageTo('questionnaire');break;
+ case'cancel-edit':editingProfile=false;tabTo('profile');break;
+ case'repeat-scan':scanReturn='app';pageTo('scanner');break;
+ case'scan-back':if(scanReturn==='app')pageTo('app');else pageTo('questionnaire');break;
+ case'auto-scan':startScan();break;
+ case'reminders':S.reminders=!S.reminders;S.dismissedReminder='';save();updateReminderUI();toast(S.reminders?'Напоминание появится на главной':'Напоминание выключено');break;
+ case'toggle-reminder-modal':S.reminders=!S.reminders;S.dismissedReminder='';save();closeModal();updateReminderUI();toast(S.reminders?'Напоминание включено':'Напоминание выключено');break;
+ case'dismiss-reminder':S.dismissedReminder=dateKey();save();updateReminderUI();break;
+ case'reset':openModal('reset');break;
+ case'confirm-reset':closeModal(false);cleanup();cancelEntryAnimation();cancelSetupAnimation();editingSurvey=false;try{localStorage.removeItem(STORAGE_KEY);localStorage.removeItem(LEGACY_STORAGE_KEY)}catch(_){}S=fresh();editingProfile=false;libraryQuery='';lastDate=dateKey();render({focus:true});toast('Данные сброшены');break;
+ }
+}
+document.addEventListener('click',e=>{const button=e.target instanceof Element?e.target.closest('[data-action]'):null;if(button){e.preventDefault();handleAction(button)}else if(e.target?.id==='modalBackdrop')closeModal()});
+document.addEventListener('input',e=>{const el=e.target;if(el.id==='librarySearch'){libraryQuery=el.value.slice(0,80);$('#libraryResults').innerHTML=libraryRows()}else if(el.id==='chartDay')chooseDay(Number(el.value));else if(el.id==='dailyNote'){S.notes[dateKey()]=el.value.slice(0,2000);save();updateNoteFeedback();$('#noteStatus').textContent=storageOK?'Черновик сохранён.':'Черновик доступен только до закрытия страницы.'}});
+document.addEventListener('submit',e=>{
+ if(e.target.id==='accessForm'){e.preventDefault();beginAccess()}
+ if(e.target.id==='profileForm'){e.preventDefault();submitProfile()}
+ if(e.target.id==='notesForm'){e.preventDefault();const note=$('#dailyNote').value.slice(0,2000);S.notes[dateKey()]=note;save();updateNoteFeedback();$('#noteStatus').textContent=note.trim()?(storageOK?'Заметка сохранена.':'Заметка доступна до закрытия страницы.'):'Заметка очищена.';toast(note.trim()?(storageOK?'Твои мысли сохранены':'Запись доступна до закрытия страницы'):'Заметка очищена')}
+});
+document.addEventListener('keydown',e=>{if(!S.modal)return;if(e.key==='Escape'){e.preventDefault();closeModal();return}if(e.key==='Tab'){const dialog=$('.modal-panel'),focusable=[...dialog.querySelectorAll('button:not([disabled]),a[href],input,select,textarea,[tabindex="0"]')],first=focusable[0],last=focusable.at(-1);if(e.shiftKey&&(document.activeElement===first||document.activeElement===dialog)){e.preventDefault();last?.focus()}else if(!e.shiftKey&&(document.activeElement===last||document.activeElement===dialog)){e.preventDefault();first?.focus()}}});
+function checkDate(){if(document.visibilityState==='hidden')return;if(dateKey()!==lastDate){lastDate=dateKey();if(!S.modal)refreshDailyUI()}}
+window.addEventListener('focus',checkDate);document.addEventListener('visibilitychange',checkDate);window.addEventListener('pagehide',()=>{cleanup();cancelEntryAnimation();cancelSetupAnimation();save()});window.addEventListener('pageshow',e=>{if(!e.persisted)return;if(S.page==='access'){const field=$('#email'),btn=$('#accessSubmit');if(field)field.readOnly=false;if(btn){btn.disabled=false;btn.removeAttribute('aria-busy');btn.textContent='Проверить подписку'}}if(S.page==='preparing')startSetupAnimation();if(S.page==='survey')updateSurvey();initializeMoodCarousels()});
+
+function updateNoteFeedback(){const note=$('#dailyNote'),counter=$('#noteCounter');if(note&&counter){counter.textContent=`${note.value.length} / 2000`;counter.classList.toggle('near-limit',note.value.length>=1800)}const count=$('[data-diary-stat="notes"]');if(count)count.textContent=lastWeek().filter(d=>(S.notes[dateKey(d)]||'').trim()).length}
+
+function birthDigits(value){return String(value).replace(/\D/g,'').slice(0,8)}
+function formatBirthDigits(value){const digits=birthDigits(value);return[digits.slice(0,2),digits.slice(2,4),digits.slice(4,8)].filter(Boolean).join('.')}
+function caretAfterDigits(value,count){if(count<=0)return 0;let digits=0;for(let i=0;i<value.length;i++){if(/\d/.test(value[i])&&++digits===count)return i+1}return value.length}
+
+function maskBirthInput(input){
+ const raw=input.value,position=input.selectionStart??raw.length,digitCount=birthDigits(raw.slice(0,position)).length,formatted=formatBirthDigits(raw);
+ if(formatted!==raw){input.value=formatted;const cursor=caretAfterDigits(formatted,digitCount);input.setSelectionRange?.(cursor,cursor)}
+}
+
+function animateFieldFeedback(field,state,message){
+ const feedback=field?.querySelector('.field-feedback');if(!feedback)return;
+ const previous=feedback.dataset.feedbackState||'neutral';
+ if(feedback.dataset.feedbackText!==message){
+  feedback.dataset.feedbackText=message;
+  if((state==='valid'||state==='invalid')&&previous!==state&&!reduced())feedback.animate?.([{opacity:.35,transform:'translateY(4px)'},{opacity:1,transform:'translateY(0)'}],{duration:220,easing:'ease-out'});
+ }
+ feedback.dataset.feedbackState=state;
+}
+
+function birthBeforeInput(event){
+ const input=event.target;if(input.id!=='birthInput'||event.isComposing)return;
+ const start=input.selectionStart,end=input.selectionEnd;if(start!==end||start===null)return;
+ const backward=event.inputType==='deleteContentBackward',forward=event.inputType==='deleteContentForward';
+ if(!(backward&&input.value[start-1]==='.')&&!(forward&&input.value[start]==='.'))return;
+ event.preventDefault();const digits=birthDigits(input.value),before=birthDigits(input.value.slice(0,start)).length,index=backward?before-1:before;
+ input.value=formatBirthDigits(digits.slice(0,index)+digits.slice(index+1));const cursor=caretAfterDigits(input.value,backward?before-1:before);input.setSelectionRange?.(cursor,cursor);validateBirth();
+}
+
+const fieldTouched=new Set();
+const birthIds=['birthInput'];
+const fieldHints={username:'Как к вам обращаться?',email:'Например, name@example.com',editEmail:'Например, name@example.com',city:'Можно оставить пустым.'};
+const monthAliases=[['январь','января','янв'],['февраль','февраля','фев'],['март','марта','мар'],['апрель','апреля','апр'],['май','мая'],['июнь','июня','июн'],['июль','июля','июл'],['август','августа','авг'],['сентябрь','сентября','сен','сент'],['октябрь','октября','окт'],['ноябрь','ноября','ноя'],['декабрь','декабря','дек']];
+const normalizeName=value=>String(value).trim().replace(/\s+/g,' ');
+const emailFormatValid=value=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)&&value.length<=254;
+function monthNumber(value){const text=String(value).trim().toLocaleLowerCase('ru-RU').replace(/\.$/,'');if(/^\d{1,2}$/.test(text))return Number(text);const index=monthAliases.findIndex(names=>names.includes(text));return index<0?NaN:index+1}
+
+function responsiveField({id,label,value='',type='text',hint=fieldHints[id],autocomplete='',placeholder='',required=false,maxlength=70,enterkeyhint='next'}){
+ return `<div class="field responsive-field" id="${id}Field" data-state="neutral"><label for="${id}">${label}</label><div class="input-shell"><input id="${id}" name="${id}" type="${type}" ${required?'required':''} maxlength="${maxlength}" autocomplete="${autocomplete}" enterkeyhint="${enterkeyhint}" ${type==='email'?'inputmode="email" autocapitalize="off" spellcheck="false"':'autocapitalize="words"'} placeholder="${placeholder}" value="${esc(value)}" aria-describedby="${id}Feedback"><span class="input-status" aria-hidden="true">${icon('i-check','input-success')}${icon('i-info','input-error')}</span></div><p class="field-feedback" id="${id}Feedback" aria-live="polite" aria-atomic="true">${hint}</p></div>`;
+}
+
+function birthField(){
+ const formatted=validDob(S.profile.birth)?S.profile.birth.split('-').reverse().join('.'):'';
+ return `<div class="field responsive-field birth-field continuous-birth" id="birthField" data-state="neutral"><label for="birthInput">Дата рождения<span class="birth-ready" aria-hidden="true">${icon('i-check')} Готово</span></label><div class="input-shell"><span class="birth-calendar" aria-hidden="true">${icon('i-calendar')}</span><input id="birthInput" name="birthInput" type="text" inputmode="numeric" autocomplete="bday" enterkeyhint="next" maxlength="10" required placeholder="ДД.ММ.ГГГГ" value="${esc(formatted)}" aria-describedby="birthHint birthFeedback"><span class="input-status" aria-hidden="true">${icon('i-check','input-success')}${icon('i-info','input-error')}</span></div><p class="birth-hint" id="birthHint">Введи 8 цифр подряд, например 22082006.</p><input id="birth" name="birth" type="hidden" value="${esc(S.profile.birth)}"><p class="field-feedback" id="birthFeedback" aria-live="polite" aria-atomic="true">Точки появятся автоматически.</p></div>`;
+}
+
+function access(){return wrap(`<section class="onboarding-page">${journeyTop(1)}<div class="auth-art" id="authArt">${pic('hero')}<div class="auth-envelope">${icon('i-mail')}</div></div><div class="eyebrow">Ваше пространство начинается здесь</div><h1 tabindex="-1" style="margin-top:12px">Добро пожаловать<br>в greeful.</h1><p class="intro">Введите почту, с которой оформляли подписку.<br>Продолжим знакомство после проверки доступа.</p><form id="accessForm" class="auth-panel" novalidate>${responsiveField({id:'email',label:'Электронная почта',type:'email',autocomplete:'email',value:S.profile.email,placeholder:'name@example.com',required:true,maxlength:254,enterkeyhint:'go'})}<button id="accessSubmit" class="btn full" type="submit">Проверить подписку</button><p class="auth-caption">${icon('i-lock')}<span>Один адрес — ваше личное пространство.</span></p></form></section>`)}
+
+function questionnaire(){return wrap(`<section class="onboarding-page">${journeyTop(2,'subscription')}<div class="eyebrow">${editingProfile?'Личное пространство':'Начнём с простого'}</div><h1 tabindex="-1" style="margin-top:12px">${editingProfile?'Ваши данные.':'Давайте<br>познакомимся.'}</h1><p class="intro">Как к вам обращаться и когда вас поздравлять?<br>Имя и дата рождения обязательны.</p><form id="profileForm" novalidate>${responsiveField({id:'username',label:'Ваше имя',autocomplete:'given-name',value:S.profile.name,placeholder:'Как вас зовут?',required:true,maxlength:50})}${birthField()}${responsiveField({id:'city',label:'Город <span class="muted">· необязательно</span>',autocomplete:'address-level2',value:S.profile.city,placeholder:'Например, Пермь',maxlength:70,enterkeyhint:editingProfile?'next':'done'})}${editingProfile?responsiveField({id:'editEmail',label:'Электронная почта',type:'email',autocomplete:'email',value:S.profile.email,placeholder:'name@example.com',required:true,maxlength:254,enterkeyhint:'done'}):''}<div class="form-actions"><button class="btn full" type="submit">${editingProfile?'Сохранить изменения':'Перейти к анкете'}</button></div><p class="form-note">${storageOK?'Данные и ответы сохраняются на этом устройстве.':'Сохранение недоступно. Данные останутся только до закрытия страницы.'}</p></form></section>`)}
+
+function fieldResult(id,value){
+ const text=String(value).trim();
+ if(id==='username'){if(!text)return{valid:false,message:'Введите имя, которым к вам обращаться.'};if(normalizeName(text).length<2)return{valid:false,message:'Добавьте хотя бы ещё один символ.'};if(normalizeName(text).length>50)return{valid:false,message:'Имя должно быть не длиннее 50 символов.'};return{valid:true,message:'Так и будем к вам обращаться.'}}
+ if(id==='email'||id==='editEmail'){if(!text)return{valid:false,message:'Введите вашу электронную почту.'};if(/\s/.test(text))return{valid:false,message:'Уберите пробелы внутри адреса.'};if(!text.includes('@'))return{valid:false,message:'Добавьте @ и домен, например name@example.com.'};if(!emailFormatValid(text))return{valid:false,message:'Проверьте адрес. Например: name@example.com.'};return{valid:true,message:'Формат почты верный.'}}
+ if(id==='city'){if(text.length>70)return{valid:false,message:'Название должно быть не длиннее 70 символов.'};return{valid:true,empty:!text,message:text?'Город указан.':'Можно оставить пустым.'}}
+ return{valid:true,message:''};
+}
+
+function paintField(id,state,message){
+ const input=$('#'+id),field=$('#'+id+'Field'),feedback=$('#'+id+'Feedback');if(!input||!field||!feedback)return;
+ field.dataset.state=state;
+ if(state==='invalid')input.setAttribute('aria-invalid','true');else input.removeAttribute('aria-invalid');
+ animateFieldFeedback(field,state,message);if(feedback.textContent!==message)feedback.textContent=message;
+}
+
+function validateField(id,{force=false}={}){
+ const input=$('#'+id);if(!input)return true;
+ const result=fieldResult(id,input.value),showError=force||fieldTouched.has(id);
+ paintField(id,result.valid?(result.empty?'neutral':'valid'):showError?'invalid':'neutral',result.valid?result.message:showError?result.message:fieldHints[id]);
+ return result.valid;
+}
+
+function datePartsResult(dayText,monthText,yearText,today=dateKey()){
+ const d=String(dayText).trim(),m=String(monthText).trim(),y=String(yearText).trim(),errors={};
+ const day=Number(d),month=monthNumber(m),year=Number(y),currentYear=Number(today.slice(0,4));
+ if(!d)errors.birthDay='Введите день рождения.';
+ else if(!/^\d{1,2}$/.test(d)||day<1||day>31)errors.birthDay='День — число от 1 до 31.';
+ if(!m)errors.birthMonth='Введите месяц рождения.';
+ else if(!Number.isInteger(month)||month<1||month>12)errors.birthMonth='Месяц — число от 1 до 12.';
+ if(!y)errors.birthYear='Введите год рождения.';
+ else if(!/^\d{4}$/.test(y))errors.birthYear='Введите год полностью: 4 цифры.';
+ else if(year<1901)errors.birthYear='Введите год от 1901.';
+ else if(year>currentYear)errors.birthYear='Дата рождения не может быть в будущем.';
+ if(!Object.keys(errors).length){
+  const daysInMonth=new Date(year,month,0).getDate();
+  if(day>daysInMonth)errors.birthDay=`В этом месяце ${daysInMonth} ${daysInMonth===31?'день':'дней'}. Проверьте день рождения.`;
+ }
+ const value=`${y}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+ if(!Object.keys(errors).length&&value>today){errors.birthDay='Дата рождения не может быть в будущем.';errors.birthMonth=errors.birthDay}
+ return{valid:!Object.keys(errors).length,value:Object.keys(errors).length?'':value,errors,complete:!!d&&!!m&&y.length===4};
+}
+
+function readBirth(){
+ const digits=birthDigits($('#birthInput')?.value||'');
+ const result=datePartsResult(digits.slice(0,2),digits.slice(2,4),digits.slice(4,8));
+ if(!result.valid){const message=digits.length<8?'Введи дату целиком — 8 цифр: день, месяц и год.':Object.values(result.errors)[0];return{...result,errors:{birthInput:message},complete:digits.length===8}}
+ return{...result,errors:{},complete:true};
+}
+
+function validateBirth({force=false}={}){
+ const result=readBirth(),field=$('#birthField'),feedback=$('#birthFeedback'),input=$('#birthInput');if(!field||!feedback||!input)return result;
+ const showError=!result.valid&&(force||fieldTouched.has('birthInput')||result.complete),state=result.valid?'valid':showError?'invalid':'neutral';
+ field.dataset.state=state;
+ if(showError)input.setAttribute('aria-invalid','true');else input.removeAttribute('aria-invalid');
+ const message=result.valid?`${parseDate(result.value).toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'})} — всё верно.`:showError?result.errors.birthInput:'Точки появятся автоматически.';
+ animateFieldFeedback(field,state,message);if(feedback.textContent!==message)feedback.textContent=message;
+ const hidden=$('#birth');if(hidden)hidden.value=result.value;
+ return result;
+}
+
+function initializeFormFeedback(){
+ fieldTouched.clear();
+ const ids=S.page==='access'?['email']:S.page==='questionnaire'?['username','city',...(editingProfile?['editEmail']:[])]:[];
+ for(const id of ids){const input=$('#'+id);if(input?.value.trim())validateField(id)}
+ if(S.page==='questionnaire')validateBirth();
+}
+
+function beginAccess(){
+ if(accessBusy)return;
+ const field=$('#email');field.value=field.value.trim();fieldTouched.add('email');
+ if(!validateField('email',{force:true})){field.focus();return}
+ S.profile.email=field.value;S.accessConfirmed=false;save();accessBusy=true;
+ const btn=$('#accessSubmit');btn.disabled=true;btn.setAttribute('aria-busy','true');btn.innerHTML='<span class="auth-progress"><span class="mini-spinner" aria-hidden="true"></span>Проверяем доступ…</span>';field.readOnly=true;$('#authArt')?.classList.add('is-checking');
+ entryTimer=setTimeout(()=>{entryTimer=0;accessBusy=false;if(S.page!=='access')return;S.accessConfirmed=true;save();pageTo('subscription')},reduced()?200:1050);
+}
+
+function submitProfile(){
+ const ids=['username','city',...(editingProfile?['editEmail']:[])];
+ for(const id of ids){const input=$('#'+id);input.value=id==='username'?normalizeName(input.value):input.value.trim();fieldTouched.add(id)}
+ const invalidFields=ids.filter(id=>!validateField(id,{force:true})),birth=validateBirth({force:true});
+ if(invalidFields.length||!birth.valid){
+  const first=invalidFields.includes('username')?'username':!birth.valid?birthIds.find(id=>birth.errors[id]):invalidFields[0];
+  $('#'+first)?.focus();return;
+ }
+ S.profile={name:$('#username').value,birth:birth.value,city:$('#city').value,email:editingProfile?$('#editEmail').value:S.profile.email};save();
+ if(editingProfile){editingProfile=false;tabTo('profile');toast(storageOK?'Данные обновлены':'Изменения доступны до закрытия страницы')}else{editingSurvey=false;pageTo('survey')}
+}
+
+function fullDateParts(text){
+ const value=text.trim();let match=value.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})$/);if(match)return[match[3],match[2],match[1]];
+ match=value.match(/^(\d{1,2})[.\s/\-]+(\d{1,2})[.\s/\-]+(\d{4})$/);if(match)return[match[1],match[2],match[3]];
+ match=value.match(/^(\d{2})(\d{2})(\d{4})$/);return match?[match[1],match[2],match[3]]:null;
+}
+
+function formInput(event){
+ const input=event.target;if(event.isComposing)return;
+ if(input.id==='birthInput'){
+  if(/^\d{4}[-/]\d{1,2}[-/]\d{1,2}$/.test(input.value)){const parts=fullDateParts(input.value);if(parts)input.value=parts.map((part,index)=>index<2?part.padStart(2,'0'):part).join('.')}
+  maskBirthInput(input);validateBirth();return;
+ }
+ if(Object.hasOwn(fieldHints,input.id))validateField(input.id);
+}
+
+function formBlur(event){
+ const input=event.target,id=input.id;
+ if(id==='birthInput'){fieldTouched.add(id);maskBirthInput(input);validateBirth();return}
+ if(Object.hasOwn(fieldHints,id)){input.value=id==='username'?normalizeName(input.value):input.value.trim();fieldTouched.add(id);validateField(id)}
+}
+
+function formPaste(event){
+ if(event.target.id!=='birthInput')return;
+ const text=event.clipboardData?.getData('text')||'',parts=fullDateParts(text);if(!parts)return;
+ event.preventDefault();const input=event.target;input.value=parts.map((part,index)=>index<2?part.padStart(2,'0'):part).join('.');fieldTouched.add('birthInput');validateBirth({force:true});input.setSelectionRange?.(input.value.length,input.value.length);
+}
+
+function formKeydown(event){
+ if(event.key!=='Enter'||event.isComposing||S.page!=='questionnaire')return;
+ const next={username:'birthInput',birthInput:'city',...(editingProfile?{city:'editEmail'}:{})}[event.target.id];
+ if(next){event.preventDefault();$('#'+next)?.focus()}
+}
+document.addEventListener('input',formInput);
+document.addEventListener('change',formInput);
+document.addEventListener('compositionend',formInput);
+document.addEventListener('focusout',formBlur);
+document.addEventListener('paste',formPaste);
+document.addEventListener('keydown',formKeydown);
+
+document.addEventListener('beforeinput',birthBeforeInput);
+
+const emotionStates=new Map();
+const moodIndex=()=>{const found=moods.findIndex(m=>m.id===S.moods[dateKey()]);return found<0?moods.length-1:found};
+const moodAvailable=()=>!S.modal&&(S.page==='overview'||(S.page==='app'&&S.tab==='home'));
+const emotionDate=()=>new Date().toLocaleDateString('ru-RU',{day:'numeric',month:'long'});
+const emotionStatus=()=>S.moods[dateKey()]?(storageOK?'Отметка сохранена. Можно изменить.':'Отметка доступна до закрытия страницы.'):'Листай или нажми на свою эмоцию.';
+
+function moodChoices(scope='home'){
+ const selected=moodIndex(),saved=S.moods[dateKey()];
+ return `<div class="emotion-title" data-emotion-title>${moods[selected].label}</div><div class="emotion-carousel native" data-mood-carousel role="radiogroup" aria-label="Эмоция на сегодня" aria-describedby="${scope}EmotionHint"><span class="emotion-spacer" aria-hidden="true"></span>${Array.from({length:3},(_,copy)=>moods.map((m,index)=>`<button type="button" class="emotion-option" data-action="mood" data-value="${m.id}" data-copy="${copy}" role="radio" aria-label="${m.label}" aria-checked="${copy===1&&saved===m.id}" ${copy===1?'':'aria-hidden="true"'} tabindex="${copy===1&&selected===index?'0':'-1'}"><span class="emotion-sphere">${emotionFace(m.id)}</span></button>`).join('')).join('')}<span class="emotion-spacer" aria-hidden="true"></span></div><div class="emotion-dots" aria-hidden="true">${moods.map((m,index)=>`<span data-emotion-dot="${m.id}" class="${index===selected?'active':''}"></span>`).join('')}</div><p class="emotion-status" id="${scope}EmotionHint" data-emotion-status role="status">${emotionStatus()}</p>`;
+}
+
+function measureMoodCarousel(state){
+ state.width=state.el.clientWidth||state.el.getBoundingClientRect().width;
+ state.centers=state.buttons.map(button=>button.offsetLeft+button.offsetWidth/2);
+ state.step=state.centers[1]-state.centers[0]||100;
+}
+
+function nearestMood(state){
+ const center=state.el.scrollLeft+state.width/2;let index=0,distance=Infinity;
+ state.centers.forEach((value,i)=>{const d=Math.abs(value-center);if(d<distance){distance=d;index=i}});
+ return{index,id:Number(state.buttons[index].dataset.value),distance};
+}
+
+function paintMoodCarousel(state){
+ if(!emotionStates.has(state.el))return;
+ const center=state.el.scrollLeft+state.width/2,nearest=nearestMood(state);
+ state.buttons.forEach((button,index)=>{
+  const distance=Math.min(2.25,Math.abs(state.centers[index]-center)/state.step);
+  const scale=(1-distance*.235).toFixed(3),opacity=(1-distance*.34).toFixed(3),signature=scale+':'+opacity;
+  if(button.dataset.visual!==signature){button.dataset.visual=signature;button.style.setProperty('--emotion-scale',scale);button.style.setProperty('--emotion-opacity',opacity)}
+  button.classList.toggle('is-far',distance>1.5);
+ });
+ if(state.preview!==nearest.id){
+  state.preview=nearest.id;state.card.dataset.tone=String(nearest.id);
+  const title=state.card.querySelector('[data-emotion-title]');if(title)title.textContent=moods.find(m=>m.id===nearest.id).label;
+  state.card.querySelectorAll('[data-emotion-dot]').forEach(dot=>dot.classList.toggle('active',Number(dot.dataset.emotionDot)===nearest.id));
+ }
+}
+
+function queueMoodPaint(state){if(state.frame)return;state.frame=requestAnimationFrame(()=>{state.frame=0;paintMoodCarousel(state)})}
+
+function jumpMoodTo(state,index){
+ const left=Math.max(0,state.centers[index]-state.width/2);
+ state.el.scrollLeft=left;state.lastLeft=left;paintMoodCarousel(state);
+}
+
+function scrollMoodTo(state,id,{animate=false,nearest=false}={}){
+ let index=state.buttons.findIndex(button=>button.dataset.copy==='1'&&Number(button.dataset.value)===id);
+ if(nearest){const center=state.el.scrollLeft+state.width/2;let distance=Infinity;state.buttons.forEach((button,i)=>{if(Number(button.dataset.value)===id&&Math.abs(state.centers[i]-center)<distance){distance=Math.abs(state.centers[i]-center);index=i}})}
+ if(index<0)return;
+ state.userIntent=false;state.programmatic=id;state.didScroll=false;
+ const left=Math.max(0,state.centers[index]-state.width/2);
+ if(animate&&!reduced()&&typeof state.el.scrollTo==='function')state.el.scrollTo({left,behavior:'smooth'});else jumpMoodTo(state,index);
+ scheduleMoodSettle(state);
+}
+
+function recordMood(id){
+ if(!moodAvailable()||!moods.some(m=>m.id===id))return false;
+ if(S.moods[dateKey()]===id)return false;
+ S.moods[dateKey()]=id;save();return true;
+}
+
+function updateMoodUI({animate=false,origin=null}={}){
+ const id=moods[moodIndex()].id,saved=S.moods[dateKey()];
+ $$('[data-emotion-picker]').forEach(card=>{
+  card.querySelectorAll('.emotion-option').forEach(button=>{const canonical=button.dataset.copy==='1',selected=Number(button.dataset.value)===id;button.setAttribute('aria-checked',canonical&&Number(button.dataset.value)===saved);button.tabIndex=canonical&&selected?0:-1});
+  const status=card.querySelector('[data-emotion-status]');if(status&&status.textContent!==emotionStatus())status.textContent=emotionStatus();
+  const date=card.querySelector('[data-emotion-date]');if(date)date.textContent=emotionDate();
+  const el=card.querySelector('[data-mood-carousel]'),state=emotionStates.get(el);
+  if(state&&el!==origin)scrollMoodTo(state,id,{animate,nearest:animate});else if(state)paintMoodCarousel(state);
+ });
+ const week=$('#weekMoods');if(week)week.innerHTML=weekMoods();
+ $$('[data-diary-stat]').forEach(el=>{if(el.dataset.diaryStat==='moods')el.innerHTML=`${lastWeek().filter(d=>S.moods[dateKey(d)]).length}<span style="font-size:18px;color:var(--muted)"> / 7</span>`;else el.textContent=lastWeek().filter(d=>(S.notes[dateKey(d)]||'').trim()).length});
+}
+
+function selectMood(value,{focus=false,carousel=null}={}){
+ const id=Number(value);if(!moodAvailable()||!moods.some(m=>m.id===id))return;
+ const changed=recordMood(id);updateMoodUI({animate:true});
+ const state=emotionStates.get(carousel);if(state){state.focusAfter=focus;if(changed&&!reduced()){const sphere=state.buttons.find(button=>button.dataset.copy==='1'&&Number(button.dataset.value)===id)?.querySelector('.emotion-sphere');sphere?.animate?.([{filter:'brightness(1)'},{filter:'brightness(1.12)'},{filter:'brightness(1)'}],{duration:320})}}
+}
+
+function activateMood(button){
+ const carousel=button.closest('[data-mood-carousel]'),state=emotionStates.get(carousel);
+ if(state?.suppressClick)return;
+ selectMood(button.dataset.value,{focus:true,carousel});
+}
+
+function finishMoodScroll(state){
+ if(!emotionStates.has(state.el)||state.touching||state.mouse)return;
+ clearTimeout(state.timer);state.timer=0;
+ let closest=nearestMood(state);
+ if(!state.userIntent&&state.programmatic&&closest.id!==state.programmatic){const target=state.buttons.findIndex(button=>button.dataset.copy==='1'&&Number(button.dataset.value)===state.programmatic);jumpMoodTo(state,target);closest=nearestMood(state)}
+ if(state.userIntent&&state.didScroll&&state.day===dateKey()&&moodAvailable()){
+  recordMood(closest.id);updateMoodUI({origin:state.el});
+ }
+ state.userIntent=false;state.programmatic=null;state.didScroll=false;state.el.classList.remove('is-scrolling');
+ const canonical=state.buttons.findIndex(button=>button.dataset.copy==='1'&&Number(button.dataset.value)===closest.id);
+ if(closest.index!==canonical)jumpMoodTo(state,canonical);else paintMoodCarousel(state);
+ if(state.focusAfter){state.buttons[canonical]?.focus({preventScroll:true});state.focusAfter=false}
+ clearTimeout(state.clickTimer);state.clickTimer=setTimeout(()=>{state.suppressClick=false;state.clickTimer=0},250);
+}
+
+function scheduleMoodSettle(state){clearTimeout(state.timer);state.timer=setTimeout(()=>finishMoodScroll(state),170)}
+
+function moodScroll(state){
+ const delta=Math.abs(state.el.scrollLeft-state.lastLeft);state.lastLeft=state.el.scrollLeft;
+ if(delta>.5){state.el.classList.add('is-scrolling');if(state.userIntent){state.didScroll=true;state.suppressClick=true}}
+ queueMoodPaint(state);scheduleMoodSettle(state);
+}
+
+function beginMoodIntent(state){
+ clearTimeout(state.timer);clearTimeout(state.clickTimer);state.userIntent=true;state.programmatic=null;state.day=dateKey();state.didScroll=false;state.suppressClick=false;state.lastLeft=state.el.scrollLeft;
+}
+
+function moodTouchStart(state,event){if(!moodAvailable())return;beginMoodIntent(state);state.touching=event.touches?.length||1}
+function moodTouchEnd(state,event){state.touching=event.touches?.length||0;if(!state.touching)scheduleMoodSettle(state)}
+function moodTouchCancel(state){state.touching=0;state.userIntent=false;state.didScroll=false;scrollMoodTo(state,moods[moodIndex()].id);state.el.classList.remove('is-scrolling')}
+
+function moodMouseDown(state,event){
+ if(!moodAvailable()||event.pointerType!=='mouse'||event.button!==0)return;
+ beginMoodIntent(state);state.mouse={id:event.pointerId,x:event.clientX,left:state.el.scrollLeft,moved:false};
+}
+function moodMouseMove(state,event){
+ const mouse=state.mouse;if(!mouse||mouse.id!==event.pointerId)return;
+ const dx=event.clientX-mouse.x;if(!mouse.moved&&Math.abs(dx)<5)return;
+ if(!mouse.moved){mouse.moved=true;state.el.classList.add('is-mouse-dragging');try{state.el.setPointerCapture(event.pointerId)}catch(_){}}
+ event.preventDefault();state.el.scrollLeft=mouse.left-dx;moodScroll(state);
+}
+function moodMouseEnd(state,event){
+ const mouse=state.mouse;if(!mouse||mouse.id!==event.pointerId)return;
+ state.mouse=null;state.el.classList.remove('is-mouse-dragging');try{if(state.el.hasPointerCapture?.(event.pointerId))state.el.releasePointerCapture(event.pointerId)}catch(_){}
+ if(mouse.moved){state.suppressClick=true;const closest=nearestMood(state);state.el.scrollTo?.({left:state.centers[closest.index]-state.width/2,behavior:reduced()?'auto':'smooth'});scheduleMoodSettle(state)}
+}
+
+function moodKeydown(event){
+ if(!moodAvailable()||event.altKey||event.ctrlKey||event.metaKey||event.repeat)return;
+ const carousel=event.target?.closest?.('[data-mood-carousel]');if(!carousel)return;
+ const direction={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}[event.key];
+ if(direction){event.preventDefault();selectMood(moods[(moodIndex()+direction+moods.length)%moods.length].id,{focus:true,carousel})}
+ else if(event.key==='Home'||event.key==='End'){event.preventDefault();selectMood(event.key==='Home'?moods[0].id:moods.at(-1).id,{focus:true,carousel})}
+}
+
+function initializeMoodCarousels(){
+ $$('[data-mood-carousel]').forEach(el=>{
+  if(emotionStates.has(el))return;
+  const card=el.closest('[data-emotion-picker]'),buttons=[...el.querySelectorAll('.emotion-option')];if(!card||!buttons.length)return;
+  const state={el,card,buttons,centers:[],step:100,width:0,preview:0,frame:0,timer:0,clickTimer:0,touching:0,mouse:null,userIntent:false,programmatic:null,didScroll:false,lastLeft:0,suppressClick:false,day:dateKey(),listeners:[],resize:null};emotionStates.set(el,state);
+  const on=(type,handler,options)=>{el.addEventListener(type,handler,options);state.listeners.push([type,handler,options])};
+  on('scroll',()=>moodScroll(state),{passive:true});on('scrollend',()=>finishMoodScroll(state));
+  on('touchstart',event=>moodTouchStart(state,event),{passive:true});on('touchend',event=>moodTouchEnd(state,event),{passive:true});on('touchcancel',()=>moodTouchCancel(state),{passive:true});
+  on('wheel',event=>{if(Math.abs(event.deltaX)>Math.abs(event.deltaY)||event.shiftKey){if(!state.userIntent)beginMoodIntent(state)}},{passive:true});
+  on('pointerdown',event=>moodMouseDown(state,event));on('pointermove',event=>moodMouseMove(state,event));on('pointerup',event=>moodMouseEnd(state,event));on('pointercancel',event=>moodMouseEnd(state,event));
+  measureMoodCarousel(state);scrollMoodTo(state,moods[moodIndex()].id);el.dataset.ready='true';
+  if(typeof ResizeObserver==='function'){state.resize=new ResizeObserver(()=>{if(!emotionStates.has(el))return;measureMoodCarousel(state);scrollMoodTo(state,moods[moodIndex()].id)});state.resize.observe(el)}
+ });
+}
+
+function cancelMoodInteraction(){
+ for(const state of emotionStates.values()){
+  clearTimeout(state.timer);clearTimeout(state.clickTimer);cancelAnimationFrame(state.frame);state.resize?.disconnect();
+  state.listeners.forEach(([type,handler,options])=>state.el.removeEventListener(type,handler,options));
+  if(state.mouse)try{state.el.releasePointerCapture(state.mouse.id)}catch(_){}
+ }
+ emotionStates.clear();
+}
+document.addEventListener('keydown',moodKeydown);
+window.addEventListener('resize',()=>{for(const state of emotionStates.values()){if(!state.resize){measureMoodCarousel(state);scrollMoodTo(state,moods[moodIndex()].id)}}});
+
+function emotionFace(id){
+ const faces={
+  1:'<ellipse cx="35" cy="43" rx="3.2" ry="4.1"/><ellipse cx="65" cy="43" rx="3.2" ry="4.1"/><path d="M36 67q14-16 28 0" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="m28 33 10 2m24 0 10-2" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>',
+  2:'<path d="M28 42q7 5 14 0m16 0q7 5 14 0" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><ellipse cx="50" cy="65" rx="6.5" ry="7.5"/>',
+  3:'<ellipse cx="35" cy="42" rx="3.4" ry="4.2"/><ellipse cx="65" cy="42" rx="3.4" ry="4.2"/><path d="M39 64h22" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>',
+  4:'<path d="M27 42q7 7 14 0m18 0q7 7 14 0M38 61q12 11 24 0" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round"/>',
+  5:'<path d="M29 42q2-11 10-5m22 0q8-6 10 5" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/><path d="M32 57q18 8 36 0c-2 22-32 24-36 0Z"/>'
+ };
+ return `<svg class="emotion-face" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true">${faces[id]||faces[3]}</svg>`;
+}
+
+function moodCard(full=false){
+ return `<section class="surface emotion-card ${full?'large':''}" data-emotion-picker data-tone="${moods[moodIndex()].id}"><div class="emotion-top"><span class="emotion-eyebrow">Эмоция дня</span>${icon('i-flower')}</div><h2 class="emotion-prompt">Как ты сегодня?</h2>${moodChoices(full?'diary':'home')}<div class="emotion-footer">${full?`<span class="emotion-day">${icon('i-calendar')}<span>Сегодня, <span data-emotion-date>${emotionDate()}</span></span></span>`:`<button class="emotion-entry" data-action="diary"><span>Запись за сегодня</span>${icon('i-arrow')}</button>`}</div></section>`;
+}
+
+function weekMoods(){return lastWeek().map(d=>{const key=dateKey(d),m=moods.find(m=>m.id===S.moods[key]);return `<div class="week-day ${key===dateKey()?'today':''}"><span class="weekday">${d.toLocaleDateString('ru-RU',{weekday:'short'})}</span><span class="week-emotion ${m?'':'is-empty'}" role="img" aria-label="${m?m.label:'Нет записи'}">${m?emotionFace(m.id):'·'}</span><span class="day">${String(d.getDate()).padStart(2,'0')}</span></div>`}).join('')}
+
+bootstrap();
+})();
+</script></body></html>

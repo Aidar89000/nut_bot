@@ -1,0 +1,640 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Палитра проекта next_ai: одна зелёная шкала + сигнальные цвета.
+   static — переменные нужны и в CSS ниже, а не только в утилитах. */
+@theme static {
+  --color-brand-50: #f0f7f2;
+  --color-brand-100: #dceee1;
+  --color-brand-200: #b8ddc4;
+  --color-brand-300: #8bab91;
+  --color-brand-400: #5e9465;
+  --color-brand-500: #3d8a50;
+  --color-brand-600: #2e7b57;
+  --color-brand-700: #256348;
+  --color-brand-800: #1f4f3a;
+  --color-brand-900: #1a3f30;
+  --color-brand-950: #0d2319;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+
+  --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-fade-in: fade-in 0.2s ease;
+  --animate-fade-up: fade-up 0.22s ease-out both;
+  --animate-toast-in: toast-in 0.32s var(--ease-soft) both;
+  --animate-nav-in: nav-in 0.5s var(--ease-soft) both;
+  --animate-card-in: card-in 0.3s var(--ease-soft) both;
+  --animate-pop-in: pop-in 0.65s var(--ease-soft) both;
+  --animate-breathe: breathe 1.6s ease-in-out infinite alternate;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-wiggle: wiggle 0.9s ease-in-out infinite;
+  --animate-draw: draw 0.6s 0.25s ease forwards;
+  --animate-reveal: reveal 0.75s var(--ease-soft) forwards;
+  --animate-bar-grow: bar-grow 0.7s var(--ease-soft) 0.2s both;
+
+  @keyframes bar-grow {
+    from { scale: 0 1; }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fade-up {
+    from { opacity: 0.35; transform: translateY(4px); }
+  }
+  @keyframes toast-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  }
+  @keyframes nav-in {
+    from { opacity: 0; transform: translateY(24px); }
+  }
+  @keyframes card-in {
+    from { opacity: 0.45; transform: translate3d(0, 9px, 0) scale(0.965); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes wiggle {
+    0%, 100% { rotate: -8deg; translate: 0 0; }
+    50% { rotate: -2deg; translate: 0 -4px; }
+  }
+  @keyframes pop-in {
+    from { opacity: 0; transform: scale(0.7); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes breathe {
+    from { transform: scale(0.96); }
+    to { transform: scale(1.04); }
+  }
+  @keyframes draw {
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes reveal {
+    from { stroke-dashoffset: 1; }
+    to { stroke-dashoffset: 0; }
+  }
+}
+
+/* Семантические токены: компоненты используют только их. */
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-glass: var(--glass);
+  --color-cycle-body: var(--cycle-body);
+  --color-cycle-emotion: var(--cycle-emotion);
+  --color-cycle-mind: var(--cycle-mind);
+}
+
+:root {
+  color-scheme: light;
+  --canvas: #ffffff;
+  --surface: var(--color-brand-50);
+  --surface-strong: var(--color-brand-100);
+  --line: var(--color-brand-100);
+  --line-strong: var(--color-brand-200);
+  --ink: var(--color-brand-900);
+  --muted: #4d7d58;
+  --accent: var(--color-brand-600);
+  --accent-hover: var(--color-brand-700);
+  --accent-ink: #ffffff;
+  --accent-soft: var(--color-brand-100);
+  --danger: #dc2626;
+  --danger-soft: #fef2f2;
+  --glass: rgb(255 255 255 / 0.92);
+  --cycle-body: var(--color-brand-600);
+  --cycle-emotion: #cf6f87;
+  --cycle-mind: #6c70c8;
+  --deck-front: var(--color-brand-100);
+  --deck-back: var(--color-brand-200);
+  /* Фон карточки эмоции: от приглушённого сине-зелёного к яркому зелёному. */
+  --emotion-1: #5d7c7a;
+  --emotion-2: #77816a;
+  --emotion-3: #6b8a76;
+  --emotion-4: #4c8768;
+  --emotion-5: var(--color-brand-500);
+
+  /* Отступы от выреза/«чёлки»: системные или от Telegram в полноэкранном режиме. */
+  --safe-top: max(
+    env(safe-area-inset-top),
+    calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px))
+  );
+  --safe-bottom: max(env(safe-area-inset-bottom), var(--tg-safe-area-inset-bottom, 0px));
+  --app-height: var(--tg-viewport-stable-height, 100dvh);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --canvas: #0e1813;
+  --surface: #15231b;
+  --surface-strong: #1f3527;
+  --line: #24382c;
+  --line-strong: #2f4a3a;
+  --ink: #eef6f0;
+  --muted: #93b6a1;
+  --accent: #5fcf95;
+  --accent-hover: #74e0ab;
+  --accent-ink: var(--color-brand-950);
+  --accent-soft: #1f3527;
+  --danger: #f87171;
+  --danger-soft: rgb(127 29 29 / 0.25);
+  --glass: rgb(21 35 27 / 0.92);
+  --cycle-body: #5fcf95;
+  --cycle-emotion: #eba3b5;
+  --cycle-mind: #a6a9f0;
+  --deck-front: #1f3527;
+  --deck-back: #2a4736;
+  --emotion-1: #3c5654;
+  --emotion-2: #545e4a;
+  --emotion-3: #48634f;
+  --emotion-4: #2c6447;
+  --emotion-5: #2a6a3b;
+}
+
+@layer base {
+  html {
+    background: var(--canvas);
+    -webkit-text-size-adjust: 100%;
+  }
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+  body {
+    @apply bg-canvas font-sans text-base text-ink antialiased;
+    overflow-wrap: break-word;
+    -webkit-tap-highlight-color: transparent;
+  }
+  button {
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  button:disabled {
+    cursor: default;
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+}
+
+@layer components {
+  /* Декоративные карточки. Тон задаёт фон, цвет текста и цвета «сферы». */
+  .tone-forest {
+    --orb-light: var(--color-brand-200);
+    --orb-mid: var(--color-brand-400);
+    --orb-dark: var(--color-brand-600);
+    --ring: rgb(184 221 196 / 0.07);
+    --tone-muted: var(--color-brand-200);
+    background: linear-gradient(135deg, var(--color-brand-600), var(--color-brand-800) 60%, var(--color-brand-900));
+    color: #ffffff;
+  }
+  .tone-meadow {
+    --orb-light: #ffffff;
+    --orb-mid: var(--color-brand-100);
+    --orb-dark: var(--color-brand-300);
+    --ring: rgb(46 123 87 / 0.07);
+    --tone-muted: var(--color-brand-700);
+    background: linear-gradient(120deg, var(--color-brand-100), var(--color-brand-200) 60%, var(--color-brand-300));
+    color: var(--color-brand-900);
+  }
+  .tone-sage {
+    --orb-light: #ffffff;
+    --orb-mid: #e6ede8;
+    --orb-dark: #a8c0ae;
+    --ring: rgb(77 125 88 / 0.06);
+    --tone-muted: #4d7d58;
+    background: linear-gradient(125deg, #f4f7f5, #e6ede8 55%, #cddbd1);
+    color: var(--color-brand-900);
+  }
+  [data-theme="dark"] .tone-forest {
+    background: linear-gradient(135deg, var(--color-brand-700), var(--color-brand-900) 60%, var(--color-brand-950));
+  }
+  [data-theme="dark"] .tone-meadow {
+    --orb-light: var(--color-brand-300);
+    --orb-mid: var(--color-brand-500);
+    --orb-dark: var(--color-brand-700);
+    --ring: rgb(184 221 196 / 0.05);
+    --tone-muted: var(--color-brand-200);
+    background: linear-gradient(120deg, var(--color-brand-700), var(--color-brand-800) 60%, var(--color-brand-900));
+    color: var(--color-brand-50);
+  }
+  [data-theme="dark"] .tone-sage {
+    --orb-light: var(--color-brand-200);
+    --orb-mid: var(--color-brand-400);
+    --orb-dark: var(--color-brand-700);
+    --ring: rgb(184 221 196 / 0.05);
+    --tone-muted: #93b6a1;
+    background: linear-gradient(125deg, #1f3527, #16261d 60%, #12201a);
+    color: var(--color-brand-50);
+  }
+
+  .orb-core {
+    background: radial-gradient(circle at 30% 24%, var(--orb-light) 0%, var(--orb-mid) 48%, var(--orb-dark) 100%);
+  }
+  .orb-rings {
+    box-shadow:
+      0 0 0 25px var(--ring),
+      0 0 0 52px var(--ring),
+      0 0 0 80px var(--ring);
+  }
+
+  /* Блоки экрана появляются по очереди. Шторки (<dialog>) не трогаем. */
+  .stagger > :not(dialog) {
+    animation: rise 0.55s var(--ease-soft) both;
+  }
+  .stagger > :nth-child(2) { animation-delay: 40ms; }
+  .stagger > :nth-child(3) { animation-delay: 80ms; }
+  .stagger > :nth-child(4) { animation-delay: 120ms; }
+  .stagger > :nth-child(5) { animation-delay: 160ms; }
+  .stagger > :nth-child(6) { animation-delay: 200ms; }
+  .stagger > :nth-child(n + 7) { animation-delay: 240ms; }
+
+  /* Шторка: появление и исчезновение на CSS — @starting-style + allow-discrete. */
+  .sheet {
+    opacity: 0;
+    translate: 0 28px;
+    transition:
+      opacity 0.22s ease,
+      translate 0.32s var(--ease-soft),
+      overlay 0.32s allow-discrete,
+      display 0.32s allow-discrete;
+  }
+  .sheet[open] {
+    opacity: 1;
+    translate: 0 0;
+  }
+  .sheet::backdrop {
+    background: rgb(13 35 25 / 0);
+    backdrop-filter: blur(0);
+    transition:
+      background-color 0.3s ease,
+      backdrop-filter 0.3s ease,
+      overlay 0.3s allow-discrete,
+      display 0.3s allow-discrete;
+  }
+  .sheet[open]::backdrop {
+    background: rgb(13 35 25 / 0.6);
+    backdrop-filter: blur(7px);
+  }
+  @starting-style {
+    .sheet[open] {
+      opacity: 0;
+      translate: 0 28px;
+    }
+    .sheet[open]::backdrop {
+      background: rgb(13 35 25 / 0);
+      backdrop-filter: blur(0);
+    }
+  }
+
+  /* Анкета: колода, карточка, «штампы» ответа. */
+  .deck-sheet {
+    position: absolute;
+    inset: 0 0 17px;
+    border-radius: 30px;
+    border: 1px solid var(--line);
+    pointer-events: none;
+  }
+  .deck-sheet-back {
+    background: var(--deck-back);
+    transform: translateY(15px) scale(0.92);
+  }
+  .deck-sheet-front {
+    background: var(--deck-front);
+    transform: translateY(8px) scale(0.96);
+  }
+  .swipe-card {
+    transform-origin: 50% 82%;
+    transition:
+      transform 0.32s cubic-bezier(0.22, 0.8, 0.25, 1),
+      opacity 0.22s ease;
+    will-change: transform;
+  }
+  .swipe-card.is-dragging {
+    transition: none;
+    cursor: grabbing;
+  }
+  .swipe-card.is-leaving {
+    transition:
+      transform 0.28s cubic-bezier(0.26, 0.62, 0.4, 1),
+      opacity 0.25s ease;
+    pointer-events: none;
+  }
+  .swipe-wash {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .swipe-wash-yes {
+    background: linear-gradient(125deg, rgb(61 138 80 / 0.1), rgb(61 138 80 / 0.4));
+    opacity: var(--swipe-yes, 0);
+  }
+  .swipe-wash-no {
+    background: linear-gradient(235deg, rgb(207 111 135 / 0.12), rgb(207 111 135 / 0.42));
+    opacity: var(--swipe-no, 0);
+  }
+  .swipe-stamp,
+  .guide-stamp {
+    position: absolute;
+    z-index: 3;
+    border: 3px solid currentColor;
+    border-radius: 9px;
+    background: rgb(255 255 255 / 0.88);
+    font-weight: 750;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .swipe-stamp {
+    top: 47px;
+    padding: 8px 13px;
+    font-size: 29px;
+  }
+  .stamp-yes,
+  .guide-stamp-yes {
+    color: var(--color-brand-600);
+  }
+  .stamp-no,
+  .guide-stamp-no {
+    color: #b4495f;
+  }
+  .stamp-yes {
+    left: 24px;
+    rotate: -13deg;
+    opacity: var(--swipe-yes, 0);
+  }
+  .stamp-no {
+    right: 24px;
+    rotate: 13deg;
+    opacity: var(--swipe-no, 0);
+  }
+
+  /* Обучение свайпу: один цикл — вправо «Да», потом влево «Нет». */
+  .guide-card {
+    transform-origin: 50% 90%;
+    animation: guide-swipe 6.8s ease-in-out infinite;
+  }
+  .guide-stamp {
+    top: 49px;
+    padding: 6px 9px;
+    border-width: 2px;
+    border-radius: 6px;
+    font-size: 24px;
+    opacity: 0;
+  }
+  .guide-stamp-yes {
+    left: 15px;
+    rotate: -12deg;
+    animation: guide-yes 6.8s ease-in-out infinite;
+  }
+  .guide-stamp-no {
+    right: 15px;
+    rotate: 12deg;
+    animation: guide-no 6.8s ease-in-out infinite;
+  }
+  .guide-hand {
+    position: absolute;
+    top: 151px;
+    left: calc(50% - 10px);
+    width: 36px;
+    height: 44px;
+    color: var(--ink);
+    filter: drop-shadow(0 2px 5px rgb(13 35 25 / 0.25));
+    animation: guide-hand 6.8s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .guide-direction-yes {
+    animation: guide-highlight-yes 6.8s ease-in-out infinite;
+  }
+  .guide-direction-no {
+    animation: guide-highlight-no 6.8s ease-in-out infinite;
+  }
+
+  /* Эмоция дня: карусель «сфер» на нативной прокрутке со снапом. */
+  .emotion-card {
+    --emotion-tone: var(--emotion-5);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-width: 0;
+    padding: 22px 22px 0;
+    border-radius: 31px;
+    background-color: var(--emotion-tone);
+    background-image:
+      radial-gradient(ellipse at 100% 100%, rgb(255 255 255 / 0.22), transparent 75%),
+      linear-gradient(115deg, rgb(13 35 25 / 0.22), transparent);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);
+    color: #f6faf3;
+    transition: background-color 0.6s ease;
+  }
+  .emotion-card[data-tone="1"] { --emotion-tone: var(--emotion-1); }
+  .emotion-card[data-tone="2"] { --emotion-tone: var(--emotion-2); }
+  .emotion-card[data-tone="3"] { --emotion-tone: var(--emotion-3); }
+  .emotion-card[data-tone="4"] { --emotion-tone: var(--emotion-4); }
+  .emotion-scroller {
+    --emotion-step: clamp(92px, 27vw, 116px);
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 178px;
+    margin: 0 -22px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    touch-action: pan-x pan-y;
+    cursor: grab;
+    visibility: hidden;
+    contain: layout style;
+  }
+  .emotion-scroller[data-ready] {
+    visibility: visible;
+  }
+  .emotion-scroller::-webkit-scrollbar {
+    display: none;
+  }
+  .emotion-scroller.is-mouse-dragging {
+    cursor: grabbing;
+  }
+  .emotion-spacer {
+    flex: 0 0 calc((100% - var(--emotion-step)) / 2);
+    height: 1px;
+  }
+  .emotion-option {
+    display: grid;
+    flex: 0 0 var(--emotion-step);
+    place-items: center;
+    height: 156px;
+    border-radius: 50%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .emotion-option:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: -5px;
+  }
+  .emotion-sphere {
+    width: 116px;
+    height: 116px;
+    flex: none;
+    transform: scale(var(--emotion-scale, 0.5));
+    opacity: var(--emotion-opacity, 0.2);
+    transition:
+      transform 0.18s ease,
+      opacity 0.18s ease,
+      filter 0.25s ease;
+  }
+  /* Во время прокрутки масштаб пишется на каждом кадре — анимация только мешает.
+     is-jumping — незаметный перескок ленты между копиями. */
+  .is-scrolling .emotion-sphere,
+  .is-jumping .emotion-sphere {
+    transition: none;
+  }
+  .is-scrolling .emotion-sphere {
+    will-change: transform, opacity;
+  }
+  .emotion-scroller:not(.is-scrolling) .is-far .emotion-sphere {
+    filter: blur(1px);
+  }
+  .mood-sphere {
+    position: relative;
+    display: block;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 26%, #eef7dd 0%, #d7e7c6 35%, #b4cbaa 69%, #8aa782 100%);
+    box-shadow:
+      inset -5px -8px 16px rgb(69 109 50 / 0.13),
+      inset 2px 3px 9px rgb(244 250 229 / 0.17),
+      0 9px 16px rgb(49 85 59 / 0.06);
+    color: #234b35;
+  }
+  .mood-sphere::before {
+    content: "";
+    position: absolute;
+    inset: 8% 22% 50% 13%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgb(245 251 229 / 0.35), transparent 75%);
+    filter: blur(5px);
+    pointer-events: none;
+  }
+  @media (max-width: 360px) {
+    .emotion-card { padding: 20px 18px 0; }
+    .emotion-scroller { --emotion-step: 94px; height: 166px; margin: 0 -18px; }
+    .emotion-sphere { width: 108px; height: 108px; }
+  }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+}
+@keyframes guide-swipe {
+  0%, 9% { transform: translateX(0) rotate(0); }
+  23%, 32% { transform: translateX(76px) rotate(15deg); }
+  42%, 55% { transform: translateX(0) rotate(0); }
+  69%, 78% { transform: translateX(-76px) rotate(-15deg); }
+  90%, 100% { transform: translateX(0) rotate(0); }
+}
+@keyframes guide-yes {
+  0%, 11%, 41%, 100% { opacity: 0; }
+  22%, 33% { opacity: 1; }
+}
+@keyframes guide-no {
+  0%, 57%, 89%, 100% { opacity: 0; }
+  68%, 79% { opacity: 1; }
+}
+@keyframes guide-hand {
+  0%, 7% { opacity: 0; transform: translate(0, 12px) scale(0.9); }
+  11% { opacity: 1; transform: translate(0, 0); }
+  23%, 32% { opacity: 1; transform: translate(76px, -3px) rotate(10deg); }
+  40%, 49% { opacity: 0; transform: translate(0, 12px); }
+  55% { opacity: 1; transform: translate(0, 0); }
+  69%, 78% { opacity: 1; transform: translate(-76px, -3px) rotate(-10deg); }
+  88%, 100% { opacity: 0; transform: translate(0, 12px); }
+}
+@keyframes guide-highlight-yes {
+  0%, 10%, 42%, 100% { background: transparent; }
+  23%, 33% { background: color-mix(in oklab, currentColor 9%, transparent); }
+}
+@keyframes guide-highlight-no {
+  0%, 56%, 90%, 100% { background: transparent; }
+  69%, 79% { background: color-mix(in oklab, currentColor 9%, transparent); }
+}
+
+/* Переходы между экранами (React <ViewTransition> + transitionTypes у ссылок):
+   вперёд — слайд влево, назад — вправо, между вкладками — мягкий кроссфейд.
+   Нижняя навигация остаётся на месте. */
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-old(.nav-forward),
+::view-transition-old(.nav-back) {
+  animation:
+    150ms ease-in both vt-fade reverse,
+    380ms var(--ease-soft) both vt-slide reverse;
+}
+::view-transition-new(.nav-forward),
+::view-transition-new(.nav-back) {
+  animation:
+    240ms ease-out 90ms both vt-fade,
+    380ms var(--ease-soft) both vt-slide;
+}
+::view-transition-old(.nav-forward) { --vt-shift: -48px; }
+::view-transition-new(.nav-forward) { --vt-shift: 48px; }
+::view-transition-old(.nav-back) { --vt-shift: 48px; }
+::view-transition-new(.nav-back) { --vt-shift: -48px; }
+::view-transition-old(.nav-tab) {
+  animation: 130ms ease-in both vt-fade reverse;
+}
+::view-transition-new(.nav-tab) {
+  animation: 220ms ease-out 50ms both vt-fade;
+}
+::view-transition-group(bottom-nav) {
+  z-index: 30;
+  animation: none;
+}
+::view-transition-old(bottom-nav) {
+  display: none;
+}
+::view-transition-new(bottom-nav) {
+  animation: none;
+}
+@keyframes vt-fade {
+  from { opacity: 0; }
+}
+@keyframes vt-slide {
+  from { translate: var(--vt-shift) 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
