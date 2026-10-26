@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { YearSheet } from "@/modules/biorhythm/sheets";
 import { Screen } from "@/modules/shell/screen";
-import { TopBar } from "@/modules/shell/top-bar";
 import { NAV_TAB } from "@/modules/shell/transitions";
 import { Button, TextButton } from "@/ui/button";
 import { inputClass } from "@/ui/field";
@@ -31,7 +30,6 @@ export function LibraryScreen() {
 
   return (
     <Screen className="stagger" withNav>
-      <TopBar />
       <PageTitle kicker="Пространство знаний">Ближе к себе.</PageTitle>
 
       <button

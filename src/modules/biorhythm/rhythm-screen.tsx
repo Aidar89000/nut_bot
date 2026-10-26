@@ -6,7 +6,6 @@ import { useState } from "react";
 import { daysInMonth, formatDate, MONTHS } from "@/lib/date";
 import { useTodayDate } from "@/lib/use-today";
 import { Screen } from "@/modules/shell/screen";
-import { TopBar } from "@/modules/shell/top-bar";
 import { haptic } from "@/modules/telegram/sdk";
 import { Button, TextButton } from "@/ui/button";
 import { IconButton } from "@/ui/icon-button";
@@ -50,7 +49,6 @@ export function RhythmScreen() {
 
   return (
     <Screen className="stagger" withNav>
-      <TopBar />
       <PageTitle kicker="Персональный календарь">Твои биоритмы.</PageTitle>
 
       <Surface className="px-4 py-[21px]">

@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "cn";
-import { ActivityIcon, HouseIcon, LayoutGridIcon, UserIcon } from "lucide-react";
+import { HouseIcon, LayoutGridIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
@@ -13,7 +13,6 @@ import { NAV_TAB } from "./transitions";
 
 const TABS = [
   { href: "/home", label: "Главная", icon: HouseIcon },
-  { href: "/rhythm", label: "Биоритмы", icon: ActivityIcon },
   { href: "/library", label: "Материалы", icon: LayoutGridIcon },
   { href: "/profile", label: "Профиль", icon: UserIcon },
 ] as const;
@@ -39,7 +38,7 @@ export function BottomNav() {
       <span
         aria-hidden
         className={cn(
-          "absolute inset-y-[7px] left-[7px] w-[calc((100%-14px)/4)] rounded-[19px] bg-accent-soft transition-[translate,opacity] duration-400 ease-soft",
+          "absolute inset-y-[7px] left-[7px] w-[calc((100%-14px)/3)] rounded-[19px] bg-accent-soft transition-[translate,opacity] duration-400 ease-soft",
           active < 0 && "opacity-0"
         )}
         style={{ translate: `${Math.max(active, 0) * 100}% 0` }}

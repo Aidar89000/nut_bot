@@ -20,7 +20,6 @@ import { SURVEY_QUESTIONS } from "@/modules/onboarding/survey/questions";
 import { useRemindersToggle } from "@/modules/reminders/reminders";
 import { resetState, useAppState } from "@/modules/session/store";
 import { Screen } from "@/modules/shell/screen";
-import { TopBar } from "@/modules/shell/top-bar";
 import { NAV_FORWARD } from "@/modules/shell/transitions";
 import { useSessionUser } from "@/modules/telegram/provider";
 import { Avatar } from "@/ui/avatar";
@@ -44,7 +43,6 @@ export function ProfileScreen() {
 
   return (
     <Screen className="stagger" withNav>
-      <TopBar />
       <PageTitle kicker="Личное пространство">Мой профиль.</PageTitle>
 
       <div className="grid gap-[18px]">
