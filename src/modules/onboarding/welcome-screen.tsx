@@ -8,7 +8,7 @@ import { ButtonLink } from "@/ui/button";
 import { Logo } from "@/ui/logo";
 import { Orb } from "@/ui/orb";
 import { Eyebrow } from "@/ui/text";
-import { AFTER_WELCOME_ROUTE } from "./progress";
+import { STEP_ROUTES } from "./progress";
 
 export function WelcomeScreen() {
   const user = useSessionUser();
@@ -39,7 +39,7 @@ export function WelcomeScreen() {
       <p className="max-w-[320px] text-[15px] text-muted leading-relaxed">
         Личный дневник, материалы и календарь — в одном спокойном пространстве.
       </p>
-      <ButtonLink className="mt-6" full href={AFTER_WELCOME_ROUTE} transitionTypes={NAV_FORWARD}>
+      <ButtonLink className="mt-6" full href={STEP_ROUTES.access} transitionTypes={NAV_FORWARD}>
         Начать
       </ButtonLink>
     </main>

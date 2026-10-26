@@ -6,11 +6,8 @@ import type { ReactNode } from "react";
 import { useBack } from "@/modules/shell/use-back";
 import { IconButton } from "@/ui/icon-button";
 import { Logo } from "@/ui/logo";
-import { REQUIRE_SUBSCRIPTION } from "./progress";
 
-const STEPS = REQUIRE_SUBSCRIPTION ? ["Почта", "Данные", "Анкета"] : ["Данные", "Анкета"];
-// Номера шагов у экранов считаются с «Почты»; без неё сдвигаем.
-const STEP_OFFSET = REQUIRE_SUBSCRIPTION ? 0 : 1;
+const STEPS = ["Почта", "Данные", "Анкета"];
 
 export function JourneyHeader({
   back,
@@ -23,7 +20,6 @@ export function JourneyHeader({
   aside?: ReactNode;
 }) {
   const { goBack, showInlineBack } = useBack(back);
-  const position = step ? step - STEP_OFFSET : 0;
 
   return (
     <>
@@ -38,10 +34,10 @@ export function JourneyHeader({
         </div>
         {aside}
       </div>
-      {position > 0 && (
-        <ol aria-label={`Шаг ${position} из ${STEPS.length}`} className="mb-7 flex gap-2">
+      {step && (
+        <ol aria-label={`Шаг ${step} из ${STEPS.length}`} className="mb-7 flex gap-2">
           {STEPS.map((label, i) => {
-            const state = i + 1 === position ? "current" : i + 1 < position ? "done" : "todo";
+            const state = i + 1 === step ? "current" : i + 1 < step ? "done" : "todo";
             return (
               <li
                 aria-current={state === "current" ? "step" : undefined}

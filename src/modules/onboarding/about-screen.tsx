@@ -6,14 +6,14 @@ import { Screen } from "@/modules/shell/screen";
 import { NAV_FORWARD } from "@/modules/shell/transitions";
 import { Eyebrow } from "@/ui/text";
 import { JourneyHeader } from "./journey-header";
-import { REQUIRE_SUBSCRIPTION, STEP_ROUTES } from "./progress";
+import { STEP_ROUTES } from "./progress";
 
 export function AboutScreen() {
   const router = useRouter();
 
   return (
     <Screen>
-      <JourneyHeader back={REQUIRE_SUBSCRIPTION ? STEP_ROUTES.subscription : STEP_ROUTES.welcome} step={2} />
+      <JourneyHeader back={STEP_ROUTES.subscription} step={2} />
       <Eyebrow>Начнём с простого</Eyebrow>
       <h1 className="mt-3 mb-4 font-medium text-[38px] leading-[1.09] tracking-[-0.055em] max-[360px]:text-[34px]">
         Давайте

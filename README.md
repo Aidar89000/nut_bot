@@ -45,5 +45,5 @@ src/
 
 ## Что пока заглушка
 
-- Проверка подписки в GetCourse — `modules/subscription/server.ts`. В тестовой версии вход по почте отключён: `REQUIRE_SUBSCRIPTION = false` в `modules/onboarding/progress.ts` (экраны и API остались, включаются одной строкой).
+- Проверка подписки в GetCourse — `modules/subscription/server.ts`. В тестовой версии любая почта проходит без проверки: `VERIFY_SUBSCRIPTION = false` в `modules/subscription/client.ts`.
 - Разделы материалов с пометкой «Скоро».
